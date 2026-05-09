@@ -12,58 +12,85 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  const linkStyle = {
+    fontFamily: "'Space Mono', monospace",
+    fontSize: "10px",
+    letterSpacing: "0.18em",
+    textTransform: "uppercase" as const,
+    color: "#6b6b6b",
+    textDecoration: "none",
+    transition: "color 0.3s",
+  };
+
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full z-50 flex justify-between items-center px-page py-4 transition-all duration-500 ${
-        scrolled ? "bg-void/90 backdrop-blur-md border-b border-gray-outline" : "bg-transparent"
-      }`}>
-        {/* Left */}
-        <div className="hidden md:flex gap-8 items-center">
+      <nav style={{
+        position: "fixed", top: 0, left: 0, width: "100%", zIndex: 50,
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        padding: "16px 48px",
+        background: scrolled ? "rgba(10,10,10,0.92)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? "1px solid #2e2e2e" : "none",
+        transition: "all 0.5s",
+      }}>
+        <div className="hidden md:flex" style={{ gap: "32px" }}>
           {["COLLECTIONS","ARCHIVE"].map(l => (
-            <Link key={l} href="#" className="font-mono text-[10px] tracking-[0.2em] text-gray-dim hover:text-red transition-colors duration-300">{l}</Link>
+            <Link key={l} href="#" style={linkStyle}
+              onMouseEnter={e => (e.currentTarget.style.color = "#c0001e")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#6b6b6b")}>
+              {l}
+            </Link>
           ))}
         </div>
 
-        {/* Center logo */}
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <Link href="/" className="font-bebas text-2xl tracking-tight text-cream hover:text-red transition-colors duration-300">
+        <div style={{ position: "absolute", left: "50%", transform: "translateX(-50%)" }}>
+          <Link href="/" style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: "22px",
+            letterSpacing: "-0.01em",
+            color: "#f0ede6",
+            textDecoration: "none",
+            transition: "color 0.3s",
+          }}
+          onMouseEnter={e => (e.currentTarget.style.color = "#c0001e")}
+          onMouseLeave={e => (e.currentTarget.style.color = "#f0ede6")}>
             HOLLOW RONIN
           </Link>
         </div>
 
-        {/* Right */}
-        <div className="hidden md:flex gap-8 items-center ml-auto">
+        <div className="hidden md:flex" style={{ gap: "32px", alignItems: "center" }}>
           {["EDITORIAL","STUDIO"].map(l => (
-            <Link key={l} href="#" className="font-mono text-[10px] tracking-[0.2em] text-gray-dim hover:text-red transition-colors duration-300">{l}</Link>
+            <Link key={l} href="#" style={linkStyle}
+              onMouseEnter={e => (e.currentTarget.style.color = "#c0001e")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#6b6b6b")}>
+              {l}
+            </Link>
           ))}
-          <div className="flex gap-4 ml-4">
-            <button className="font-mono text-[10px] tracking-[0.2em] text-cream hover:text-red transition-colors">
-              CART <span className="text-red ml-1">0</span>
-            </button>
-          </div>
+          <span style={{ ...linkStyle, color: "#f0ede6", cursor: "pointer" }}>
+            CART <span style={{ color: "#c0001e" }}>0</span>
+          </span>
         </div>
 
-        {/* Mobile toggle */}
-        <button className="md:hidden ml-auto font-mono text-[10px] tracking-widest text-cream" onClick={() => setMenuOpen(!menuOpen)}>
+        <button className="md:hidden" style={{ ...linkStyle, background: "none", border: "none", cursor: "pointer", color: "#f0ede6", marginLeft: "auto" }}
+          onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? "CLOSE" : "MENU"}
         </button>
       </nav>
 
-      {/* Red underline */}
-      <div className="fixed top-[57px] left-0 right-0 h-px bg-red/40 z-50" />
+      <div style={{ position: "fixed", top: "57px", left: 0, right: 0, height: "1px", background: "rgba(192,0,30,0.4)", zIndex: 50 }} />
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-void flex flex-col justify-center items-center gap-10 md:hidden">
+        <div style={{ position: "fixed", inset: 0, zIndex: 40, background: "#0a0a0a", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "40px" }}>
           {["COLLECTIONS","ARCHIVE","EDITORIAL","STUDIO"].map(item => (
-            <Link key={item} href="#"
-              className="font-bebas text-6xl text-cream hover:text-red transition-colors"
-              onClick={() => setMenuOpen(false)}>
+            <Link key={item} href="#" onClick={() => setMenuOpen(false)}
+              style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "60px", color: "#f0ede6", textDecoration: "none" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "#c0001e")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#f0ede6")}>
               {item}
             </Link>
           ))}
-          <div className="h-px w-20 bg-red mt-4" />
-          <p className="font-mono text-[9px] tracking-[0.2em] text-gray-dim">NO MASTER // NO RULES</p>
+          <div style={{ height: "1px", width: "80px", background: "#c0001e" }} />
+          <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "9px", letterSpacing: "0.2em", color: "#6b6b6b" }}>NO MASTER // NO RULES</p>
         </div>
       )}
     </>

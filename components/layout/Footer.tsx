@@ -1,94 +1,49 @@
 import Link from "next/link";
 
+const LINKS = {
+  BRAND:   ["STORY","EDITORIAL","RETAIL_LABS"],
+  SUPPORT: ["SHIPPING","RETURNS","CONTACT"],
+  LEGAL:   ["TERMS","PRIVACY","COOKIES"],
+  SOCIAL:  ["INSTAGRAM","TWITTER_X","DISCORD"],
+};
+
 export default function Footer() {
-  const year = new Date().getFullYear();
-
   return (
-    <footer className="bg-black border-t border-gray-mid">
-      {/* Top red accent */}
-      <div className="h-px bg-red w-full" />
-
-      {/* Marquee strip */}
-      <div className="overflow-hidden border-b border-gray-mid py-3">
-        <div className="flex whitespace-nowrap animate-marquee">
+    <footer className="bg-void border-t border-red/30 px-page pt-20 pb-10">
+      {/* Footer marquee */}
+      <div className="overflow-hidden border-b border-gray-outline/20 pb-8 mb-16">
+        <div className="flex whitespace-nowrap animate-ticker" style={{ width: "max-content" }}>
           {Array.from({ length: 8 }).map((_, i) => (
-            <span key={i} className="label text-gray-lt mx-8">
-              HOLLOW RONIN — DROP 001 — NO MASTER. NO RULES. — CYBER SAMURAI — ◆
+            <span key={i} className="font-mono text-[10px] tracking-[0.2em] text-gray-dim mx-8">
+              HOLLOW RONIN — DROP 001 — NO MASTER. NO RULES — CYBER SAMURAI ◆
             </span>
           ))}
         </div>
       </div>
 
-      {/* Main footer grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 px-6 md:px-10 py-14">
-        {/* Brand */}
-        <div className="col-span-2 md:col-span-1">
-          <p
-            className="font-display text-3xl text-offwhite mb-3"
-            style={{ fontFamily: "'Big Shoulders Display', sans-serif", fontWeight: 900 }}
-          >
-            HOLLOW RONIN
-          </p>
-          <p className="text-gray-lt text-xs leading-relaxed" style={{ letterSpacing: "0.04em" }}>
-            The outsider. <br />No master, no rules.
-          </p>
-        </div>
-
-        {/* Shop */}
-        <div>
-          <p className="label text-offwhite mb-4">Shop</p>
-          <ul className="space-y-3">
-            {["All Products", "T-Shirts", "Hoodies", "Headwear"].map((l) => (
-              <li key={l}>
-                <Link href="#" className="label text-gray-lt hover:text-red transition-colors text-[10px]">
+      {/* Link columns */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-20">
+        {Object.entries(LINKS).map(([col, links]) => (
+          <div key={col} className="space-y-6">
+            <h4 className="font-mono text-[10px] tracking-[0.2em] text-red">{col}</h4>
+            <nav className="flex flex-col gap-3">
+              {links.map(l => (
+                <Link key={l} href="#"
+                  className="font-mono text-[10px] tracking-[0.15em] text-gray-dim hover:text-cream transition-colors duration-300">
                   {l}
                 </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Info */}
-        <div>
-          <p className="label text-offwhite mb-4">Info</p>
-          <ul className="space-y-3">
-            {["About", "Drops", "Sizing Guide", "Shipping"].map((l) => (
-              <li key={l}>
-                <Link href="#" className="label text-gray-lt hover:text-red transition-colors text-[10px]">
-                  {l}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Social */}
-        <div>
-          <p className="label text-offwhite mb-4">Follow</p>
-          <ul className="space-y-3">
-            {["Instagram", "TikTok", "Pinterest"].map((l) => (
-              <li key={l}>
-                <Link href="#" className="label text-gray-lt hover:text-red transition-colors text-[10px]">
-                  {l} ↗
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+              ))}
+            </nav>
+          </div>
+        ))}
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-gray-mid px-6 md:px-10 py-5 flex flex-col md:flex-row justify-between items-center gap-3">
-        <p className="label text-gray-lt text-[10px]">
-          © {year} Hollow Ronin. All rights reserved.
-        </p>
-        <div className="flex gap-6">
-          {["Privacy Policy", "Terms", "Returns"].map((l) => (
-            <Link key={l} href="#" className="label text-gray-lt hover:text-red transition-colors text-[10px]">
-              {l}
-            </Link>
-          ))}
-        </div>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pt-10 border-t border-gray-outline/20">
+        <span className="font-bebas text-3xl text-cream tracking-tight">HOLLOW RONIN</span>
+        <span className="font-mono text-[10px] tracking-[0.1em] text-gray-dim">
+          ©2025 HOLLOW RONIN // PROTOCOL_001 // ALL RIGHTS RESERVED
+        </span>
       </div>
     </footer>
   );

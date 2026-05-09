@@ -6,100 +6,53 @@ import EmailCapture from "@/components/ui/EmailCapture";
 export default function HomePage() {
   return (
     <main>
-      {/* ── HERO ─────────────────────────────────────────── */}
-      <section className="relative h-screen w-full bg-void overflow-hidden flex flex-col justify-end px-page pb-20">
+      <section style={{ position: "relative", height: "100vh", width: "100%", background: "#0a0a0a", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "0 48px 80px" }}>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 65% 50%, #1a0005 0%, #0a0a0a 65%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 100% 100%, rgba(192,0,30,0.2) 0%, transparent 60%)" }} />
+        <div className="grid-lines" style={{ position: "absolute", inset: 0, opacity: 0.07, backgroundSize: "80px 80px" }} />
+        <div style={{ position: "absolute", top: "15%", right: "15%", width: "1px", height: "60%", background: "linear-gradient(to bottom, transparent, #c0001e, transparent)", transform: "rotate(12deg)", opacity: 0.5 }} />
 
-        {/* Background atmosphere */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0" style={{
-            background: "radial-gradient(ellipse at 65% 50%, #1a0005 0%, #0a0a0a 65%)"
-          }} />
-          <div className="absolute inset-0" style={{
-            background: "radial-gradient(ellipse at 100% 100%, rgba(192,0,30,0.2) 0%, transparent 60%)"
-          }} />
-          {/* Subtle red grid */}
-          <div className="absolute inset-0 grid-lines opacity-[0.07]"
-            style={{ backgroundSize: "80px 80px" }} />
-          {/* Vertical accent line */}
-          <div className="absolute top-[15%] right-[15%] w-px h-[60%] opacity-50"
-            style={{ background: "linear-gradient(to bottom, transparent, #c0001e, transparent)", transform: "rotate(12deg)" }} />
-        </div>
-
-        {/* Vertical side label */}
-        <div className="absolute right-page top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-4 animate-fade-in delay-5">
-          <span className="font-mono text-[9px] tracking-[0.4em] text-red"
-            style={{ writingMode: "vertical-rl" }}>
-            PROTOCOL_001 // NEO_EDO
-          </span>
-          <div className="w-px h-16" style={{ background: "linear-gradient(to bottom, transparent, #c0001e)" }} />
-        </div>
-
-        {/* Hero content */}
-        <div className="relative z-10">
-          {/* Status */}
-          <div className="flex items-center gap-3 mb-10 animate-fade-in delay-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-red animate-blink inline-block" />
-            <span className="font-mono text-[9px] tracking-[0.2em] text-gray-dim">
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "40px" }} className="animate-fade-in delay-1">
+            <span className="animate-blink" style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#c0001e", display: "inline-block" }} />
+            <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#6b6b6b" }}>
               DROP 001 — STATUS: INCOMING
             </span>
           </div>
 
-          {/* Main title */}
-          <div className="mb-12">
-            <div className="overflow-hidden">
-              <h1 className="font-bebas text-cream animate-fade-up delay-2"
-                style={{ fontSize: "clamp(5rem, 18vw, 18rem)", lineHeight: 0.88, letterSpacing: "-0.01em" }}>
+          <div style={{ marginBottom: "48px" }}>
+            <div style={{ overflow: "hidden" }}>
+              <h1 className="animate-fade-up delay-2" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(5rem, 18vw, 18rem)", lineHeight: 0.88, letterSpacing: "-0.01em", textTransform: "uppercase", color: "#f0ede6", display: "block" }}>
                 HOLLOW
               </h1>
             </div>
-            <div className="overflow-hidden">
-              <h1 className="font-bebas text-stroke-cream animate-fade-up delay-3"
-                style={{
-                  fontSize: "clamp(5rem, 18vw, 18rem)",
-                  lineHeight: 0.88,
-                  letterSpacing: "-0.01em",
-                  marginLeft: "clamp(1rem, 4vw, 6rem)",
-                }}>
+            <div style={{ overflow: "hidden" }}>
+              <h1 className="text-stroke-cream animate-fade-up delay-3" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(5rem, 18vw, 18rem)", lineHeight: 0.88, letterSpacing: "-0.01em", textTransform: "uppercase", display: "block", marginLeft: "clamp(1rem, 4vw, 6rem)" }}>
                 RONIN
               </h1>
             </div>
           </div>
 
-          {/* CTA row */}
-          <div className="flex flex-col md:flex-row items-start md:items-end gap-8 animate-fade-up delay-4">
-            <p className="font-mono text-[10px] tracking-[0.1em] text-gray-dim max-w-xs leading-relaxed uppercase">
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", gap: "32px" }} className="animate-fade-up delay-4">
+            <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.1em", color: "#6b6b6b", maxWidth: "300px", lineHeight: 1.8, textTransform: "uppercase" }}>
               Fabricated in the void. Designed for the resistance. A new protocol of functional aesthetics.
             </p>
-            <div className="flex gap-4">
-              <a href="/shop"
-                className="font-mono text-[10px] tracking-widest px-10 py-4 bg-cream text-void hover:bg-red hover:text-cream transition-all duration-300">
-                SHOP_COLLECTION
-              </a>
-              <a href="/drops"
-                className="font-mono text-[10px] tracking-widest px-10 py-4 border border-cream text-cream hover:bg-cream hover:text-void transition-all duration-300">
-                VIEW_FILM
-              </a>
+            <div style={{ display: "flex", gap: "16px" }}>
+              <a href="/shop" className="btn-primary">SHOP_COLLECTION</a>
+              <a href="/drops" className="btn-outline">VIEW_FILM</a>
             </div>
           </div>
         </div>
 
-        {/* Scroll cue */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in delay-5">
-          <div className="w-px h-10" style={{ background: "linear-gradient(to bottom, transparent, #8e9192)" }} />
-          <span className="font-mono text-[8px] tracking-[0.2em] text-gray-dim">SCROLL</span>
+        <div style={{ position: "absolute", bottom: "24px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }} className="animate-fade-in delay-5">
+          <div style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, transparent, #6b6b6b)" }} />
+          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#6b6b6b" }}>SCROLL</span>
         </div>
       </section>
 
-      {/* ── TICKER ───────────────────────────────────────── */}
       <Ticker />
-
-      {/* ── PRODUCTS ─────────────────────────────────────── */}
       <ProductGrid />
-
-      {/* ── BRAND STATEMENT ──────────────────────────────── */}
       <BrandStatement />
-
-      {/* ── EMAIL CAPTURE ────────────────────────────────── */}
       <EmailCapture />
     </main>
   );

@@ -1,35 +1,38 @@
 export default function EmailCapture() {
   return (
-    <section className="px-page py-24 md:py-section grid grid-cols-1 md:grid-cols-2 items-center gap-16">
-      {/* Left */}
+    <section style={{ padding: "96px 48px", display: "grid", gridTemplateColumns: "1fr 1fr", alignItems: "center", gap: "64px", background: "#131313" }}>
       <div>
-        <span className="font-mono text-[10px] tracking-[0.2em] text-red block mb-4">
+        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#c0001e", display: "block", marginBottom: "16px" }}>
           PROTOCOL_SUBSCRIPTION
         </span>
-        <h2 className="font-bebas text-cream mb-8 leading-tight"
-          style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
+        <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", color: "#f0ede6", lineHeight: 0.95, textTransform: "uppercase", marginBottom: "32px" }}>
           JOIN THE HOLLOW<br />RECEIVE TRANSMISSIONS
         </h2>
-        <div className="flex max-w-md border-b border-cream pb-2">
-          <input
-            type="email"
-            placeholder="ENTER_EMAIL_ADDRESS"
-            className="bg-transparent border-none outline-none text-cream font-mono text-[10px] tracking-widest placeholder:text-gray-dim/50 w-full"
-          />
-          <button className="bg-red text-cream px-6 py-2 font-mono text-[10px] tracking-widest hover:brightness-125 transition-all shrink-0">
-            JOIN
-          </button>
+        <div style={{ display: "flex", maxWidth: "420px", borderBottom: "1px solid #f0ede6", paddingBottom: "8px" }}>
+          <input type="email" placeholder="ENTER_EMAIL_ADDRESS" style={{
+            flex: 1, background: "transparent", border: "none", outline: "none",
+            color: "#f0ede6", fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.1em",
+          }} />
+          <button style={{
+            background: "#c0001e", color: "#f0ede6", border: "none", padding: "8px 20px",
+            fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.15em",
+            textTransform: "uppercase", cursor: "pointer",
+          }}>JOIN</button>
         </div>
       </div>
 
-      {/* Right — decorative box */}
-      <div className="flex justify-center md:justify-end">
-        <div className="w-72 h-72 border border-red/30 flex items-center justify-center relative">
-          {/* Corner dots */}
-          {["top-0 left-0","top-0 right-0","bottom-0 left-0","bottom-0 right-0"].map((pos,i) => (
-            <div key={i} className={`absolute ${pos} w-2 h-2 bg-red`} />
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <div style={{ width: "280px", height: "280px", border: "1px solid rgba(192,0,30,0.3)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+          {["top-left","top-right","bottom-left","bottom-right"].map((pos, i) => (
+            <div key={i} style={{
+              position: "absolute", width: "8px", height: "8px", background: "#c0001e",
+              top: pos.includes("top") ? 0 : "auto",
+              bottom: pos.includes("bottom") ? 0 : "auto",
+              left: pos.includes("left") ? 0 : "auto",
+              right: pos.includes("right") ? 0 : "auto",
+            }} />
           ))}
-          <p className="font-mono text-[10px] tracking-[0.15em] text-gray-dim text-center px-8 leading-relaxed">
+          <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#6b6b6b", textAlign: "center", padding: "0 32px", lineHeight: 1.8 }}>
             DATA_PACK_01: EXCLUSIVE RELEASES, STUDIO UPDATES, AND ACCESS TO THE ARCHIVE.
           </p>
         </div>

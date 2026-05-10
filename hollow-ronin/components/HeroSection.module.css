@@ -1,0 +1,357 @@
+/* ─────────────────────────────────────────────────
+   HeroSection
+   Custom properties scoped to the component:
+     --font-bebas-hero    Bebas Neue (via next/font/google)
+     --font-rajdhani-hero Rajdhani   (via next/font/google)
+   ───────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #040408;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Ken Burns ─────────────────────────────────── */
+.kenBurns {
+  position: absolute;
+  inset: -5%;
+  width: calc(100% + 10%);
+  height: calc(100% + 10%);
+  animation: kenBurns 25s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurns {
+  from { transform: scale(1)    translate(0,    0   ); }
+  to   { transform: scale(1.1)  translate(-2%, -1%  ); }
+}
+
+/* ── Layered overlays ──────────────────────────── */
+.gradientOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(4,4,8,0.88) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.vignetteOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(4,4,8,0.75) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.crimsonPulse {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(220,20,60,0.1) 0%, transparent 60%);
+  z-index: 3;
+  animation: crimsonPulse 4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes crimsonPulse {
+  from { opacity: 0.5; }
+  to   { opacity: 1;   }
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.04;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* ── Canvas ────────────────────────────────────── */
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ── Nav ───────────────────────────────────────── */
+.nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36px 48px;
+  animation: fadeIn 1s ease both;
+}
+
+.logo {
+  font-family: var(--font-bebas-hero), 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.12em;
+  color: #f0ede6;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.logo:hover { color: #DC143C; }
+
+.navLinks {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+
+.navLinks a {
+  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(240,237,230,0.65);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.navLinks a:hover { color: #DC143C; }
+
+/* ── Live drop badge ───────────────────────────── */
+.badge {
+  position: absolute;
+  top: 80px;
+  right: 48px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn 1s ease both;
+}
+
+.badgeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #DC143C;
+  flex-shrink: 0;
+  animation: blink 1.2s step-end infinite;
+}
+
+.badgeText {
+  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,237,230,0.75);
+}
+
+/* ── Hero content ──────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.tagline {
+  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: #DC143C;
+  margin-bottom: 20px;
+  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  animation-delay: 0.7s;
+}
+
+.title {
+  font-family: var(--font-bebas-hero), 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 14vw, 160px);
+  line-height: 0.88;
+  color: #f0ede6;
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 60px rgba(220,20,60,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  animation-delay: 1s;
+}
+
+.titleOutline {
+  -webkit-text-stroke: 1.5px rgba(240,237,230,0.5);
+  color: transparent;
+}
+
+.subtitle {
+  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(240,237,230,0.55);
+  line-height: 2;
+  margin-top: 16px;
+  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  animation-delay: 1.3s;
+}
+
+.divider {
+  width: 48px;
+  height: 1px;
+  background: #DC143C;
+  margin: 24px auto;
+  transform-origin: center;
+  animation: scaleIn 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  animation-delay: 1.6s;
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scaleX(0); }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+
+.buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  animation-delay: 1.6s;
+}
+
+.btnPrimary {
+  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  background: #DC143C;
+  color: #f0ede6;
+  text-decoration: none;
+  border: 1px solid #DC143C;
+  transition: background 0.3s, color 0.3s;
+}
+.btnPrimary:hover {
+  background: transparent;
+  color: #DC143C;
+}
+
+.btnGhost {
+  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  background: transparent;
+  color: rgba(240,237,230,0.75);
+  text-decoration: none;
+  border: 1px solid rgba(240,237,230,0.3);
+  transition: border-color 0.3s, color 0.3s;
+}
+.btnGhost:hover {
+  border-color: #f0ede6;
+  color: #f0ede6;
+}
+
+/* ── Stats ─────────────────────────────────────── */
+.stats {
+  position: absolute;
+  bottom: 104px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 64px;
+  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  animation-delay: 2s;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.statValue {
+  font-family: var(--font-bebas-hero), 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.15em;
+  color: #DC143C;
+}
+
+.statLabel {
+  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(240,237,230,0.35);
+}
+
+/* ── Scroll indicator ──────────────────────────── */
+.scrollHint {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation: fadeIn 0.9s ease both;
+  animation-delay: 2.8s;
+}
+
+.scrollLabel {
+  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(240,237,230,0.35);
+}
+
+.scrollLine {
+  width: 1px;
+  height: 0;
+  background: rgba(240,237,230,0.3);
+  animation: growLine 1.5s ease 3.2s forwards;
+}
+
+/* ── Keyframes ─────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes growLine {
+  to { height: 40px; }
+}

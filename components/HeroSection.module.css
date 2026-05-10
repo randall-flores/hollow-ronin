@@ -355,3 +355,12 @@
 @keyframes growLine {
   to { height: 40px; }
 }
+
+/* ── Mobile ─────────────────────────────────────── */
+@media (max-width: 767px) {
+  .nav        { padding: 24px; display: none; } /* hidden on mobile — Navbar handles it */
+  .badge      { top: 70px; right: 24px; }
+  .stats      { gap: 24px; bottom: 80px; }
+  .scrollHint { display: none; }
+  .buttons    { flex-direction: column; align-items: center; }
+}

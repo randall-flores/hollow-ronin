@@ -98,3 +98,34 @@ body::before {
   background: transparent;
 }
 .btn-outline:hover { background: #f0ede6; color: #0a0a0a; }
+
+/* ── Product grid — responsive ─────────────────── */
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: rgba(68,71,72,0.2);
+}
+@media (min-width: 640px)  { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* ── Navbar — desktop vs mobile ────────────────── */
+.nav-hamburger { display: none; }
+
+@media (max-width: 767px) {
+  .nav-desktop-links { display: none !important; }
+  .nav-hamburger     { display: flex !important; }
+  .navbar            { padding: 16px 24px !important; }
+}
+
+/* ── Product section padding ───────────────────── */
+@media (max-width: 767px) {
+  .product-section { padding: 80px 16px !important; }
+  .product-header  { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+
+/* ── Email capture — responsive ─────────────────── */
+@media (max-width: 767px) {
+  .email-capture-section { grid-template-columns: 1fr !important; padding: 64px 16px !important; }
+  .email-capture-right   { display: none !important; }
+}

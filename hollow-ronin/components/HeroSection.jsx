@@ -109,7 +109,7 @@ export default function HeroSection() {
       {/* Ken Burns background */}
       <div className={styles.kenBurns}>
         <Image
-          src="/images/hero.png"
+          src="/images/hero.jpg"
           alt="Hollow Ronin — Cyber Samurai Editorial"
           fill
           priority

@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Bebas_Neue, Rajdhani } from 'next/font/google';
 import styles from './HeroSection.module.css';
+import CountdownTimer from './CountdownTimer';
 
 const bebas = Bebas_Neue({
   weight: '400',
@@ -178,16 +179,17 @@ export default function HeroSection() {
 
       {/* Stats row */}
       <div className={styles.stats}>
-        {[
-          { value: '001', label: 'Current Drop' },
-          { value: '48H', label: 'Time Remaining' },
-          { value: '∞',   label: 'No Master'       },
-        ].map(({ value, label }) => (
-          <div key={label} className={styles.stat}>
-            <span className={styles.statValue}>{value}</span>
-            <span className={styles.statLabel}>{label}</span>
-          </div>
-        ))}
+        <div className={styles.stat}>
+          <span className={styles.statValue}>001</span>
+          <span className={styles.statLabel}>Current Drop</span>
+        </div>
+        <div className={styles.stat}>
+          <CountdownTimer />
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statValue}>∞</span>
+          <span className={styles.statLabel}>No Master</span>
+        </div>
       </div>
 
       {/* Scroll indicator */}

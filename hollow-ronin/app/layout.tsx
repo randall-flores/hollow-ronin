@@ -21,10 +21,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Navbar />
-        <PageTransition>
-          {children}
-        </PageTransition>
-        <Footer />
+        <div style={{ paddingTop: "68px" }}>
+          <PageTransition>
+            {children}
+          </PageTransition>
+          <Footer />
+        </div>
         <SamuraiSlash />
       </body>
     </html>

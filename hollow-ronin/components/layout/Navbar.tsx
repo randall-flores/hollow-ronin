@@ -117,16 +117,14 @@ export default function Navbar() {
             }}
           >
             <img
-              src="/images/hollow-ronin-logo.svg"
+              src="/images/logo-mask.png"
               alt=""
               style={{
                 width: 44,
                 height: 44,
                 objectFit: "contain",
+                mixBlendMode: "screen",
                 filter: "drop-shadow(0 0 10px rgba(180,20,20,0.6))",
-              }}
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = "none";
               }}
             />
             <img

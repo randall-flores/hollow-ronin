@@ -120,11 +120,12 @@ export default function Navbar() {
               src="/images/logo-mask.png"
               alt=""
               style={{
-                width: 44,
-                height: 44,
+                width: 62,
+                height: 62,
                 objectFit: "contain",
-                mixBlendMode: "screen",
                 display: "block",
+                filter: "invert(1)",
+                mixBlendMode: "screen",
               }}
             />
             <video
@@ -133,7 +134,7 @@ export default function Navbar() {
               loop
               playsInline
               style={{
-                height: 38,
+                height: 54,
                 width: "auto",
                 display: "block",
                 mixBlendMode: "screen",

@@ -116,36 +116,59 @@ export default function Navbar() {
               textDecoration: "none",
             }}
           >
-            <img
-              src="/images/logo-mask.png"
-              alt=""
-              style={{
-                width: 62,
-                height: 62,
-                objectFit: "contain",
-                display: "block",
-              }}
-            />
+            {/* Logo icon — black container + screen blend removes the black square */}
+            <div style={{
+              background: "#000000",
+              borderRadius: "8px",
+              padding: "3px",
+              border: "1px solid rgba(204,0,0,0.4)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}>
+              <img
+                src="/images/logo-mask.png"
+                alt=""
+                style={{
+                  width: 56,
+                  height: 56,
+                  objectFit: "contain",
+                  display: "block",
+                  mixBlendMode: "screen",
+                }}
+              />
+            </div>
+
+            {/* Wordmark */}
             <div style={{
               display: "flex",
               flexDirection: "column",
               lineHeight: 1,
+              gap: "2px",
             }}>
               <span style={{
                 fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "28px",
-                color: "#f5f0e8",
-                letterSpacing: "0.18em",
-                textShadow: "0 0 30px rgba(204,0,0,0.4), 0 2px 4px rgba(0,0,0,0.9)",
+                fontSize: "20px",
+                color: "rgba(245,240,232,0.7)",
+                letterSpacing: "0.32em",
+                textShadow: "0 1px 4px rgba(0,0,0,0.9)",
               }}>
                 HOLLOW
               </span>
+              {/* Thin red separator */}
+              <div style={{
+                height: "1px",
+                background: "linear-gradient(to right, #cc0000, rgba(204,0,0,0.1))",
+                marginBottom: "1px",
+              }} />
               <span style={{
                 fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "28px",
+                fontSize: "30px",
                 color: "#cc0000",
                 letterSpacing: "0.18em",
-                textShadow: "0 0 20px rgba(204,0,0,0.7), 0 0 40px rgba(204,0,0,0.3)",
+                textShadow: "0 0 20px rgba(204,0,0,0.9), 0 0 50px rgba(204,0,0,0.4), 0 2px 6px rgba(0,0,0,0.9)",
+                marginTop: "-1px",
               }}>
                 RONIN
               </span>

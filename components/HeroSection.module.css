@@ -1,337 +1,240 @@
 /* ─────────────────────────────────────────────────
-   HeroSection
-   Custom properties scoped to the component:
-     --font-bebas-hero    Bebas Neue (via next/font/google)
-     --font-rajdhani-hero Rajdhani   (via next/font/google)
+   HeroSection — Cinematic Video Hero
+   CSS vars:
+     --font-bebas-hero      Bebas Neue  (next/font/google)
+     --font-cormorant-hero  Cormorant Garamond (next/font/google)
+   Design tokens:
+     --hr-black   #08080a
+     --hr-white   #f0ece4
+     --hr-red     #cc0000
+     --hr-muted   #a09080
    ───────────────────────────────────────────────── */
 
+/* ── Root ───────────────────────────────────────── */
 .hero {
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: #040408;
+  background: #08080a;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding-top: 68px;
   margin-top: -68px;
 }
 
-/* ── Video background (desktop) ────────────────── */
-.videoBackground {
+/* ── Video ──────────────────────────────────────── */
+.video {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
+  object-position: center top;
   z-index: 0;
 }
 
-/* ── Static fallback (mobile only) ─────────────── */
-.mobileFallback {
-  display: none;
+/* ── Overlay 1 — Vignette ───────────────────────── */
+.vignette {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* ── Layered overlays ──────────────────────────── */
-.gradientOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.6) 100%);
+  background: radial-gradient(
+    ellipse at center,
+    transparent 15%,
+    rgba(4, 4, 6, 0.55) 60%,
+    rgba(4, 4, 6, 0.88) 100%
+  );
   z-index: 1;
   pointer-events: none;
 }
 
-.vignetteOverlay {
+/* ── Overlay 2 — Scanlines ──────────────────────── */
+.scanlines {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.75) 100%);
-  z-index: 1;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  z-index: 2;
   pointer-events: none;
 }
 
-.crimsonPulse {
+/* ── Overlay 3 — Bottom bleed ───────────────────── */
+.bottomFade {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 60% 40%, rgba(220,20,60,0.1) 0%, transparent 60%);
-  z-index: 3;
-  animation: crimsonPulse 4s ease-in-out infinite alternate;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, #08080a);
+  z-index: 2;
   pointer-events: none;
 }
 
-@keyframes crimsonPulse {
-  from { opacity: 0.5; }
-  to   { opacity: 1;   }
-}
-
+/* ── Overlay 4 — Grain ──────────────────────────── */
 .grain {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   opacity: 0.04;
-  z-index: 4;
+  z-index: 3;
   pointer-events: none;
+  mix-blend-mode: overlay;
 }
 
-/* ── Canvas ────────────────────────────────────── */
-.canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 5;
-  pointer-events: none;
-}
-
-/* ── Live drop badge ───────────────────────────── */
-.badge {
-  position: absolute;
-  top: 80px;
-  right: 48px;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  animation: fadeIn 1s ease both;
-}
-
-.badgeDot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #DC143C;
-  flex-shrink: 0;
-  animation: blink 1.2s step-end infinite;
-}
-
-.badgeText {
-  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(240,237,230,0.75);
-}
-
-/* ── Hero content ──────────────────────────────── */
+/* ── Content block ──────────────────────────────── */
 .content {
   position: relative;
   z-index: 10;
-  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 0 24px;
+  align-items: flex-start;
+  padding: 0 clamp(32px, 7vw, 96px);
+  width: 100%;
+  max-width: 1400px;
 }
 
-.tagline {
-  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.45em;
-  text-transform: uppercase;
-  color: #C9A84C;
-  margin-bottom: 20px;
-  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
-  animation-delay: 0.7s;
-}
-
-.title {
-  font-family: var(--font-bebas-hero), 'Bebas Neue', sans-serif;
-  font-size: clamp(72px, 12vw, 130px);
-  line-height: 0.92;
-  letter-spacing: -0.01em;
+/* ── Label ──────────────────────────────────────── */
+.label {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
-  animation-delay: 1s;
+  gap: 14px;
+  margin-bottom: 22px;
 }
 
-.titleSolid {
-  color: #f0ede6;
-  text-shadow: 0 0 60px rgba(201,168,76,0.25);
-}
-
-.titleOutline {
-  -webkit-text-stroke: 2px #8B0000;
-  color: transparent;
-}
-
-.subtitle {
-  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(240,237,230,0.55);
-  line-height: 2;
-  margin-top: 16px;
-  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
-  animation-delay: 1.3s;
-}
-
-.divider {
-  width: 48px;
+.labelRule {
+  display: block;
+  width: 24px;
   height: 1px;
-  background: #C9A84C;
-  margin: 24px auto;
-  transform-origin: center;
-  animation: scaleIn 0.9s cubic-bezier(0.16,1,0.3,1) both;
-  animation-delay: 1.6s;
+  background: #cc0000;
+  flex-shrink: 0;
 }
 
-@keyframes scaleIn {
-  from { opacity: 0; transform: scaleX(0); }
-  to   { opacity: 1; transform: scaleX(1); }
-}
-
-.buttons {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  justify-content: center;
-  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
-  animation-delay: 1.6s;
-}
-
-.btnPrimary {
-  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
+.labelText {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.38em;
   text-transform: uppercase;
-  padding: 16px 36px;
-  background: #DC143C;
-  color: #f0ede6;
-  text-decoration: none;
-  border: 1px solid #DC143C;
-  transition: background 0.3s, color 0.3s;
-}
-.btnPrimary:hover {
-  background: transparent;
-  color: #DC143C;
+  color: #cc0000;
 }
 
-.btnGhost {
-  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  padding: 16px 36px;
-  background: transparent;
-  color: rgba(240,237,230,0.75);
-  text-decoration: none;
-  border: 1px solid rgba(240,237,230,0.3);
-  transition: border-color 0.3s, color 0.3s;
-}
-.btnGhost:hover {
-  border-color: #f0ede6;
-  color: #f0ede6;
-}
-
-/* ── Stats ─────────────────────────────────────── */
-.stats {
-  position: absolute;
-  bottom: 104px;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  gap: 64px;
-  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
-  animation-delay: 2s;
-}
-
-.stat {
+/* ── Title ──────────────────────────────────────── */
+.title {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  align-items: flex-start;
+  margin: 0;
+  line-height: 0.88;
 }
 
-.statValue {
+.hollow,
+.ronin {
   font-family: var(--font-bebas-hero), 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 0.15em;
-  color: #C9A84C;
+  font-size: clamp(88px, 14.5vw, 168px);
+  letter-spacing: 0.3em;
+  color: #f0ece4;
+  text-shadow: 0 0 80px rgba(180, 0, 0, 0.3), 0 0 120px rgba(180, 0, 0, 0.12);
+  display: block;
+  line-height: 0.92;
 }
 
-.statLabel {
-  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.35em;
+.ronin {
+  /* Asymmetric editorial offset */
+  padding-left: clamp(24px, 5vw, 72px);
+}
+
+/* ── Tagline ─────────────────────────────────────── */
+.tagline {
+  font-family: var(--font-cormorant-hero), 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(15px, 1.5vw, 19px);
+  letter-spacing: 0.22em;
+  color: #a09080;
+  margin-top: 20px;
+  margin-bottom: 44px;
+}
+
+/* ── CTA Button ─────────────────────────────────── */
+.cta {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: rgba(201,168,76,0.5);
+  color: #f0ece4;
+  text-decoration: none;
+  padding: 14px 40px;
+  border: 1px solid rgba(240, 236, 228, 0.38);
+  background: transparent;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease;
+  cursor: pointer;
 }
 
-/* ── Scroll indicator ──────────────────────────── */
-.scrollHint {
+.cta:hover {
+  border-color: #f0ece4;
+  box-shadow:
+    0 0 24px rgba(180, 0, 0, 0.22),
+    inset 0 0 16px rgba(180, 0, 0, 0.06);
+  color: #ffffff;
+}
+
+/* ── Scroll indicator ───────────────────────────── */
+.scroll {
   position: absolute;
-  bottom: 36px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  animation: fadeIn 0.9s ease both;
-  animation-delay: 2.8s;
-}
-
-.scrollLabel {
-  font-family: var(--font-rajdhani-hero), 'Rajdhani', sans-serif;
-  font-size: 8px;
-  font-weight: 600;
-  letter-spacing: 0.5em;
-  text-transform: uppercase;
-  color: rgba(240,237,230,0.35);
+  gap: 12px;
 }
 
 .scrollLine {
   width: 1px;
-  height: 0;
-  background: rgba(240,237,230,0.3);
-  animation: growLine 1.5s ease 3.2s forwards;
+  height: 60px;
+  background: #cc0000;
+  animation: scrollPulse 2s ease-in-out infinite;
 }
 
-/* ── Keyframes ─────────────────────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0);     }
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.25; }
+  50%       { opacity: 0.9; }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
-@keyframes growLine {
-  to { height: 40px; }
+.scrollLabel {
+  font-family: 'Space Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: rgba(160, 144, 128, 0.55);
 }
 
 /* ── Mobile ─────────────────────────────────────── */
 @media (max-width: 767px) {
-  .videoBackground { display: none; }
-  .mobileFallback  { display: block; }
-  .badge      { top: 70px; right: 24px; }
-  .stats      { gap: 24px; bottom: 80px; }
-  .scrollHint { display: none; }
-  .buttons    { flex-direction: column; align-items: center; }
+  .hero {
+    align-items: flex-end;
+    padding-bottom: 80px;
+  }
+
+  .content {
+    padding: 0 24px;
+  }
+
+  .tagline {
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  .scroll {
+    display: none;
+  }
 }

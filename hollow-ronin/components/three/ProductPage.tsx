@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
 
-const ShirtViewer = dynamic(() => import('./ShirtViewer'), {
+const TshirtViewer = dynamic(() => import('@/components/TshirtViewer'), {
   ssr: false,
   loading: () => (
     <div style={{ width: '100%', height: '100%', background: '#080808', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -68,7 +68,7 @@ export default function ProductPage() {
           <p style={{ margin: 0, fontSize: 9, letterSpacing: 6, color: 'rgba(255,255,255,0.13)', fontFamily: 'monospace' }}>HOLLOW RONIN</p>
           <p style={{ margin: '5px 0 0', fontSize: 9, letterSpacing: 4, color: 'rgba(204,34,34,0.65)', fontFamily: 'monospace' }}>DROP 001</p>
         </div>
-        <ShirtViewer />
+        <TshirtViewer />
         <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 1, background: 'linear-gradient(to bottom, transparent, rgba(204,34,34,0.18) 40%, rgba(204,34,34,0.18) 60%, transparent)' }} />
       </div>
 

@@ -65,23 +65,17 @@ export default function ProductShellPage({ title, subtitle, category }) {
           border-color: var(--card-accent);
           box-shadow: 0 0 40px -8px var(--card-accent), inset 0 0 30px -10px var(--card-accent);
         }
-        .hr-card-link:hover .hr-design {
-          transform: scale(1.06) translateY(-4px);
-          filter: drop-shadow(0 18px 28px rgba(0,0,0,0.85)) drop-shadow(0 0 12px var(--card-accent));
-        }
         .hr-card-link:hover .hr-shirt {
-          filter: brightness(1.08);
+          transform: scale(1.04) translateY(-3px);
+          filter: brightness(1.12) drop-shadow(0 18px 28px rgba(0,0,0,0.65));
         }
         .hr-card-link:hover .hr-view {
           background: var(--card-accent);
           color: #ffffff;
         }
-        .hr-design {
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
-          filter: drop-shadow(0 14px 22px rgba(0,0,0,0.7));
-        }
         .hr-shirt {
-          transition: filter 0.6s ease;
+          transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), filter 0.6s ease;
+          filter: drop-shadow(0 14px 22px rgba(0,0,0,0.65));
         }
         .hr-view {
           transition: background 0.3s ease, color 0.3s ease;
@@ -282,40 +276,83 @@ export default function ProductShellPage({ title, subtitle, category }) {
                   {product.color}
                 </span>
 
-                {/* Shirt silhouette behind design */}
+                {/* Shirt mockup — back view, design printed inside body */}
                 <svg
                   className="hr-shirt"
-                  viewBox="0 0 200 220"
+                  viewBox="0 0 200 240"
                   style={{
                     position: 'absolute',
-                    width: '78%', height: '78%',
-                    opacity: 0.35,
+                    width:  '80%',
+                    height: '92%',
                     zIndex: 1,
                   }}
+                  preserveAspectRatio="xMidYMid meet"
                 >
+                  <defs>
+                    {/* Cotton-like fabric gradient — top highlight, bottom shadow */}
+                    <linearGradient id={`fabric-${product.slug}`} x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%"   stopColor="#1f1f1f" />
+                      <stop offset="35%"  stopColor="#171717" />
+                      <stop offset="100%" stopColor="#0a0a0a" />
+                    </linearGradient>
+
+                    {/* Side shading — softens edges */}
+                    <linearGradient id={`shade-${product.slug}`} x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%"   stopColor="rgba(0,0,0,0.55)" />
+                      <stop offset="20%"  stopColor="rgba(0,0,0,0)" />
+                      <stop offset="80%"  stopColor="rgba(0,0,0,0)" />
+                      <stop offset="100%" stopColor="rgba(0,0,0,0.55)" />
+                    </linearGradient>
+
+                    {/* Back print zone — clips design to upper-mid back rectangle */}
+                    <clipPath id={`print-${product.slug}`}>
+                      <rect x="54" y="62" width="92" height="118" rx="2" />
+                    </clipPath>
+
+                    {/* Shirt body silhouette — used to mask everything */}
+                    <clipPath id={`body-${product.slug}`}>
+                      <path d="M 34 36 L 72 18 Q 100 26 128 18 L 166 36 L 188 58 L 168 84 L 156 74 L 156 224 L 44 224 L 44 74 L 32 84 L 12 58 Z" />
+                    </clipPath>
+                  </defs>
+
+                  {/* Shirt body */}
+                  <g clipPath={`url(#body-${product.slug})`}>
+                    <rect x="0" y="0" width="200" height="240" fill={`url(#fabric-${product.slug})`} />
+                    <rect x="0" y="0" width="200" height="240" fill={`url(#shade-${product.slug})`} />
+
+                    {/* Design printed on back — clipped to print zone */}
+                    <image
+                      href={product.design}
+                      x="54" y="62" width="92" height="118"
+                      preserveAspectRatio="xMidYMid meet"
+                      clipPath={`url(#print-${product.slug})`}
+                      style={{ mixBlendMode: 'screen' }}
+                    />
+                  </g>
+
+                  {/* Shirt body outline */}
                   <path
-                    d="M40 30 L75 18 Q100 38 125 18 L160 30 L185 60 L165 80 L155 70 L155 200 L45 200 L45 70 L35 80 L15 60 Z"
-                    fill="#1a1a1a"
-                    stroke="rgba(255,255,255,0.06)"
+                    d="M 34 36 L 72 18 Q 100 26 128 18 L 166 36 L 188 58 L 168 84 L 156 74 L 156 224 L 44 224 L 44 74 L 32 84 L 12 58 Z"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.08)"
                     strokeWidth="1"
                   />
-                </svg>
 
-                {/* Design image */}
-                <img
-                  src={product.design}
-                  alt={product.name}
-                  className="hr-design"
-                  style={{
-                    position: 'relative',
-                    width:    '52%',
-                    maxWidth: 240,
-                    height:   'auto',
-                    zIndex:   2,
-                    objectFit: 'contain',
-                    pointerEvents: 'none',
-                  }}
-                />
+                  {/* Back-neck collar — small arc */}
+                  <path
+                    d="M 76 20 Q 100 32 124 20"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.12)"
+                    strokeWidth="1.2"
+                  />
+
+                  {/* Sleeve seams */}
+                  <path d="M 72 18 L 78 70" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="0.8" />
+                  <path d="M 128 18 L 122 70" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="0.8" />
+
+                  {/* Side fold — adds depth */}
+                  <path d="M 100 80 L 100 220" fill="none" stroke="rgba(0,0,0,0.35)" strokeWidth="1.5" />
+                </svg>
 
                 {/* Vignette */}
                 <div style={{

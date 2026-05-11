@@ -9,44 +9,67 @@ import {
   Environment,
   Center,
 } from '@react-three/drei';
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import * as THREE from 'three';
 
 /**
- * Loads the oversized t-shirt GLB.
- * Model structure (verified):
- *   - mesh:     "Object_0"
- *   - material: "Material.001"
+ * Loads the oversized t-shirt GLB and applies two decals:
+ *   - Large back-print of the product design (designUrl)
+ *   - Small front-left chest logo-mask
+ *
+ * GLB facts (verified by reading the JSON chunk):
+ *   - node name:     Object_2
+ *   - mesh name:     Object_0
+ *   - material name: Material.001
+ * useGLTF's `nodes` indexes by NODE name, so we walk the scene to pull the
+ * first Mesh — works regardless of which name was used.
  */
 function Shirt({ designUrl }: { designUrl: string }) {
-  const { nodes, materials } = useGLTF('/models/tshirt.glb') as any;
-  const texture = useTexture(designUrl);
+  const { scene, materials } = useGLTF('/models/tshirt.glb') as any;
+  const backTex   = useTexture(designUrl);
+  const frontTex  = useTexture('/images/logo-mask.png');
 
-  // sRGB color space so the design's colors render correctly
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 16;
+  const mesh = useMemo<THREE.Mesh | null>(() => {
+    let found: THREE.Mesh | null = null;
+    scene.traverse((obj: THREE.Object3D) => {
+      if (!found && obj instanceof THREE.Mesh) found = obj;
+    });
+    return found;
+  }, [scene]);
+
+  if (!mesh) return null;
+
+  backTex.colorSpace  = THREE.SRGBColorSpace;
+  backTex.anisotropy  = 8;
+  frontTex.colorSpace = THREE.SRGBColorSpace;
+  frontTex.anisotropy = 8;
+
+  const material = (materials?.['Material.001'] as THREE.Material | undefined) ?? mesh.material;
 
   return (
     <mesh
       castShadow
       receiveShadow
-      geometry={nodes.Object_0.geometry}
-      material={materials['Material.001']}
+      geometry={mesh.geometry}
+      material={material}
       material-roughness={0.85}
       material-metalness={0}
       dispose={null}
     >
-      {/*
-        Decal positioning notes for THIS model:
-        - model bounds Y: 0.92 → 1.63 (sitting above ground)
-        - chest area sits roughly y=1.30, z=0.13
-        - tweak position/scale to taste once you can see it on screen
-      */}
+      {/* Big back print — facing -Z */}
       <Decal
-        position={[0, 1.32, 0.14]}
+        position={[0, 1.32, -0.14]}
+        rotation={[0, Math.PI, 0]}
+        scale={[0.35, 0.42, 0.35]}
+        map={backTex}
+      />
+
+      {/* Small front-left chest logo */}
+      <Decal
+        position={[-0.07, 1.43, 0.13]}
         rotation={[0, 0, 0]}
-        scale={0.22}
-        map={texture}
+        scale={[0.09, 0.09, 0.09]}
+        map={frontTex}
       />
     </mesh>
   );

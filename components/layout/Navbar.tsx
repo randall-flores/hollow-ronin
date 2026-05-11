@@ -124,18 +124,23 @@ export default function Navbar() {
                 height: 44,
                 objectFit: "contain",
                 mixBlendMode: "screen",
+                display: "block",
               }}
             />
-            <img
-              src="/images/hollow-ronin-wordmark.png"
-              alt="Hollow Ronin"
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
               style={{
                 height: 38,
                 width: "auto",
-                objectFit: "contain",
-                mixBlendMode: "multiply",
+                display: "block",
+                mixBlendMode: "screen",
               }}
-            />
+            >
+              <source src="/videos/logo-wordmark.webm" type="video/webm" />
+            </video>
           </Link>
         </div>
 

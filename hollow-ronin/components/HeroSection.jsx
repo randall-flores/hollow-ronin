@@ -1,7 +1,5 @@
 'use client';
 
-// TODO: replace with Higgsfield video background once generated — swap <Image> for <video autoPlay muted loop playsInline>
-
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Bebas_Neue, Rajdhani } from 'next/font/google';
@@ -107,8 +105,19 @@ export default function HeroSection() {
   return (
     <section className={`${styles.hero} ${bebas.variable} ${rajdhani.variable}`}>
 
-      {/* Ken Burns background */}
-      <div className={styles.kenBurns}>
+      {/* Video background — desktop only */}
+      <video
+        className={styles.videoBackground}
+        autoPlay
+        loop
+        muted
+        playsInline
+      >
+        <source src="/videos/hero.mp4" type="video/mp4" />
+      </video>
+
+      {/* Static fallback — mobile only */}
+      <div className={styles.mobileFallback}>
         <Image
           src="/images/hero.jpg"
           alt="Hollow Ronin — Cyber Samurai Editorial"
@@ -118,9 +127,9 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Dark gradient: transparent → #040408 88% */}
+      {/* Gradient overlay */}
       <div className={styles.gradientOverlay} />
-      {/* Radial vignette */}
+      {/* Vignette */}
       <div className={styles.vignetteOverlay} />
       {/* Crimson tint pulse */}
       <div className={styles.crimsonPulse} />

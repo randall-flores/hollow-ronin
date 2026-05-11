@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 const NAV_LINKS = [
-  { label: "DROPS", href: "/drops" },
+  { label: "DROPS", href: "/products/torii-ronin-tee" },
   { label: "LOOKBOOK", href: "/lookbook" },
   { label: "ABOUT", href: "/about" },
 ];
@@ -206,7 +206,7 @@ export default function Navbar() {
             onMouseLeave={closeShop}
           >
             <Link
-              href="/shop"
+              href="/products/torii-ronin-tee"
               style={navLinkStyle}
               onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "#a8a8a8")}
@@ -435,7 +435,7 @@ export default function Navbar() {
           ✕
         </button>
 
-        {[...NAV_LINKS, { label: "SHOP", href: "/shop" }].map(
+        {[...NAV_LINKS, { label: "SHOP", href: "/products/torii-ronin-tee" }].map(
           ({ label, href }) => (
             <Link
               key={label}

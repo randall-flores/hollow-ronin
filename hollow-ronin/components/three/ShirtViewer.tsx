@@ -78,7 +78,7 @@ function ShirtModel({ logo }: { logo: THREE.Texture }) {
   return (
     <group
       rotation={[-Math.PI / 2, 0, 0]}
-      position={[0, -1.27, 0]}
+      position={[0, -0.85, 0]}
     >
       <primitive object={scene} dispose={null} />
 
@@ -153,7 +153,7 @@ export default function ShirtViewer() {
     >
       <Suspense fallback={<Loader />}>
         <Canvas
-          camera={{ position: [0, 0.5, 3.2], fov: 38 }}
+          camera={{ position: [0, 0.2, 2.8], fov: 38 }}
           gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.15 }}
           shadows={{ type: THREE.PCFShadowMap }}
         >
@@ -161,7 +161,7 @@ export default function ShirtViewer() {
           <Float speed={1.3} rotationIntensity={0} floatIntensity={0.28}>
             <ShirtModel logo={logo} />
           </Float>
-          <ContactShadows position={[0, -1.35, 0]} opacity={0.55} scale={5} blur={3.5} color="#550000" resolution={512} />
+          <ContactShadows position={[0, -0.95, 0]} opacity={0.55} scale={5} blur={3.5} color="#550000" resolution={512} />
           <OrbitControls
             enableZoom={false}
             enablePan={false}

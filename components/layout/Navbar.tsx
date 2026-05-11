@@ -124,7 +124,6 @@ export default function Navbar() {
                 height: 44,
                 objectFit: "contain",
                 mixBlendMode: "screen",
-                filter: "drop-shadow(0 0 10px rgba(180,20,20,0.6))",
               }}
             />
             <img
@@ -134,8 +133,7 @@ export default function Navbar() {
                 height: 38,
                 width: "auto",
                 objectFit: "contain",
-                mixBlendMode: "screen",
-                filter: "brightness(1.15) contrast(1.1)",
+                mixBlendMode: "multiply",
               }}
             />
           </Link>

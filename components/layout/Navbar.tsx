@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const LINKS_LEFT = ["COLLECTIONS", "ARCHIVE"];
 const LINKS_RIGHT = ["EDITORIAL", "STUDIO"];
@@ -44,7 +45,8 @@ export default function Navbar() {
 
         {/* Center logo */}
         <div style={{ position: "absolute", left: "50%", transform: "translateX(-50%)" }}>
-          <Link href="/" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(28px, 4vw, 48px)", lineHeight: "44px", letterSpacing: "-0.01em", color: "#c9c6c5", textDecoration: "none" }}>
+          <Link href="/" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(28px, 4vw, 48px)", lineHeight: "44px", letterSpacing: "-0.01em", color: "#c9c6c5", textDecoration: "none", display: "flex", alignItems: "center", gap: "10px" }}>
+            <Image src="/images/hollow-ronin-logo.svg" alt="" width={36} height={36} />
             HOLLOW RONIN
           </Link>
         </div>

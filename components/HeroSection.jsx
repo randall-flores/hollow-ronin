@@ -192,6 +192,15 @@ export default function HeroSection() {
         </div>
       </div>
 
+      {/* Watermark */}
+      <Image
+        src="/images/hollow-ronin-logo.svg"
+        alt=""
+        width={90}
+        height={90}
+        style={{ position: "absolute", bottom: "24px", right: "24px", opacity: 0.1, pointerEvents: "none" }}
+      />
+
       {/* Scroll indicator */}
       <div className={styles.scrollHint}>
         <span className={styles.scrollLabel}>Scroll</span>

@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageTransition from "@/components/layout/PageTransition";
+import SlashCursor from "@/components/SlashCursor";
 
 export const metadata: Metadata = {
   title: "HOLLOW RONIN — No Master. No Rules.",
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </PageTransition>
           <Footer />
         </div>
+        <SlashCursor />
       </body>
     </html>
   );

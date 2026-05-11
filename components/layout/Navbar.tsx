@@ -45,14 +45,18 @@ export default function Navbar() {
             style={{ objectFit: "contain", filter: "drop-shadow(0 0 8px rgba(180, 20, 20, 0.5))" }}
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
           />
-          <span className="nav-brand-text" style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            letterSpacing: "0.14em",
-            color: "#f0ede6",
-            whiteSpace: "nowrap",
-          }}>
-            HOLLOW RONIN
-          </span>
+          <img
+            src="/images/hollow-ronin-wordmark.png"
+            alt="Hollow Ronin"
+            className="nav-brand-wordmark"
+            style={{
+              height: "36px",
+              width: "auto",
+              objectFit: "contain",
+              filter: "brightness(1.1) contrast(1.05)",
+              mixBlendMode: "screen",
+            }}
+          />
         </Link>
 
         {/* Right — links + icons + hamburger */}

@@ -111,14 +111,14 @@ body::before {
 
 /* ── Navbar — desktop vs mobile ────────────────── */
 .nav-hamburger { display: none; }
-.nav-brand-mark { width: 48px; height: 48px; }
+.nav-brand-mark { width: 58px; height: 58px; }
 .nav-brand-wordmark { height: 36px; }
 
 @media (max-width: 767px) {
   .nav-desktop-links  { display: none !important; }
   .nav-hamburger      { display: flex !important; }
   .navbar             { padding: 16px 24px !important; }
-  .nav-brand-mark     { width: 36px !important; height: 36px !important; }
+  .nav-brand-mark     { width: 44px !important; height: 44px !important; }
   .nav-brand-wordmark { height: 24px !important; }
 }
 

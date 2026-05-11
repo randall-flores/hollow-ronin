@@ -124,24 +124,32 @@ export default function Navbar() {
                 height: 62,
                 objectFit: "contain",
                 display: "block",
-                filter: "invert(1)",
-                mixBlendMode: "screen",
               }}
             />
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              style={{
-                height: 54,
-                width: "auto",
-                display: "block",
-                mixBlendMode: "screen",
-              }}
-            >
-              <source src="/videos/logo-wordmark.webm" type="video/webm" />
-            </video>
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              lineHeight: 1,
+            }}>
+              <span style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: "28px",
+                color: "#f5f0e8",
+                letterSpacing: "0.18em",
+                textShadow: "0 0 30px rgba(204,0,0,0.4), 0 2px 4px rgba(0,0,0,0.9)",
+              }}>
+                HOLLOW
+              </span>
+              <span style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: "28px",
+                color: "#cc0000",
+                letterSpacing: "0.18em",
+                textShadow: "0 0 20px rgba(204,0,0,0.7), 0 0 40px rgba(204,0,0,0.3)",
+              }}>
+                RONIN
+              </span>
+            </div>
           </Link>
         </div>
 

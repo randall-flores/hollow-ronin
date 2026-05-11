@@ -21,7 +21,7 @@ const V = {
   fontFamily: "var(--font-bebas-hero, 'Bebas Neue', sans-serif)",
   fontSize: '20px',
   letterSpacing: '0.12em',
-  color: '#DC143C',
+  color: '#C9A84C',
   lineHeight: 1,
 };
 const L = {
@@ -30,7 +30,7 @@ const L = {
   fontWeight: 600,
   letterSpacing: '0.35em',
   textTransform: 'uppercase',
-  color: 'rgba(240,237,230,0.35)',
+  color: 'rgba(201,168,76,0.6)',
 };
 
 export default function CountdownTimer() {

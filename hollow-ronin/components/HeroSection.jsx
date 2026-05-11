@@ -19,11 +19,11 @@ const rajdhani = Rajdhani({
 });
 
 const PETAL_COLORS = [
-  'rgba(255,182,193,0.70)',
-  'rgba(255,105,135,0.60)',
-  'rgba(220, 20, 60,0.50)',
-  'rgba(255,192,203,0.65)',
-  'rgba(199, 21,133,0.45)',
+  'rgba(139,0,0,0.65)',
+  'rgba(201,168,76,0.55)',
+  'rgba(139,0,0,0.50)',
+  'rgba(201,168,76,0.45)',
+  'rgba(100,0,0,0.60)',
 ];
 
 function makePetal(w, h, fromTop = false) {
@@ -146,18 +146,6 @@ export default function HeroSection() {
       {/* Cherry blossom particles */}
       <canvas ref={canvasRef} className={styles.canvas} />
 
-      {/* Nav */}
-      <nav className={styles.nav}>
-        <a href="/" className={styles.logo}>HR</a>
-        <ul className={styles.navLinks}>
-          {['Drops', 'Lookbook', 'About', 'Shop'].map(l => (
-            <li key={l}>
-              <a href={`/${l.toLowerCase()}`}>{l}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
       {/* Live drop badge */}
       <div className={styles.badge}>
         <span className={styles.badgeDot} />
@@ -166,11 +154,11 @@ export default function HeroSection() {
 
       {/* Hero content */}
       <div className={styles.content}>
-        <p className={styles.tagline}>— The Void Collection —</p>
+        <p className={styles.tagline}>— THE VOID COLLECTION —</p>
 
         <h1 className={styles.title}>
-          HOLLOW
-          <span className={styles.titleOutline}>RONIN</span>
+          <span className={styles.titleSolid}>NO MASTER.</span>
+          <span className={styles.titleOutline}>NO RULES.</span>
         </h1>
 
         <p className={styles.subtitle}>

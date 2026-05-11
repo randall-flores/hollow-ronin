@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
+import type { Product } from '@/lib/products'
 
 const TshirtViewer = dynamic(() => import('@/components/TshirtViewer'), {
   ssr: false,
@@ -12,8 +13,8 @@ const TshirtViewer = dynamic(() => import('@/components/TshirtViewer'), {
   ),
 })
 
-const SIZES   = ['XS', 'S', 'M', 'L', 'XL'] as const
-type Size     = typeof SIZES[number]
+const SIZES = ['XS', 'S', 'M', 'L', 'XL'] as const
+type Size   = typeof SIZES[number]
 
 const DETAILS: [string, string][] = [
   ['Material', '100% heavyweight cotton, 250gsm'],
@@ -47,7 +48,7 @@ function Rule() {
   )
 }
 
-export default function ProductPage() {
+export default function ProductPage({ product }: { product: Product }) {
   const [size,      setSize]      = useState<Size | null>(null)
   const [qty,       setQty]       = useState(1)
   const [cartState, setCartState] = useState<'idle' | 'added'>('idle')
@@ -56,7 +57,6 @@ export default function ProductPage() {
     if (!size) return
     setCartState('added')
     setTimeout(() => setCartState('idle'), 2200)
-    // TODO: wire up Shopify cart mutation here
   }
 
   return (
@@ -66,9 +66,9 @@ export default function ProductPage() {
       <div style={{ position: 'relative', width: '58%', height: 'calc(100vh - 68px)', flexShrink: 0 }}>
         <div style={{ position: 'absolute', top: 28, left: 28, zIndex: 10, pointerEvents: 'none' }}>
           <p style={{ margin: 0, fontSize: 9, letterSpacing: 6, color: 'rgba(255,255,255,0.13)', fontFamily: 'monospace' }}>HOLLOW RONIN</p>
-          <p style={{ margin: '5px 0 0', fontSize: 9, letterSpacing: 4, color: 'rgba(204,34,34,0.65)', fontFamily: 'monospace' }}>DROP 001</p>
+          <p style={{ margin: '5px 0 0', fontSize: 9, letterSpacing: 4, color: 'rgba(204,34,34,0.65)', fontFamily: 'monospace' }}>{product.label}</p>
         </div>
-        <TshirtViewer />
+        <TshirtViewer designUrl={product.design} />
         <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 1, background: 'linear-gradient(to bottom, transparent, rgba(204,34,34,0.18) 40%, rgba(204,34,34,0.18) 60%, transparent)' }} />
       </div>
 
@@ -76,10 +76,11 @@ export default function ProductPage() {
       <div style={{ flex: 1, height: 'calc(100vh - 68px)', overflowY: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '48px 52px', gap: 30 }}>
 
         <div>
-          <p style={{ margin: '0 0 14px', fontSize: 9, letterSpacing: 5, color: '#cc2222', fontFamily: 'monospace', textTransform: 'uppercase' }}>Drop 001  ·  Limited Edition</p>
-          <h1 style={{ margin: '0 0 18px', fontSize: 42, fontWeight: 700, lineHeight: 1.06, letterSpacing: -0.5 }}>Torii Ronin Tee</h1>
+          <p style={{ margin: '0 0 14px', fontSize: 9, letterSpacing: 5, color: '#cc2222', fontFamily: 'monospace', textTransform: 'uppercase' }}>{product.label}  ·  Limited Edition</p>
+          <h1 style={{ margin: '0 0 18px', fontSize: 42, fontWeight: 700, lineHeight: 1.06, letterSpacing: -0.5 }}>{product.name}</h1>
+          <p style={{ margin: '0 0 18px', fontSize: 13, fontStyle: 'italic', color: 'rgba(255,255,255,0.45)', lineHeight: 1.5, maxWidth: 420 }}>{product.story}</p>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-            <span style={{ fontSize: 24, fontFamily: 'monospace' }}>$38.00</span>
+            <span style={{ fontSize: 24, fontFamily: 'monospace' }}>${product.price}.00</span>
             <span style={{ fontSize: 10, letterSpacing: 3, color: 'rgba(255,255,255,0.28)', fontFamily: 'monospace' }}>USD</span>
           </div>
         </div>

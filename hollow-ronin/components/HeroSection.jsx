@@ -123,7 +123,7 @@ export default function HeroSection() {
           alt="Hollow Ronin — Cyber Samurai Editorial"
           fill
           priority
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'cover', objectPosition: 'center center' }}
         />
       </div>
 

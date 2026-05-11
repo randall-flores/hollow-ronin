@@ -25,30 +25,35 @@ export default function Navbar() {
         borderBottom: "1px solid rgba(68,71,72,0.5)",
       }} className="navbar">
 
-        {/* Left — logo mark only */}
-        <div style={{ display: "flex", alignItems: "center" }}>
+        {/* Left — spacer to balance right-side controls */}
+        <div style={{ width: "36px" }} />
+
+        {/* Center — unified brand lockup (mark + name) */}
+        <Link href="/" style={{
+          position: "absolute",
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+          textDecoration: "none",
+        }}>
           <img
             src="/images/hollow-ronin-logo.svg"
-            alt="Hollow Ronin"
-            width={36}
-            height={36}
-            style={{ objectFit: "contain" }}
+            alt=""
+            className="nav-brand-mark"
+            style={{ objectFit: "contain", filter: "drop-shadow(0 0 8px rgba(180, 20, 20, 0.5))" }}
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
           />
-        </div>
-
-        {/* Center — brand name, absolutely centered */}
-        <div style={{ position: "absolute", left: "50%", transform: "translateX(-50%)" }}>
-          <Link href="/" style={{
+          <span className="nav-brand-text" style={{
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: "28px",
-            letterSpacing: "0.06em",
+            letterSpacing: "0.14em",
             color: "#f0ede6",
-            textDecoration: "none",
+            whiteSpace: "nowrap",
           }}>
             HOLLOW RONIN
-          </Link>
-        </div>
+          </span>
+        </Link>
 
         {/* Right — links + icons + hamburger */}
         <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>

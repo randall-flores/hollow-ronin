@@ -111,16 +111,55 @@ body::before {
 
 /* ── Navbar — desktop vs mobile ────────────────── */
 .nav-hamburger { display: none; }
-.nav-brand-mark { width: 58px; height: 58px; }
-.nav-brand-wordmark { height: 36px; }
 
 @media (max-width: 767px) {
   .nav-desktop-links  { display: none !important; }
   .nav-hamburger      { display: flex !important; }
-  .navbar             { padding: 16px 24px !important; }
-  .nav-brand-mark     { width: 44px !important; height: 44px !important; }
-  .nav-brand-wordmark { height: 24px !important; }
+  .navbar             { padding: 0 24px !important; }
 }
+
+/* ── Page card hover ──────────────────────────── */
+.drop-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 40px;
+  transition: border-color 0.3s;
+  cursor: pointer;
+}
+.drop-card:hover { border-color: rgba(180,20,20,0.4); }
+
+.shop-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 32px;
+  transition: border-color 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+.shop-card:hover { border-color: rgba(180,20,20,0.4); }
+
+.product-skeleton {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  aspect-ratio: 3/4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.lookbook-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s;
+}
+.lookbook-box:hover { border-color: rgba(180,20,20,0.3); }
 
 /* ── Product section padding ───────────────────── */
 @media (max-width: 767px) {

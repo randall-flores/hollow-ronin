@@ -5,7 +5,7 @@ import HollowRoninLogo from './HollowRoninLogo'
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black px-6 py-4 flex items-center justify-between">
+    <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%)' }}>
 
       {/* Logo — both blend naturally, no white or black box */}
       <HollowRoninLogo />

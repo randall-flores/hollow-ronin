@@ -1,144 +1,70 @@
-# Hollow Ronin — 3D Shirt Viewer
+# Hollow Ronin — Fix Shirt Position + Listing Page
 
-## Context
+## Overview
+Two fixes needed:
+1. 3D shirt renders at the bottom of the canvas — fix by auto-centering the model using its bounding box at runtime
+2. Shop listing page shows "COMING SOON" dark cards — replace with real product cards that show designs and link to the product page
 
-This is **Hollow Ronin**, a drop-based streetwear brand. Stack: Next.js + Tailwind CSS.
-Brand colors: `#080808` background, `#cc2222` crimson accent, `#ffffff` text.
-Typography: Georgia/Times New Roman serif for display, monospace for UI labels.
-
-## Task
-
-Build a production-grade 3D shirt product viewer and product page using React Three Fiber.
-The GLB file `oversized_t-shirt.glb` is already in the project root.
-Follow every step below in order. Do not skip any step.
+Do both fixes, then deploy.
 
 ---
 
-## Step 1 — Install dependencies
+## Fix 1 — Auto-center the 3D shirt in ShirtViewer
 
-```bash
-npm install @react-three/fiber @react-three/drei three
-npm install --save-dev @types/three
-```
+Open the ShirtViewer component (likely `components/three/ShirtViewer.tsx` or similar path — find it).
 
----
-
-## Step 2 — Move the GLB file into place
-
-```bash
-mkdir -p public/models
-mv oversized_t-shirt.glb public/models/oversized_t-shirt.glb
-```
-
----
-
-## Step 3 — Create `src/components/three/ShirtViewer.tsx`
-
-Create the directory `src/components/three/` if it does not exist, then create this file exactly:
+Replace the `ShirtModel` function entirely with this version:
 
 ```tsx
-'use client'
-
-/**
- * HOLLOW RONIN — ShirtViewer.tsx
- *
- * GLB facts (from binary analysis — do not change these values):
- *   Meshes   : Object_2, Object_3, Object_4, Object_5  (4 parts, 1 shared material)
- *   Material : 'Material.001' — white, roughness=1, metalness=1  → must override
- *   Textures : 3 embedded PNGs (AO / normal / roughness)
- *   Axis     : Z-UP, body center at Z ≈ 1.27  → needs rotation + recentering
- */
-
-import { Suspense, useRef, useMemo, useEffect, useState } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import {
-  useGLTF,
-  OrbitControls,
-  Environment,
-  ContactShadows,
-  Float,
-} from '@react-three/drei'
-import * as THREE from 'three'
-
-// ─── Logo canvas texture ──────────────────────────────────────────────────────
-// Generates the HOLLOW RONIN wordmark as a transparent canvas texture.
-// To use a real PNG instead: import { useTexture } from '@react-three/drei'
-// then replace this hook with: const logo = useTexture('/textures/logo.png')
-
-function useLogoTexture(): THREE.Texture {
-  return useMemo(() => {
-    const canvas  = document.createElement('canvas')
-    canvas.width  = 1024
-    canvas.height = 512
-    const ctx     = canvas.getContext('2d')!
-
-    ctx.clearRect(0, 0, 1024, 512)
-
-    // Divider lines
-    ctx.strokeStyle = '#cc2222'
-    ctx.lineWidth   = 3
-    ctx.beginPath(); ctx.moveTo(90,  138); ctx.lineTo(934, 138); ctx.stroke()
-    ctx.beginPath(); ctx.moveTo(90,  374); ctx.lineTo(934, 374); ctx.stroke()
-
-    // HOLLOW — white
-    ctx.fillStyle    = '#ffffff'
-    ctx.font         = 'bold 152px Georgia, serif'
-    ctx.textAlign    = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText('HOLLOW', 512, 212)
-
-    // RONIN — crimson
-    ctx.fillStyle = '#cc2222'
-    ctx.fillText('RONIN', 512, 336)
-
-    // Katana cross mark
-    ctx.strokeStyle = 'rgba(200,200,200,0.55)'
-    ctx.lineWidth   = 4
-    ctx.lineCap     = 'round'
-    ctx.beginPath(); ctx.moveTo(512, 392); ctx.lineTo(512, 444); ctx.stroke()
-    ctx.beginPath(); ctx.moveTo(484, 418); ctx.lineTo(540, 418); ctx.stroke()
-
-    const tex       = new THREE.CanvasTexture(canvas)
-    tex.needsUpdate = true
-    return tex
-  }, [])
-}
-
-// ─── Shirt mesh ───────────────────────────────────────────────────────────────
-
 function ShirtModel({ logo }: { logo: THREE.Texture }) {
   const { scene } = useGLTF('/models/oversized_t-shirt.glb') as any
+  const groupRef = useRef<THREE.Group>(null!)
 
   useEffect(() => {
+    // Step 1 — apply dark cotton material to every mesh
     scene.traverse((obj: THREE.Object3D) => {
       if (!(obj instanceof THREE.Mesh)) return
       obj.material = new THREE.MeshStandardMaterial({
         color:           new THREE.Color('#161616'),
         roughness:       0.88,
         metalness:       0.0,
-        envMapIntensity: 0.35,
+        envMapIntensity: 0.0,
       })
       obj.castShadow    = true
       obj.receiveShadow = true
     })
+
+    // Step 2 — compute bounding box of the raw scene
+    const box    = new THREE.Box3().setFromObject(scene)
+    const center = box.getCenter(new THREE.Vector3())
+    const size   = box.getSize(new THREE.Vector3())
+
+    // Step 3 — shift the scene so its center sits at local origin
+    scene.position.set(-center.x, -center.y, -center.z)
+
+    // Log for debugging — remove after confirming shirt is centered
+    console.log('[ShirtViewer] bbox center:', center)
+    console.log('[ShirtViewer] bbox size:', size)
   }, [scene])
 
   return (
-    <group
-      rotation={[-Math.PI / 2, 0, 0]}
-      position={[0, -1.27, 0]}
-    >
-      <primitive object={scene} dispose={null} />
+    <group ref={groupRef}>
+      {/*
+       * The GLB is Z-UP. Rotating -90° around X converts it to Y-UP (standard Three.js).
+       * After auto-centering above, the shirt center is at local (0,0,0).
+       * No manual position offset needed — bounding box handles it.
+       */}
+      <group rotation={[-Math.PI / 2, 0, 0]}>
+        <primitive object={scene} dispose={null} />
+      </group>
 
       {/*
-       * Logo plane — sits in front of the chest.
-       * Adjust if needed after visual check:
-       *   position Y  → moves up/down on the shirt
-       *   position Z  → moves closer/further from surface (increase if clipping)
-       *   planeGeometry args → changes logo size [width, height]
+       * Logo plane — positioned in front of the shirt chest.
+       * After auto-centering + rotation, front face of shirt is at approximately Z=0.16.
+       * Adjust Y to move up/down, Z to move closer/further from surface.
        */}
-      <mesh position={[0, 0.38, 0.18]}>
-        <planeGeometry args={[0.52, 0.26]} />
+      <mesh position={[0, 0.05, 0.18]}>
+        <planeGeometry args={[0.48, 0.24]} />
         <meshBasicMaterial
           map={logo}
           transparent
@@ -150,320 +76,282 @@ function ShirtModel({ logo }: { logo: THREE.Texture }) {
     </group>
   )
 }
-
-// ─── Lighting ─────────────────────────────────────────────────────────────────
-
-function Lights() {
-  const keyRef = useRef<THREE.PointLight>(null!)
-
-  useFrame(({ clock }) => {
-    if (keyRef.current) {
-      keyRef.current.intensity = 5.5 + Math.sin(clock.elapsedTime * 0.75) * 0.7
-    }
-  })
-
-  return (
-    <>
-      <ambientLight intensity={0.12} />
-      <pointLight ref={keyRef}  position={[2.5,  4,   3.5]} color="#ff3333" intensity={5.5} distance={16} castShadow />
-      <pointLight               position={[-3,   1,   2.5]} color="#ddeeff" intensity={1.1} distance={10} />
-      <pointLight               position={[0,    0,  -4]}   color="#550000" intensity={4}   distance={10} />
-      <spotLight                position={[0,    7,   2]}   color="#ffffff" intensity={1.8} angle={0.32} penumbra={0.88} distance={12} castShadow shadow-mapSize={[1024, 1024]} />
-    </>
-  )
-}
-
-// ─── Loader ───────────────────────────────────────────────────────────────────
-
-function Loader() {
-  return (
-    <div style={{
-      position: 'absolute', inset: 0, background: '#080808',
-      display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center', gap: 16,
-    }}>
-      <div style={{ position: 'relative', width: 36, height: 36 }}>
-        <span style={{ position: 'absolute', inset: 0,  borderRadius: '50%', border: '1px solid rgba(204,34,34,0.3)',  animation: 'hr-ping 1.4s ease-in-out infinite' }} />
-        <span style={{ position: 'absolute', inset: 6,  borderRadius: '50%', border: '1px solid rgba(204,34,34,0.55)' }} />
-        <span style={{ position: 'absolute', inset: 11, borderRadius: '50%', background: '#cc2222' }} />
-      </div>
-      <p style={{ margin: 0, fontSize: 9, letterSpacing: 6, color: 'rgba(255,255,255,0.18)', fontFamily: 'monospace', textTransform: 'uppercase' }}>
-        Loading
-      </p>
-      <style>{`@keyframes hr-ping { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:0;transform:scale(1.8)} }`}</style>
-    </div>
-  )
-}
-
-// ─── Export ───────────────────────────────────────────────────────────────────
-
-export default function ShirtViewer() {
-  const logo                  = useLogoTexture()
-  const [hinting, setHinting] = useState(true)
-
-  return (
-    <div
-      onPointerDown={() => setHinting(false)}
-      style={{ position: 'relative', width: '100%', height: '100%', background: '#080808', overflow: 'hidden' }}
-    >
-      <Suspense fallback={<Loader />}>
-        <Canvas
-          camera={{ position: [0, 0.5, 3.2], fov: 38 }}
-          gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.15 }}
-          shadows
-        >
-          <Lights />
-          <Environment preset="night" />
-          <Float speed={1.3} rotationIntensity={0} floatIntensity={0.28}>
-            <ShirtModel logo={logo} />
-          </Float>
-          <ContactShadows position={[0, -1.35, 0]} opacity={0.55} scale={5} blur={3.5} color="#550000" resolution={512} />
-          <OrbitControls
-            enableZoom={false}
-            enablePan={false}
-            autoRotate
-            autoRotateSpeed={0.55}
-            minPolarAngle={Math.PI / 3.2}
-            maxPolarAngle={Math.PI / 1.75}
-            enableDamping
-            dampingFactor={0.06}
-          />
-        </Canvas>
-      </Suspense>
-
-      <div style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        background: 'radial-gradient(ellipse at center, transparent 40%, #080808 100%)',
-      }} />
-
-      <p style={{
-        position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)',
-        margin: 0, fontSize: 9, letterSpacing: 5, fontFamily: 'monospace',
-        textTransform: 'uppercase', color: 'rgba(255,255,255,0.18)', pointerEvents: 'none',
-        transition: 'opacity 0.7s ease', opacity: hinting ? 1 : 0,
-      }}>
-        ← drag to rotate →
-      </p>
-    </div>
-  )
-}
-
-useGLTF.preload('/models/oversized_t-shirt.glb')
 ```
 
----
-
-## Step 4 — Create `src/components/three/ProductPage.tsx`
+Also update the Camera and Canvas settings — replace the Canvas props:
 
 ```tsx
-'use client'
-
-import { useState } from 'react'
-import dynamic from 'next/dynamic'
-
-const ShirtViewer = dynamic(() => import('./ShirtViewer'), {
-  ssr: false,
-  loading: () => (
-    <div style={{ width: '100%', height: '100%', background: '#080808', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <p style={{ margin: 0, fontSize: 9, letterSpacing: 6, fontFamily: 'monospace', color: 'rgba(255,255,255,0.15)', textTransform: 'uppercase' }}>Loading</p>
-    </div>
-  ),
-})
-
-const SIZES   = ['XS', 'S', 'M', 'L', 'XL'] as const
-type Size     = typeof SIZES[number]
-
-const DETAILS: [string, string][] = [
-  ['Material', '100% heavyweight cotton, 250gsm'],
-  ['Print',    'DTG front + back, wash-safe ink'],
-  ['Fit',      'Oversized — size down if unsure'],
-  ['Ships',    '5–8 business days, worldwide'],
-  ['Made by',  'Print-on-demand via Printify'],
-]
-
-function SizeBtn({ label, selected, onClick }: { label: Size; selected: boolean; onClick: () => void }) {
-  return (
-    <button onClick={onClick} style={{
-      width: 44, height: 44, fontSize: 11, fontFamily: 'monospace', letterSpacing: 1,
-      border: `1px solid ${selected ? '#cc2222' : 'rgba(255,255,255,0.12)'}`,
-      background: selected ? 'rgba(204,34,34,0.12)' : 'transparent',
-      color: selected ? '#ffffff' : 'rgba(255,255,255,0.42)',
-      cursor: 'pointer', transition: 'all 0.18s ease', outline: 'none',
-    }}>
-      {label}
-    </button>
-  )
-}
-
-function Rule() {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-      <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
-      <div style={{ width: 4, height: 4, background: 'rgba(204,34,34,0.38)', transform: 'rotate(45deg)' }} />
-      <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
-    </div>
-  )
-}
-
-export default function ProductPage() {
-  const [size,      setSize]      = useState<Size | null>(null)
-  const [qty,       setQty]       = useState(1)
-  const [cartState, setCartState] = useState<'idle' | 'added'>('idle')
-
-  const handleAdd = () => {
-    if (!size) return
-    setCartState('added')
-    setTimeout(() => setCartState('idle'), 2200)
-    // TODO: wire up Shopify cart mutation here
-  }
-
-  return (
-    <main style={{ minHeight: '100vh', background: '#080808', color: '#ffffff', display: 'flex', fontFamily: 'Georgia, Times New Roman, serif' }}>
-
-      {/* 3D Viewer — left 58% */}
-      <div style={{ position: 'relative', width: '58%', height: '100vh', flexShrink: 0 }}>
-        <div style={{ position: 'absolute', top: 28, left: 28, zIndex: 10, pointerEvents: 'none' }}>
-          <p style={{ margin: 0, fontSize: 9, letterSpacing: 6, color: 'rgba(255,255,255,0.13)', fontFamily: 'monospace' }}>HOLLOW RONIN</p>
-          <p style={{ margin: '5px 0 0', fontSize: 9, letterSpacing: 4, color: 'rgba(204,34,34,0.65)', fontFamily: 'monospace' }}>DROP 001</p>
-        </div>
-        <ShirtViewer />
-        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 1, background: 'linear-gradient(to bottom, transparent, rgba(204,34,34,0.18) 40%, rgba(204,34,34,0.18) 60%, transparent)' }} />
-      </div>
-
-      {/* Product info — right side */}
-      <div style={{ flex: 1, height: '100vh', overflowY: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '48px 52px', gap: 30 }}>
-
-        <div>
-          <p style={{ margin: '0 0 14px', fontSize: 9, letterSpacing: 5, color: '#cc2222', fontFamily: 'monospace', textTransform: 'uppercase' }}>Drop 001  ·  Limited Edition</p>
-          <h1 style={{ margin: '0 0 18px', fontSize: 42, fontWeight: 700, lineHeight: 1.06, letterSpacing: -0.5 }}>Torii Ronin Tee</h1>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-            <span style={{ fontSize: 24, fontFamily: 'monospace' }}>$38.00</span>
-            <span style={{ fontSize: 10, letterSpacing: 3, color: 'rgba(255,255,255,0.28)', fontFamily: 'monospace' }}>USD</span>
-          </div>
-        </div>
-
-        <Rule />
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <p style={{ margin: 0, fontSize: 9, letterSpacing: 4, color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace', textTransform: 'uppercase' }}>Size</p>
-            {!size && <p style={{ margin: 0, fontSize: 9, letterSpacing: 3, color: 'rgba(204,34,34,0.5)', fontFamily: 'monospace' }}>Required</p>}
-          </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            {SIZES.map((s) => <SizeBtn key={s} label={s} selected={size === s} onClick={() => setSize(s)} />)}
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <p style={{ margin: 0, fontSize: 9, letterSpacing: 4, color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace', textTransform: 'uppercase' }}>Quantity</p>
-          <div style={{ display: 'inline-flex', border: '1px solid rgba(255,255,255,0.1)' }}>
-            {(['−', String(qty), '+'] as const).map((label, i) => (
-              <button key={i}
-                onClick={i === 0 ? () => setQty(q => Math.max(1, q - 1)) : i === 2 ? () => setQty(q => q + 1) : undefined}
-                disabled={i === 1}
-                style={{
-                  width: 44, height: 44, background: 'transparent', border: 'none',
-                  borderLeft: i > 0 ? '1px solid rgba(255,255,255,0.1)' : 'none',
-                  color: i === 1 ? '#ffffff' : 'rgba(255,255,255,0.38)',
-                  fontFamily: 'monospace', fontSize: i === 1 ? 14 : 18,
-                  cursor: i === 1 ? 'default' : 'pointer', outline: 'none',
-                }}>
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <button onClick={handleAdd} disabled={!size} style={{
-          height: 56, width: '100%', outline: 'none', fontFamily: 'monospace',
-          fontSize: 11, letterSpacing: 5, textTransform: 'uppercase',
-          cursor: size ? 'pointer' : 'not-allowed', transition: 'all 0.22s ease',
-          border: `1px solid ${!size ? 'rgba(255,255,255,0.08)' : cartState === 'added' ? 'rgba(204,34,34,0.5)' : '#cc2222'}`,
-          background: !size ? 'transparent' : cartState === 'added' ? 'rgba(204,34,34,0.1)' : '#cc2222',
-          color: !size ? 'rgba(255,255,255,0.16)' : cartState === 'added' ? '#cc2222' : '#ffffff',
-        }}>
-          {cartState === 'added' ? '✓  Added to Cart' : !size ? 'Select a Size' : 'Add to Cart'}
-        </button>
-
-        <Rule />
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
-          {DETAILS.map(([label, value]) => (
-            <div key={label} style={{ display: 'flex', gap: 18, alignItems: 'flex-start' }}>
-              <p style={{ margin: 0, fontSize: 9, letterSpacing: 3, color: 'rgba(255,255,255,0.26)', fontFamily: 'monospace', textTransform: 'uppercase', width: 56, flexShrink: 0, paddingTop: 2 }}>{label}</p>
-              <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65 }}>{value}</p>
-            </div>
-          ))}
-        </div>
-
-        <p style={{ margin: '8px 0 0', fontSize: 10, letterSpacing: 3, fontFamily: 'monospace', color: 'rgba(255,255,255,0.05)' }}>
-          © HOLLOW RONIN  ·  No master. No rules.
-        </p>
-      </div>
-    </main>
-  )
-}
+<Canvas
+  camera={{ position: [0, 0, 2.8], fov: 42 }}
+  gl={{
+    antialias:           true,
+    toneMapping:         THREE.ACESFilmicToneMapping,
+    toneMappingExposure: 1.15,
+  }}
+  shadows={{ type: THREE.PCFShadowMap }}
+>
 ```
 
----
-
-## Step 5 — Create the route
-
-Create `src/app/products/torii-ronin-tee/page.tsx`:
+And update ContactShadows to sit just below the shirt:
 
 ```tsx
-export { default } from '@/components/three/ProductPage'
+<ContactShadows
+  position={[0, -0.75, 0]}
+  opacity={0.5}
+  scale={4}
+  blur={3}
+  color="#550000"
+  resolution={512}
+/>
 ```
+
+Keep everything else in ShirtViewer exactly as it currently is (Lights, Loader, OrbitControls, Float, vignette overlay, hint text).
 
 ---
 
-## Step 6 — Patch `next.config.js`
+## Fix 2 — Replace listing page "COMING SOON" cards with real product cards
 
-Open `next.config.js` (or `next.config.ts`). Add the webpack GLB rule.
-If the file already has a `webpack` function, merge the rule into it — do not replace the file.
+Find the shop/shirts listing page component. It likely lives at one of:
+- `app/shop/page.tsx`
+- `app/shirts/page.tsx`  
+- `components/ProductShellPage.jsx`
 
-```js
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.(glb|gltf)$/,
-      type: 'asset/resource',
-    })
-    return config
+Open it and find where the four "COMING SOON" placeholder cards are rendered.
+
+Replace the entire cards section with this product grid. The four products all link to `/products/torii-ronin-tee` for now (we will create separate product pages per shirt later):
+
+```tsx
+const PRODUCTS = [
+  {
+    id:      1,
+    name:    'Torii Ronin Tee',
+    tag:     'The Ronin',
+    price:   '$38',
+    color:   'Black',
+    href:    '/products/torii-ronin-tee',
+    // front design — dark shirt, samurai helmet logo
+    accent:  '#cc2222',
+    bg:      '#0f0f0f',
+    label:   'DROP 001',
   },
-}
-
-module.exports = nextConfig
+  {
+    id:      2,
+    name:    'Dragon Tee',
+    tag:     'The Dragon',
+    price:   '$38',
+    color:   'Black',
+    href:    '/products/torii-ronin-tee',
+    accent:  '#cc2222',
+    bg:      '#0a0a0f',
+    label:   'DROP 001',
+  },
+  {
+    id:      3,
+    name:    'Kitsune Tee',
+    tag:     'The Fox Spirit',
+    price:   '$38',
+    color:   'Black',
+    href:    '/products/torii-ronin-tee',
+    accent:  '#cc2222',
+    bg:      '#0f0a0a',
+    label:   'DROP 001',
+  },
+  {
+    id:      4,
+    name:    'Tengu Tee',
+    tag:     'The Crow Warrior',
+    price:   '$38',
+    color:   'White',
+    href:    '/products/torii-ronin-tee',
+    accent:  '#cc2222',
+    bg:      '#111111',
+    label:   'DROP 001',
+  },
+]
 ```
+
+Replace the card JSX with this (adapt to whatever framework/syntax the file uses — React, JSX, TSX):
+
+```tsx
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+  gap: '1px',
+  background: 'rgba(255,255,255,0.06)',
+  border: '1px solid rgba(255,255,255,0.06)',
+}}>
+  {PRODUCTS.map((product) => (
+    <a
+      key={product.id}
+      href={product.href}
+      style={{
+        display:         'flex',
+        flexDirection:   'column',
+        background:      product.bg,
+        textDecoration:  'none',
+        color:           '#ffffff',
+        cursor:          'pointer',
+        transition:      'background 0.2s ease',
+        position:        'relative',
+        overflow:        'hidden',
+      }}
+    >
+      {/* Image / preview area */}
+      <div style={{
+        height:          340,
+        display:         'flex',
+        alignItems:      'center',
+        justifyContent:  'center',
+        background:      `radial-gradient(ellipse at center, ${product.accent}18 0%, transparent 70%)`,
+        borderBottom:    '1px solid rgba(255,255,255,0.05)',
+        position:        'relative',
+      }}>
+        {/* Drop label */}
+        <span style={{
+          position:    'absolute',
+          top:         16,
+          left:        16,
+          fontSize:    9,
+          letterSpacing: 4,
+          fontFamily:  'monospace',
+          color:       product.accent,
+          opacity:     0.8,
+        }}>
+          {product.label}
+        </span>
+
+        {/* Shirt color badge */}
+        <span style={{
+          position:      'absolute',
+          top:           16,
+          right:         16,
+          fontSize:      9,
+          letterSpacing: 3,
+          fontFamily:    'monospace',
+          color:         'rgba(255,255,255,0.3)',
+        }}>
+          {product.color}
+        </span>
+
+        {/* Placeholder art — large stylized letter */}
+        <div style={{
+          fontSize:    120,
+          fontFamily:  'Georgia, serif',
+          fontWeight:  700,
+          color:       'rgba(255,255,255,0.04)',
+          userSelect:  'none',
+          lineHeight:  1,
+        }}>
+          侍
+        </div>
+
+        {/* Center tag */}
+        <div style={{
+          position:    'absolute',
+          display:     'flex',
+          flexDirection: 'column',
+          alignItems:  'center',
+          gap:         6,
+        }}>
+          <div style={{
+            width:       32,
+            height:      1,
+            background:  product.accent,
+            opacity:     0.6,
+          }} />
+          <span style={{
+            fontSize:    10,
+            letterSpacing: 4,
+            fontFamily:  'monospace',
+            color:       'rgba(255,255,255,0.25)',
+            textTransform: 'uppercase',
+          }}>
+            {product.tag}
+          </span>
+          <div style={{
+            width:       32,
+            height:      1,
+            background:  product.accent,
+            opacity:     0.6,
+          }} />
+        </div>
+      </div>
+
+      {/* Card footer */}
+      <div style={{
+        padding:         '20px 24px',
+        display:         'flex',
+        alignItems:      'center',
+        justifyContent:  'space-between',
+      }}>
+        <div>
+          <p style={{
+            margin:        0,
+            fontSize:      15,
+            fontWeight:    600,
+            fontFamily:    'Georgia, serif',
+            color:         '#ffffff',
+            marginBottom:  4,
+          }}>
+            {product.name}
+          </p>
+          <p style={{
+            margin:        0,
+            fontSize:      11,
+            fontFamily:    'monospace',
+            color:         'rgba(255,255,255,0.35)',
+            letterSpacing: 2,
+          }}>
+            {product.price}
+          </p>
+        </div>
+        <div style={{
+          fontSize:      9,
+          letterSpacing: 4,
+          fontFamily:    'monospace',
+          color:         product.accent,
+          textTransform: 'uppercase',
+          border:        `1px solid ${product.accent}`,
+          padding:       '6px 12px',
+        }}>
+          View
+        </div>
+      </div>
+    </a>
+  ))}
+</div>
+```
+
+If the file uses Tailwind classes instead of inline styles, convert the above to the equivalent Tailwind classes. If it uses a Link component from Next.js, replace `<a href>` with `<Link href>`.
 
 ---
 
-## Step 7 — Run dev and verify
+## Step 3 — Build and deploy
 
 ```bash
-npm run dev
+npm run build 2>&1 | tail -40
 ```
 
-Open `http://localhost:3000/products/torii-ronin-tee`
+Fix any TypeScript or build errors. Then deploy:
 
-**Expected:**
-- Dark `#080808` scene loads, crimson pulse loader visible while GLB streams
-- Shirt appears dark charcoal — matte, not white or shiny
-- Shirt auto-rotates slowly with a gentle float
-- Crimson key light pulses subtly on the fabric
-- Crimson shadow beneath the shirt
-- `HOLLOW RONIN` logo visible on the front chest
-- Mouse drag rotates 360° horizontal, clamped vertical
-- Hint text disappears on first interaction
+```bash
+npx vercel --prod
+```
 
 ---
 
-## Important rules for Claude Code
+## What to verify after deploy
 
-- Do NOT use `any` types except the single `as any` cast on `useGLTF`
-- Do NOT convert inline styles to Tailwind — values are pixel-precise from the design spec
-- Do NOT increase `rotationIntensity` on `Float` — it is `0` intentionally to keep the logo plane aligned
-- Do NOT add an animation mixer — this GLB has no animations
-- If TypeScript throws on drei imports, add `/// <reference types="three" />` at the top of `ShirtViewer.tsx`
-- If `@react-three/fiber` causes SSR errors, confirm `ssr: false` is set in the dynamic import in `ProductPage.tsx`
+1. Go to `/products/torii-ronin-tee` — shirt should be centered in the left panel, not at the bottom
+2. Open the browser console — confirm the bbox center log shows values near (0,0,0) for X and Y
+3. Go to `/shop` or `/shirts` (wherever the listing page lives) — four product cards should be visible with names, prices, and VIEW buttons
+4. Click any card — it should navigate to `/products/torii-ronin-tee`
+
+---
+
+## Rules
+
+- Do not touch any files not listed in this document
+- Do not remove OrbitControls, Float, Lights, or the vignette overlay from ShirtViewer
+- Do not change the product detail page layout
+- If the listing page uses a different component structure than expected, adapt the card JSX to match — do not rewrite the whole page

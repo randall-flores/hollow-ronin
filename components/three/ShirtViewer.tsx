@@ -60,30 +60,53 @@ function useLogoTexture(): THREE.Texture {
 
 function ShirtModel({ logo }: { logo: THREE.Texture }) {
   const { scene } = useGLTF('/models/oversized_t-shirt.glb') as any
+  const groupRef = useRef<THREE.Group>(null!)
 
   useEffect(() => {
+    // Step 1 — apply dark cotton material to every mesh
     scene.traverse((obj: THREE.Object3D) => {
       if (!(obj instanceof THREE.Mesh)) return
       obj.material = new THREE.MeshStandardMaterial({
         color:           new THREE.Color('#161616'),
         roughness:       0.88,
         metalness:       0.0,
-        envMapIntensity: 0,
+        envMapIntensity: 0.0,
       })
       obj.castShadow    = true
       obj.receiveShadow = true
     })
+
+    // Step 2 — compute bounding box of the raw scene
+    const box    = new THREE.Box3().setFromObject(scene)
+    const center = box.getCenter(new THREE.Vector3())
+    const size   = box.getSize(new THREE.Vector3())
+
+    // Step 3 — shift the scene so its center sits at local origin
+    scene.position.set(-center.x, -center.y, -center.z)
+
+    // Log for debugging — remove after confirming shirt is centered
+    console.log('[ShirtViewer] bbox center:', center)
+    console.log('[ShirtViewer] bbox size:', size)
   }, [scene])
 
   return (
-    <group
-      rotation={[-Math.PI / 2, 0, 0]}
-      position={[0, -0.85, 0]}
-    >
-      <primitive object={scene} dispose={null} />
+    <group ref={groupRef}>
+      {/*
+       * The GLB is Z-UP. Rotating -90° around X converts it to Y-UP (standard Three.js).
+       * After auto-centering above, the shirt center is at local (0,0,0).
+       * No manual position offset needed — bounding box handles it.
+       */}
+      <group rotation={[-Math.PI / 2, 0, 0]}>
+        <primitive object={scene} dispose={null} />
+      </group>
 
-      <mesh position={[0, 0.38, 0.18]}>
-        <planeGeometry args={[0.52, 0.26]} />
+      {/*
+       * Logo plane — positioned in front of the shirt chest.
+       * After auto-centering + rotation, front face of shirt is at approximately Z=0.16.
+       * Adjust Y to move up/down, Z to move closer/further from surface.
+       */}
+      <mesh position={[0, 0.05, 0.18]}>
+        <planeGeometry args={[0.48, 0.24]} />
         <meshBasicMaterial
           map={logo}
           transparent
@@ -153,7 +176,7 @@ export default function ShirtViewer() {
     >
       <Suspense fallback={<Loader />}>
         <Canvas
-          camera={{ position: [0, 0.2, 2.8], fov: 38 }}
+          camera={{ position: [0, 0, 2.8], fov: 42 }}
           gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.15 }}
           shadows={{ type: THREE.PCFShadowMap }}
         >
@@ -161,7 +184,7 @@ export default function ShirtViewer() {
           <Float speed={1.3} rotationIntensity={0} floatIntensity={0.28}>
             <ShirtModel logo={logo} />
           </Float>
-          <ContactShadows position={[0, -0.95, 0]} opacity={0.55} scale={5} blur={3.5} color="#550000" resolution={512} />
+          <ContactShadows position={[0, -0.75, 0]} opacity={0.5} scale={4} blur={3} color="#550000" resolution={512} />
           <OrbitControls
             enableZoom={false}
             enablePan={false}

@@ -1,42 +1,45 @@
-// components/HollowRoninLogo.jsx
-// Drop this in your /components folder
-// Works with ANY dark background — no video editing or background removal needed
-
-export default function HollowRoninLogo({ showMask = true, showWordmark = true }) {
+export default function HollowRoninLogo() {
   return (
-    <div className="flex items-center gap-3">
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
 
-      {/* ── MASK / ICON LOGO ─────────────────────────────────────────────
-          Has a black square around it? mix-blend-mode: screen fixes it.
-          screen = makes black pixels invisible, keeps bright/colored ones.
-          Replace src with your actual mask logo path.
-      ─────────────────────────────────────────────────────────────────── */}
-      {showMask && (
+      {/* Icon with dark container */}
+      <div style={{
+        background: 'rgba(0,0,0,0.75)',
+        borderRadius: '8px',
+        padding: '4px',
+        backdropFilter: 'blur(4px)',
+        border: '1px solid rgba(204,0,0,0.3)',
+        display: 'flex',
+        alignItems: 'center',
+      }}>
         <img
           src="/images/logo-mask.png"
           alt="Hollow Ronin"
-          className="h-8 w-auto"
-          style={{ mixBlendMode: 'screen' }}
+          style={{ height: '36px', width: 'auto', display: 'block' }}
         />
-      )}
+      </div>
 
-      {/* ── WORDMARK VIDEO ───────────────────────────────────────────────
-          Has a white background? mix-blend-mode: multiply fixes it.
-          multiply = makes white pixels invisible, keeps dark/colored ones.
-      ─────────────────────────────────────────────────────────────────── */}
-      {showWordmark && (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="h-10 w-auto"
-          style={{ mixBlendMode: 'multiply' }}
-        >
-          <source src="/videos/logo-wordmark.webm" type="video/webm" />
-          <source src="/videos/logo-wordmark.mp4"  type="video/mp4" />
-        </video>
-      )}
+      {/* Premium text wordmark */}
+      <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+        <span style={{
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: '26px',
+          color: '#f5f0e8',
+          letterSpacing: '0.18em',
+          textShadow: '0 0 30px rgba(204,0,0,0.4), 0 2px 4px rgba(0,0,0,0.8)',
+        }}>
+          HOLLOW
+        </span>
+        <span style={{
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: '26px',
+          color: '#cc0000',
+          letterSpacing: '0.18em',
+          textShadow: '0 0 20px rgba(204,0,0,0.6), 0 0 40px rgba(204,0,0,0.2)',
+        }}>
+          RONIN
+        </span>
+      </div>
 
     </div>
   )

@@ -5,7 +5,7 @@ export default function Ticker() {
       <div className="animate-ticker" style={{ display: "flex", whiteSpace: "nowrap", width: "max-content" }}>
         {words.map((w, i) => (
           <span key={i} style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", color: "rgba(240,237,230,0.9)", margin: "0 32px", textTransform: "uppercase" }}>
-            {w} //
+            {w} <span style={{ color: "#C9A84C" }}>//</span>
           </span>
         ))}
       </div>

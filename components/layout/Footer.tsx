@@ -35,7 +35,7 @@ export default function Footer() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "40px", marginBottom: "80px" }}>
         {Object.entries(LINKS).map(([col, links]) => (
           <div key={col}>
-            <h4 style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#c0001e", marginBottom: "20px" }}>{col}</h4>
+            <h4 style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "20px" }}>{col}</h4>
             <nav style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               {links.map(l => (
                 <Link key={l} href="#" style={linkStyle}

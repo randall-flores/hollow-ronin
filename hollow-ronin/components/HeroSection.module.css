@@ -15,6 +15,7 @@
   align-items: center;
   justify-content: center;
   padding-top: 68px;
+  margin-top: -68px;
 }
 
 /* ── Video background (desktop) ────────────────── */

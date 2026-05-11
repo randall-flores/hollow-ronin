@@ -191,11 +191,11 @@ export default function HeroSection() {
 
       {/* Watermark */}
       <Image
-        src="/images/hollow-ronin-logo.svg"
+        src="/images/logo-mask.png"
         alt=""
         width={90}
         height={90}
-        style={{ position: "absolute", bottom: "24px", right: "24px", opacity: 0.1, pointerEvents: "none" }}
+        style={{ position: "absolute", bottom: "24px", right: "24px", opacity: 0.08, pointerEvents: "none", mixBlendMode: "screen" }}
       />
 
       {/* Scroll indicator */}

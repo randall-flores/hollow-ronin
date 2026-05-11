@@ -13,9 +13,9 @@ export default function HollowRoninLogo({ showMask = true, showWordmark = true }
       ─────────────────────────────────────────────────────────────────── */}
       {showMask && (
         <img
-          src="/images/logo-mask.png"   // ← change to your actual file name
+          src="/images/logo-mask.png"
           alt="Hollow Ronin"
-          className="h-10 w-auto"
+          className="h-8 w-auto"
           style={{ mixBlendMode: 'screen' }}
         />
       )}

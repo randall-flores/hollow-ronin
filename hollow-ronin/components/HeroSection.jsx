@@ -119,7 +119,7 @@ export default function HeroSection() {
       {/* Static fallback — mobile only */}
       <div className={styles.mobileFallback}>
         <Image
-          src="/images/hero.jpg"
+          src="/images/hero.png"
           alt="Hollow Ronin — Cyber Samurai Editorial"
           fill
           priority

@@ -1,127 +1,142 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Bebas_Neue, Cormorant_Garamond } from 'next/font/google';
-import styles from './HeroSection.module.css';
-
-const bebas = Bebas_Neue({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-bebas-hero',
-});
-
-const cormorant = Cormorant_Garamond({
-  weight: ['400', '500'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  variable: '--font-cormorant-hero',
-});
-
-const ease = [0.16, 1, 0.3, 1];
-
 export default function HeroSection() {
   return (
-    <section className={`${styles.hero} ${bebas.variable} ${cormorant.variable}`}>
+    <section className="relative w-full h-screen overflow-hidden" style={{ marginTop: '-68px' }}>
 
-      {/* ── VIDEO ─────────────────────────────────── */}
-      <motion.video
-        className={styles.video}
+      {/* VIDEO BACKGROUND */}
+      <video
         autoPlay
         muted
         loop
         playsInline
-        poster="/designs/Cyber-Skeleton-Samurai.png"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-        style={{ objectFit: 'cover', objectPosition: 'center top' }}
+        className="absolute inset-0 w-full h-full object-cover object-center"
       >
         <source src="/videos/hero-loop.mp4" type="video/mp4" />
-      </motion.video>
+      </video>
 
-      {/* ── OVERLAYS ──────────────────────────────── */}
-      {/* 1 — vignette */}
-      <div className={styles.vignette} />
-      {/* 2 — scanlines */}
-      <div className={styles.scanlines} />
-      {/* 3 — bottom bleed to black */}
-      <div className={styles.bottomFade} />
-      {/* 4 — grain */}
-      <svg className={styles.grain} xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <filter id="hr-grain-v2">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#hr-grain-v2)" />
-      </svg>
+      {/* DARK VIGNETTE OVERLAY */}
+      <div
+        className="absolute inset-0 z-10"
+        style={{
+          background: 'radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%)'
+        }}
+      />
 
-      {/* ── CONTENT ───────────────────────────────── */}
-      <div className={styles.content}>
+      {/* BOTTOM FADE TO BLACK */}
+      <div
+        className="absolute bottom-0 left-0 right-0 z-10"
+        style={{
+          height: '35%',
+          background: 'linear-gradient(to bottom, transparent, #08080a)'
+        }}
+      />
 
-        {/* Label */}
-        <motion.div
-          className={styles.label}
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease, delay: 0.6 }}
-        >
-          <span className={styles.labelRule} />
-          <span className={styles.labelText}>COLLECTION 001</span>
-        </motion.div>
+      {/* SCANLINE TEXTURE */}
+      <div
+        className="absolute inset-0 z-10 pointer-events-none"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px)',
+          opacity: 0.4
+        }}
+      />
 
-        {/* Title */}
-        <h1 className={styles.title}>
-          <motion.span
-            className={styles.hollow}
-            initial={{ opacity: 0, x: -64 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.0, ease, delay: 0.9 }}
-          >
+      {/* CONTENT */}
+      <div className="absolute inset-0 z-20 flex flex-col justify-center px-12 md:px-20">
+
+        {/* COLLECTION LABEL */}
+        <div className="flex items-center gap-3 mb-6">
+          <div style={{ width: '32px', height: '1px', backgroundColor: '#cc0000' }} />
+          <span style={{
+            fontSize: '10px',
+            letterSpacing: '0.3em',
+            color: '#cc0000',
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontWeight: 400
+          }}>
+            COLLECTION 001
+          </span>
+        </div>
+
+        {/* MAIN TITLE */}
+        <div style={{ lineHeight: 0.85 }}>
+          <h1 style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: 'clamp(80px, 14vw, 180px)',
+            letterSpacing: '0.08em',
+            color: '#f0ece4',
+            textShadow: '0 0 120px rgba(180,0,0,0.25)',
+            display: 'block'
+          }}>
             HOLLOW
-          </motion.span>
-          <motion.span
-            className={styles.ronin}
-            initial={{ opacity: 0, x: 64 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.0, ease, delay: 1.1 }}
-          >
+          </h1>
+          <h1 style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: 'clamp(80px, 14vw, 180px)',
+            letterSpacing: '0.08em',
+            color: '#f0ece4',
+            textShadow: '0 0 120px rgba(180,0,0,0.25)',
+            display: 'block',
+            marginLeft: '4vw'
+          }}>
             RONIN
-          </motion.span>
-        </h1>
+          </h1>
+        </div>
 
-        {/* Tagline */}
-        <motion.p
-          className={styles.tagline}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, ease: 'easeOut', delay: 1.4 }}
-        >
+        {/* TAGLINE */}
+        <p style={{
+          fontFamily: 'Georgia, serif',
+          fontStyle: 'italic',
+          fontSize: '16px',
+          letterSpacing: '0.2em',
+          color: '#a09080',
+          marginTop: '24px',
+          marginBottom: '40px'
+        }}>
           No Master. No Rules. No Mercy.
-        </motion.p>
+        </p>
 
-        {/* CTA */}
-        <motion.a
-          href="/shop"
-          className={styles.cta}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: 'easeOut', delay: 1.8 }}
+        {/* CTA BUTTON */}
+        <button
+          style={{
+            width: 'fit-content',
+            padding: '14px 40px',
+            border: '1px solid rgba(240,236,228,0.35)',
+            background: 'transparent',
+            color: '#f0ece4',
+            fontSize: '11px',
+            letterSpacing: '0.25em',
+            fontFamily: "'Bebas Neue', sans-serif",
+            cursor: 'pointer',
+            transition: 'all 0.4s ease'
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.border = '1px solid rgba(240,236,228,0.9)'
+            e.currentTarget.style.boxShadow = '0 0 20px rgba(180,0,0,0.2)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.border = '1px solid rgba(240,236,228,0.35)'
+            e.currentTarget.style.boxShadow = 'none'
+          }}
         >
           ENTER THE DROP
-        </motion.a>
-
+        </button>
       </div>
 
-      {/* ── SCROLL INDICATOR ──────────────────────── */}
-      <motion.div
-        className={styles.scroll}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, ease: 'easeOut', delay: 2.4 }}
-      >
-        <div className={styles.scrollLine} />
-        <span className={styles.scrollLabel}>SCROLL</span>
-      </motion.div>
+      {/* SCROLL INDICATOR */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2">
+        <div style={{
+          width: '1px',
+          height: '50px',
+          backgroundColor: '#cc0000',
+          animation: 'pulse 2s ease-in-out infinite'
+        }} />
+        <span style={{
+          fontSize: '9px',
+          letterSpacing: '0.3em',
+          color: '#a09080'
+        }}>SCROLL</span>
+      </div>
 
     </section>
   );

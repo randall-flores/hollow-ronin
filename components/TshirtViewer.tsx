@@ -21,7 +21,13 @@ import * as THREE from 'three';
  * two Decals using the geometry's own bounding-box so positions scale with
  * whatever model we swap in.
  */
-function Shirt({ designUrl }: { designUrl: string }) {
+function Shirt({
+  designUrl,
+  shirtColor,
+}: {
+  designUrl: string
+  shirtColor: 'Black' | 'White'
+}) {
   const { scene } = useGLTF('/models/tshirt.glb') as any;
   const backTex   = useTexture(designUrl);
   const frontTex  = useTexture('/images/logo-mask.png');
@@ -33,13 +39,17 @@ function Shirt({ designUrl }: { designUrl: string }) {
     });
     if (!m) return null;
 
-    const geom = (m as THREE.Mesh).geometry;
+    // GLB ships Z-UP. Clone + rotate -90° around X so the rest of the math
+    // can speak normal Y-UP (top = +Y, front = +Z, back = -Z).
+    const geom = (m as THREE.Mesh).geometry.clone();
+    geom.rotateX(-Math.PI / 2);
     geom.computeBoundingBox();
+
     const box    = geom.boundingBox!;
     const center = box.getCenter(new THREE.Vector3());
     const size   = box.getSize(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z);
-    const fitScale = 1.0 / maxDim; // normalize shirt into ~1 unit cube
+    const fitScale = 1.0 / maxDim;
 
     return { geom, center, size, fitScale };
   }, [scene]);
@@ -53,22 +63,36 @@ function Shirt({ designUrl }: { designUrl: string }) {
 
   const { geom, center, size, fitScale } = data;
 
-  // Decals use MESH-LOCAL (= original geometry) coords. Group scale below
-  // shrinks the whole shirt; positions/scales scale with it automatically.
-  const backPos  : [number, number, number] = [
+  const isWhite      = shirtColor === 'White';
+  const fabricColor  = isWhite ? '#ece9e2' : '#141414';
+  const fabricRough  = isWhite ? 0.78    : 0.92;
+  const frontTint    = isWhite ? '#181818' : '#ffffff'; // invert logo on white shirt
+
+  // Y-UP decal positions
+  const backPos : [number, number, number] = [
     center.x,
-    center.y + size.y * 0.04,
-    center.z - size.z * 0.55,
+    center.y + size.y * 0.10,         // chest height — upper-mid back
+    center.z - size.z * 0.55,         // sit behind back surface
   ];
   const frontPos : [number, number, number] = [
-    center.x - size.x * 0.22,
-    center.y + size.y * 0.28,
-    center.z + size.z * 0.55,
+    center.x - size.x * 0.22,         // left-of-center chest
+    center.y + size.y * 0.30,         // upper chest
+    center.z + size.z * 0.55,         // in front of chest surface
   ];
-  const backScale  : [number, number, number] = [size.x * 0.55, size.y * 0.45, size.x * 0.6];
-  const frontScale : [number, number, number] = [size.x * 0.15, size.x * 0.15, size.x * 0.3];
 
-  // Re-center geometry at parent origin (parent group then scales the result)
+  // Scale = projection volume size. Z must be > shirt depth so the box
+  // pierces the surface from front-to-back.
+  const backScale  : [number, number, number] = [
+    size.x * 0.62,
+    size.y * 0.55,
+    size.z * 2.2,
+  ];
+  const frontScale : [number, number, number] = [
+    size.x * 0.14,
+    size.x * 0.14,
+    size.z * 2.2,
+  ];
+
   const meshPos : [number, number, number] = [-center.x, -center.y, -center.z];
 
   return (
@@ -80,12 +104,12 @@ function Shirt({ designUrl }: { designUrl: string }) {
         position={meshPos}
       >
         <meshStandardMaterial
-          color="#141414"
-          roughness={0.92}
+          color={fabricColor}
+          roughness={fabricRough}
           metalness={0}
         />
 
-        {/* Back print — rotated 180° to face -Z */}
+        {/* Big back print */}
         <Decal
           position={backPos}
           rotation={[0, Math.PI, 0]}
@@ -93,13 +117,23 @@ function Shirt({ designUrl }: { designUrl: string }) {
           map={backTex}
         />
 
-        {/* Front-left chest logo */}
+        {/* Front-left chest logo — color tinted for shirt color contrast */}
         <Decal
           position={frontPos}
           rotation={[0, 0, 0]}
           scale={frontScale}
           map={frontTex}
-        />
+        >
+          <meshStandardMaterial
+            map={frontTex}
+            color={frontTint}
+            transparent
+            polygonOffset
+            polygonOffsetFactor={-2}
+            roughness={0.85}
+            metalness={0}
+          />
+        </Decal>
       </mesh>
     </group>
   );
@@ -125,9 +159,11 @@ function KeyLight() {
 }
 
 export default function TshirtViewer({
-  designUrl = '/designs/torii-ronin.png',
+  designUrl  = '/designs/torii-ronin.png',
+  shirtColor = 'Black',
 }: {
-  designUrl?: string;
+  designUrl?:  string;
+  shirtColor?: 'Black' | 'White';
 }) {
   return (
     <div className="w-full h-full min-h-[600px] cursor-grab active:cursor-grabbing"
@@ -159,7 +195,7 @@ export default function TshirtViewer({
 
         <Suspense fallback={null}>
           <Float speed={1.2} rotationIntensity={0} floatIntensity={0.22}>
-            <Shirt designUrl={designUrl} />
+            <Shirt designUrl={designUrl} shirtColor={shirtColor} />
           </Float>
         </Suspense>
 

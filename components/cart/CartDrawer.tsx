@@ -2,10 +2,33 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { useCart } from "./CartProvider";
 
 export default function CartDrawer() {
   const { items, isOpen, close, subtotal, remove, setQty } = useCart();
+  const [checkoutState, setCheckoutState] = useState<"idle" | "loading">("idle");
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  const handleCheckout = async () => {
+    if (items.length === 0) return;
+    setCheckoutState("loading");
+    setCheckoutError(null);
+    try {
+      const payload = items.map((i) => ({ handle: i.slug, size: i.size, qty: i.qty }));
+      const res  = await fetch("/api/checkout", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ items: payload }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.checkoutUrl) throw new Error(data.error ?? "Checkout failed");
+      window.location.href = data.checkoutUrl;
+    } catch (err) {
+      setCheckoutError(err instanceof Error ? err.message : "Checkout failed");
+      setCheckoutState("idle");
+    }
+  };
 
   return (
     <>
@@ -220,31 +243,48 @@ export default function CartDrawer() {
             }}>
               Shipping &amp; taxes calculated at checkout.
             </p>
+            {checkoutError && (
+              <p role="alert" style={{
+                margin: "0 0 14px",
+                padding: "10px 12px",
+                border: "1px solid rgba(204,34,34,0.45)",
+                background: "rgba(204,34,34,0.08)",
+                fontFamily: "'Space Mono', monospace",
+                fontSize: 10, lineHeight: 1.5, letterSpacing: 1,
+                color: "#f0a0a0",
+              }}>
+                {checkoutError}
+              </p>
+            )}
             <button
-              onClick={() => console.log("Checkout flow not yet implemented")}
+              onClick={handleCheckout}
+              disabled={checkoutState === "loading"}
               style={{
                 width: "100%",
-                background: "#cc2222",
+                background: checkoutState === "loading" ? "#7a1414" : "#cc2222",
                 color: "#f0ede6",
                 border: "none",
                 padding: "16px",
                 fontFamily: "'Space Mono', monospace",
                 fontSize: 11, letterSpacing: 5,
                 textTransform: "uppercase",
-                cursor: "pointer",
+                cursor: checkoutState === "loading" ? "wait" : "pointer",
                 transition: "background 0.2s, box-shadow 0.2s",
                 boxShadow: "0 0 0 0 rgba(204,34,34,0)",
+                opacity: checkoutState === "loading" ? 0.7 : 1,
               }}
               onMouseEnter={(e) => {
+                if (checkoutState === "loading") return;
                 (e.currentTarget as HTMLButtonElement).style.background = "#e62a2a";
                 (e.currentTarget as HTMLButtonElement).style.boxShadow  = "0 0 28px -6px rgba(204,34,34,0.7)";
               }}
               onMouseLeave={(e) => {
+                if (checkoutState === "loading") return;
                 (e.currentTarget as HTMLButtonElement).style.background = "#cc2222";
                 (e.currentTarget as HTMLButtonElement).style.boxShadow  = "0 0 0 0 rgba(204,34,34,0)";
               }}
             >
-              Checkout →
+              {checkoutState === "loading" ? "Forging checkout…" : "Checkout →"}
             </button>
           </footer>
         )}

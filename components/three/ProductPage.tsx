@@ -354,7 +354,7 @@ export default function ProductPage({ product }: { product: Product }) {
   const handleAdd = () => {
     if (!size) return
     add({
-      slug:  `${product.slug}-${size}`,
+      slug:  product.slug,
       name:  product.name,
       size,
       price: product.price,

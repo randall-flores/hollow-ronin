@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useCart } from "@/components/cart/CartProvider";
 
 const NAV_LINKS = [
   { label: "DROPS", href: "/products/torii-ronin-tee" },
@@ -34,6 +35,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
   const shopTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { count: cartCount, open: openCart } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -217,6 +219,7 @@ export default function Navbar() {
 
           <button
             aria-label="Cart"
+            onClick={openCart}
             style={{
               background: "none",
               border: "none",
@@ -224,6 +227,7 @@ export default function Navbar() {
               color: "#a8a8a8",
               fontSize: "20px",
               padding: 0,
+              position: "relative",
               transition: "color 0.2s",
             }}
             onMouseEnter={(e) =>
@@ -234,9 +238,36 @@ export default function Navbar() {
             }
           >
             🛒
+            {cartCount > 0 && (
+              <span
+                aria-label={`${cartCount} item${cartCount === 1 ? "" : "s"} in cart`}
+                style={{
+                  position: "absolute",
+                  top: "-6px",
+                  right: "-10px",
+                  minWidth: 18,
+                  height: 18,
+                  padding: "0 5px",
+                  borderRadius: 999,
+                  background: "#cc2222",
+                  color: "#f0ede6",
+                  fontFamily: "'Space Mono', monospace",
+                  fontSize: 10,
+                  letterSpacing: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 0 12px rgba(204,34,34,0.55)",
+                  pointerEvents: "none",
+                }}
+              >
+                {cartCount}
+              </span>
+            )}
           </button>
 
-          <button
+          <Link
+            href="/account"
             aria-label="Account"
             style={{
               background: "none",
@@ -245,17 +276,18 @@ export default function Navbar() {
               color: "#a8a8a8",
               fontSize: "20px",
               padding: 0,
+              textDecoration: "none",
               transition: "color 0.2s",
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.color = "#fff")
+              ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")
             }
             onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.color = "#a8a8a8")
+              ((e.currentTarget as HTMLAnchorElement).style.color = "#a8a8a8")
             }
           >
             👤
-          </button>
+          </Link>
         </div>
       </nav>
 
@@ -457,29 +489,49 @@ export default function Navbar() {
 
         <div style={{ display: "flex", gap: "24px", marginTop: "40px" }}>
           <button
+            onClick={() => { setMenuOpen(false); openCart(); }}
             style={{
               background: "none",
               border: "none",
               cursor: "pointer",
               color: "#a8a8a8",
               fontSize: "24px",
+              position: "relative",
             }}
             aria-label="Cart"
           >
             🛒
+            {cartCount > 0 && (
+              <span style={{
+                position: "absolute",
+                top: "-4px",
+                right: "-12px",
+                minWidth: 18, height: 18, padding: "0 5px",
+                borderRadius: 999,
+                background: "#cc2222", color: "#f0ede6",
+                fontFamily: "'Space Mono', monospace",
+                fontSize: 10,
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                {cartCount}
+              </span>
+            )}
           </button>
-          <button
+          <Link
+            href="/account"
+            onClick={() => setMenuOpen(false)}
             style={{
               background: "none",
               border: "none",
               cursor: "pointer",
               color: "#a8a8a8",
               fontSize: "24px",
+              textDecoration: "none",
             }}
             aria-label="Account"
           >
             👤
-          </button>
+          </Link>
         </div>
       </div>
     </>

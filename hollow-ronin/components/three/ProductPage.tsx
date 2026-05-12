@@ -14,7 +14,7 @@ const DETAILS: [string, string][] = [
   ['Print',    'DTG front + back, wash-safe ink'],
   ['Fit',      'Oversized — size down if unsure'],
   ['Ships',    '5–8 business days, worldwide'],
-  ['Made by',  'Print-on-demand via Printify'],
+  ['Origin',   'Forged on demand. Limited by design.'],
 ]
 
 function SizeBtn({ label, selected, onClick }: { label: Size; selected: boolean; onClick: () => void }) {

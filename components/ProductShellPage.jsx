@@ -281,20 +281,20 @@ export default function ProductShellPage({ title, subtitle, category }) {
                   {product.color}
                 </span>
 
-                {/* Back design — visible by default (the selling point) */}
+                {/* Default image (back design — selling point) */}
                 <Image
                   className="hr-mock-default"
-                  src={product.backImage}
-                  alt={`${product.name} — back design`}
+                  src={product.images[0].url}
+                  alt={product.images[0].alt}
                   fill
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   priority={i < 4}
                 />
-                {/* Front — revealed on hover */}
+                {/* Hover reveal (front, falls back to default if absent) */}
                 <Image
                   className="hr-mock-reveal"
-                  src={product.frontImage}
-                  alt={`${product.name} — front`}
+                  src={(product.images[1] ?? product.images[0]).url}
+                  alt={(product.images[1] ?? product.images[0]).alt}
                   fill
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   priority={i < 4}

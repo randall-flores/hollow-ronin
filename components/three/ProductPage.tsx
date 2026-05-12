@@ -8,11 +8,10 @@ import 'yet-another-react-lightbox/styles.css'
 import { PRODUCTS, type Product } from '@/lib/products'
 import { useCart } from '@/components/cart/CartProvider'
 
-const SIZES = ['XS', 'S', 'M', 'L', 'XL'] as const
+const SIZES = ['S', 'M', 'L', 'XL'] as const
 type Size   = typeof SIZES[number]
 
 const SIZE_CHART: Array<[Size, number, number, number]> = [
-  ['XS', 40, 27, 8],
   ['S',  42, 28, 8.5],
   ['M',  44, 29, 9],
   ['L',  46, 30, 9.5],

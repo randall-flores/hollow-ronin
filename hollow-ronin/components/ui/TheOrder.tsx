@@ -6,16 +6,39 @@ function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 }
 
-export default function TheOrder() {
-  const [email,  setEmail]  = useState('')
-  const [joined, setJoined] = useState(false)
+type State = 'idle' | 'loading' | 'joined' | 'error'
 
-  function onSubmit(e: React.FormEvent) {
+export default function TheOrder() {
+  const [email,    setEmail]    = useState('')
+  const [state,    setState]    = useState<State>('idle')
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!isValidEmail(email)) return
-    console.log('[TheOrder] new signup:', email)
-    setJoined(true)
+    if (!isValidEmail(email)) {
+      setErrorMsg('Enter a valid email.')
+      setState('error')
+      return
+    }
+    setState('loading')
+    setErrorMsg(null)
+    try {
+      const res = await fetch('/api/subscribe', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Subscribe failed')
+      setState('joined')
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : 'Subscribe failed')
+      setState('error')
+    }
   }
+
+  const joined  = state === 'joined'
+  const loading = state === 'loading'
 
   return (
     <section
@@ -27,7 +50,6 @@ export default function TheOrder() {
         textAlign:  'center',
       }}
     >
-      {/* divider above — separates from THE CODE / BrandStatement */}
       <div
         aria-hidden
         style={{
@@ -101,6 +123,7 @@ export default function TheOrder() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email"
               aria-label="Email address"
+              disabled={loading}
               style={{
                 flex:          1,
                 background:    'transparent',
@@ -119,8 +142,9 @@ export default function TheOrder() {
             />
             <button
               type="submit"
+              disabled={loading}
               style={{
-                background:    '#c0001e',
+                background:    loading ? '#7a0212' : '#c0001e',
                 color:         '#f0ede6',
                 border:        'none',
                 padding:       '10px 22px',
@@ -128,15 +152,28 @@ export default function TheOrder() {
                 fontSize:      11,
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
-                cursor:        'pointer',
-                transition:    'background 0.2s ease, transform 0.2s ease',
+                cursor:        loading ? 'wait' : 'pointer',
+                transition:    'background 0.2s ease',
+                opacity:       loading ? 0.85 : 1,
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#e0102e')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = '#c0001e')}
+              onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = '#e0102e' }}
+              onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = '#c0001e' }}
             >
-              Join
+              {loading ? '...' : 'Join'}
             </button>
           </form>
+        )}
+        {state === 'error' && errorMsg && (
+          <p role="alert" style={{
+            marginTop:     16,
+            fontFamily:    "'Space Mono', monospace",
+            fontSize:      10,
+            letterSpacing: '0.25em',
+            color:         '#f0a0a0',
+            textTransform: 'uppercase',
+          }}>
+            {errorMsg}
+          </p>
         )}
       </div>
     </section>

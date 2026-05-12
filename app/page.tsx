@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
 import Ticker from "@/components/layout/Ticker";
 import TheDrop from "@/components/TheDrop";
@@ -5,6 +6,20 @@ import TheCode from "@/components/ui/TheCode";
 import BrandStatement from "@/components/ui/BrandStatement";
 import TheOrder from "@/components/ui/TheOrder";
 import CountdownTimer from "@/components/CountdownTimer";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "Hollow Ronin — Cyber-samurai streetwear. Drop-based. Limited by design.",
+  },
+  description:
+    "Hollow Ronin — Cyber-samurai streetwear. Drop-based. Limited by design. DROP 001 now live.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title:       "Hollow Ronin — Cyber-samurai streetwear",
+    description: "Drop-based. Limited by design. DROP 001 now live.",
+    url:         "/",
+  },
+};
 
 export default function HomePage() {
   return (

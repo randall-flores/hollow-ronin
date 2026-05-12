@@ -71,19 +71,19 @@ export default function ProductShellPage({ title, subtitle, category }) {
           background: var(--card-accent);
           color: #ffffff;
         }
-        .hr-card-link:hover .hr-mock-front {
+        .hr-card-link:hover .hr-mock-default {
           opacity: 0;
         }
-        .hr-card-link:hover .hr-mock-back {
+        .hr-card-link:hover .hr-mock-reveal {
           opacity: 1;
         }
-        .hr-mock-front,
-        .hr-mock-back {
+        .hr-mock-default,
+        .hr-mock-reveal {
           object-fit: cover;
           transition: opacity 0.5s ease-in-out;
         }
-        .hr-mock-front { opacity: 1; }
-        .hr-mock-back  { opacity: 0; }
+        .hr-mock-default { opacity: 1; }
+        .hr-mock-reveal  { opacity: 0; }
         .hr-view {
           transition: background 0.3s ease, color 0.3s ease;
         }
@@ -281,20 +281,20 @@ export default function ProductShellPage({ title, subtitle, category }) {
                   {product.color}
                 </span>
 
-                {/* Front mockup — visible by default */}
+                {/* Back design — visible by default (the selling point) */}
                 <Image
-                  className="hr-mock-front"
-                  src={product.frontImage}
-                  alt={`${product.name} — front`}
+                  className="hr-mock-default"
+                  src={product.backImage}
+                  alt={`${product.name} — back design`}
                   fill
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   priority={i < 4}
                 />
-                {/* Back mockup — revealed on hover */}
+                {/* Front — revealed on hover */}
                 <Image
-                  className="hr-mock-back"
-                  src={product.backImage}
-                  alt={`${product.name} — back`}
+                  className="hr-mock-reveal"
+                  src={product.frontImage}
+                  alt={`${product.name} — front`}
                   fill
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   priority={i < 4}

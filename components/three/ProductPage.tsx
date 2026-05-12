@@ -7,6 +7,8 @@ import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 import { PRODUCTS, type Product } from '@/lib/products'
 import { useCart } from '@/components/cart/CartProvider'
+import DropUrgency from '@/components/product/DropUrgency'
+import SocialShare from '@/components/product/SocialShare'
 
 const SIZES = ['S', 'M', 'L', 'XL'] as const
 type Size   = typeof SIZES[number]
@@ -74,9 +76,19 @@ function Breadcrumbs({ product }: { product: Product }) {
 
 function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number) => void }) {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [hoverPos,    setHoverPos]    = useState<{ x: number; y: number } | null>(null)
   const active = product.images[activeIndex]
 
-  useEffect(() => { setActiveIndex(0) }, [product.slug])
+  useEffect(() => { setActiveIndex(0); setHoverPos(null) }, [product.slug])
+
+  const handleMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (window.matchMedia('(hover: none)').matches) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    setHoverPos({
+      x: ((e.clientX - rect.left) / rect.width)  * 100,
+      y: ((e.clientY - rect.top)  / rect.height) * 100,
+    })
+  }
 
   return (
     <div className="hr-gallery">
@@ -122,6 +134,8 @@ function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number
 
       <button
         onClick={() => onZoom(activeIndex)}
+        onMouseMove={handleMove}
+        onMouseLeave={() => setHoverPos(null)}
         aria-label="Zoom image"
         className="hr-hero"
       >
@@ -132,7 +146,12 @@ function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number
           fill
           sizes="(min-width: 1024px) 58vw, 100vw"
           priority
-          style={{ objectFit: 'contain' }}
+          style={{
+            objectFit:       'contain',
+            transform:       hoverPos ? 'scale(1.7)' : 'scale(1)',
+            transformOrigin: hoverPos ? `${hoverPos.x}% ${hoverPos.y}%` : 'center',
+            transition:      hoverPos ? 'transform 0.08s linear' : 'transform 0.35s ease',
+          }}
         />
         <span style={{
           position:  'absolute', bottom: 16, right: 16,
@@ -144,8 +163,10 @@ function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number
           border:    '1px solid rgba(255,255,255,0.08)',
           textTransform: 'uppercase',
           pointerEvents: 'none',
+          opacity:    hoverPos ? 0 : 1,
+          transition: 'opacity 0.2s ease',
         }}>
-          Click to zoom
+          {hoverPos ? '' : 'Hover to zoom · Click for full'}
         </span>
       </button>
     </div>
@@ -549,6 +570,9 @@ export default function ProductPage({ product }: { product: Product }) {
                 <span style={{ fontSize: 24, fontFamily: 'monospace', color: '#f0ede6' }}>${product.price}.00</span>
                 <span style={{ fontSize: 10, letterSpacing: 3, color: 'rgba(255,255,255,0.28)', fontFamily: 'monospace' }}>USD</span>
               </div>
+              <div style={{ marginTop: 14 }}>
+                <DropUrgency />
+              </div>
             </div>
 
             <Rule />
@@ -646,6 +670,14 @@ export default function ProductPage({ product }: { product: Product }) {
                 </div>
               ))}
             </div>
+
+            <Rule />
+
+            <SocialShare
+              url={`https://hollowronin.com/products/${product.slug}`}
+              title={`${product.name} — ${product.subtitle} · HOLLOW RONIN`}
+              image={`https://hollowronin.com${product.images[0]?.url ?? ''}`}
+            />
 
             <Rule />
 

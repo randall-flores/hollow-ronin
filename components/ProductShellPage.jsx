@@ -347,9 +347,11 @@ export default function ProductShellPage({ title, subtitle, category }) {
                     fontFamily:   'Georgia, serif',
                     color:        '#ffffff',
                     marginBottom: 6,
-                    whiteSpace:   'nowrap',
+                    lineHeight:   1.2,
+                    display:      '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
                     overflow:     'hidden',
-                    textOverflow: 'ellipsis',
                   }}>
                     {product.name}
                   </p>

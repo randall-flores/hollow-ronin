@@ -4,6 +4,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageTransition from "@/components/layout/PageTransition";
 import SlashCursor from "@/components/SlashCursor";
+import { CartProvider } from "@/components/cart/CartProvider";
+import CartDrawer from "@/components/cart/CartDrawer";
 
 export const metadata: Metadata = {
   title: "HOLLOW RONIN — No Master. No Rules.",
@@ -20,14 +22,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@700&family=Inter:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body>
-        <Navbar />
-        <div style={{ paddingTop: "68px" }}>
-          <PageTransition>
-            {children}
-          </PageTransition>
-          <Footer />
-        </div>
-        <SlashCursor />
+        <CartProvider>
+          <Navbar />
+          <div style={{ paddingTop: "68px" }}>
+            <PageTransition>
+              {children}
+            </PageTransition>
+            <Footer />
+          </div>
+          <CartDrawer />
+          <SlashCursor />
+        </CartProvider>
       </body>
     </html>
   );

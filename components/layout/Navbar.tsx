@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCart } from "@/components/cart/CartProvider";
 
 const NAV_LINKS = [
-  { label: "DROPS", href: "/products/torii-ronin-tee" },
+  { label: "DROPS", href: "/shop" },
   { label: "LOOKBOOK", href: "/lookbook" },
   { label: "ABOUT", href: "/about" },
 ];
@@ -208,7 +208,7 @@ export default function Navbar() {
             onMouseLeave={closeShop}
           >
             <Link
-              href="/products/torii-ronin-tee"
+              href="/shop"
               style={navLinkStyle}
               onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "#a8a8a8")}
@@ -467,7 +467,7 @@ export default function Navbar() {
           ✕
         </button>
 
-        {[...NAV_LINKS, { label: "SHOP", href: "/products/torii-ronin-tee" }].map(
+        {[...NAV_LINKS, { label: "SHOP", href: "/shop" }].map(
           ({ label, href }) => (
             <Link
               key={label}

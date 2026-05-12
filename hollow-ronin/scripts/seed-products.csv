@@ -1,69 +1,69 @@
-Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Variant SKU,Variant Inventory Tracker,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Requires Shipping,Variant Taxable,Image Src,Image Alt Text,Status
-the-ronin,THE RONIN,<p>The torii marks the threshold. The ronin chose to walk through it alone.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-RONIN-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-crow-ronin-bloodmoon-back-black.png,THE RONIN — back design,active
-the-ronin,,,,,,,Size,M,HR-RONIN-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-ronin,,,,,,,Size,L,HR-RONIN-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-ronin,,,,,,,Size,XL,HR-RONIN-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-ronin-white,THE RONIN (White),<p>The torii marks the threshold. The ronin chose to walk through it alone.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-RONIN-WHT-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-crow-ronin-bloodmoon-back-white.png,THE RONIN (White) — back design,active
-the-ronin-white,,,,,,,Size,M,HR-RONIN-WHT-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-ronin-white,,,,,,,Size,L,HR-RONIN-WHT-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-ronin-white,,,,,,,Size,XL,HR-RONIN-WHT-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-hollow-warrior,THE HOLLOW WARRIOR,<p>What walks past death is no longer a man — only the promise he refused to break.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-HOLLOW-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-skeleton-ronin-redsun-back-black.png,THE HOLLOW WARRIOR — back design,active
-the-hollow-warrior,,,,,,,Size,M,HR-HOLLOW-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-hollow-warrior,,,,,,,Size,L,HR-HOLLOW-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-hollow-warrior,,,,,,,Size,XL,HR-HOLLOW-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-wrath,MASK OF WRATH,<p>Hannya born of fury — horns of grief, eyes that never close.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-WRATH-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-cyber-oni-clash-back-black.png,MASK OF WRATH — back design,active
-mask-of-wrath,,,,,,,Size,M,HR-WRATH-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-wrath,,,,,,,Size,L,HR-WRATH-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-wrath,,,,,,,Size,XL,HR-WRATH-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-mourning,MASK OF MOURNING,<p>The second mask weeps in silence — the river beneath the fire.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-MOURNING-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-oni-samurai-dark-back-black.png,MASK OF MOURNING — back design,active
-mask-of-mourning,,,,,,,Size,M,HR-MOURNING-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-mourning,,,,,,,Size,L,HR-MOURNING-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-mourning,,,,,,,Size,XL,HR-MOURNING-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-reckoning,MASK OF RECKONING,<p>The third mask remembers every name carved into the dark.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-RECKONING-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-cyber-oni-full-back-black.png,MASK OF RECKONING — back design,active
-mask-of-reckoning,,,,,,,Size,M,HR-RECKONING-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-reckoning,,,,,,,Size,L,HR-RECKONING-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-reckoning,,,,,,,Size,XL,HR-RECKONING-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-stillness,MASK OF STILLNESS,<p>The fourth mask is the most dangerous — patience sharpened into a blade.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-STILLNESS-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-cyber-oni-portrait-circle-back-black-model3.png,MASK OF STILLNESS — back design,active
-mask-of-stillness,,,,,,,Size,M,HR-STILLNESS-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-stillness,,,,,,,Size,L,HR-STILLNESS-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-mask-of-stillness,,,,,,,Size,XL,HR-STILLNESS-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-inscribed,THE INSCRIBED,<p>Flesh gone, vow intact — kanji burned across the ribcage of what remained.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-INSCRIBED-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-skeleton-samurai-kanji-back-black.png,THE INSCRIBED — back design,active
-the-inscribed,,,,,,,Size,M,HR-INSCRIBED-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-inscribed,,,,,,,Size,L,HR-INSCRIBED-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-inscribed,,,,,,,Size,XL,HR-INSCRIBED-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-dragon,THE DRAGON,<p>Ryū. The dragon coils upward — neon scale, ink shadow, breath of cold light.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-DRAGON-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-dragon-red-sun-back-black.png,THE DRAGON — back design,active
-the-dragon,,,,,,,Size,M,HR-DRAGON-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-dragon,,,,,,,Size,L,HR-DRAGON-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-dragon,,,,,,,Size,XL,HR-DRAGON-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-fox,THE FOX,<p>Kitsune. Nine-tailed silhouette drifting through the long grass between worlds.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-FOX-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-kitsune-nine-tails-back-black.png,THE FOX — back design,active
-the-fox,,,,,,,Size,M,HR-FOX-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-fox,,,,,,,Size,L,HR-FOX-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-fox,,,,,,,Size,XL,HR-FOX-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-fox-white,THE FOX (White),<p>Kitsune. Nine-tailed silhouette drifting through the long grass between worlds.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-FOX-WHT-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-kitsune-nine-tails-back-white.png,THE FOX (White) — back design,active
-the-fox-white,,,,,,,Size,M,HR-FOX-WHT-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-fox-white,,,,,,,Size,L,HR-FOX-WHT-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-fox-white,,,,,,,Size,XL,HR-FOX-WHT-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-ghost,THE GHOST,<p>Tengu. Crow-warrior of the mountain — black feathers, longer memory.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-GHOST-WHT-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-crow-warrior-ghost-back-white.png,THE GHOST — back design,active
-the-ghost,,,,,,,Size,M,HR-GHOST-WHT-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-ghost,,,,,,,Size,L,HR-GHOST-WHT-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-ghost,,,,,,,Size,XL,HR-GHOST-WHT-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-ghost-black,THE GHOST (Black),<p>Tengu. Crow-warrior of the mountain — black feathers, longer memory.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-GHOST-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-crow-warrior-ghost-back-black-model4.png,THE GHOST (Black) — back design,active
-the-ghost-black,,,,,,,Size,M,HR-GHOST-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-ghost-black,,,,,,,Size,L,HR-GHOST-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-ghost-black,,,,,,,Size,XL,HR-GHOST-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-sentinel,THE SENTINEL,<p>The crow stands sentry above the pass. The mountain remembers.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-SENTINEL-WHT-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-crow-warrior-bloodmoon-dark-back-white-model4.png,THE SENTINEL — back design,active
-the-sentinel,,,,,,,Size,M,HR-SENTINEL-WHT-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-sentinel,,,,,,,Size,L,HR-SENTINEL-WHT-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-sentinel,,,,,,,Size,XL,HR-SENTINEL-WHT-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-sentinel-black,THE SENTINEL (Black),<p>The crow stands sentry above the pass. The mountain remembers.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-SENTINEL-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-crow-warrior-bloodmoon-dark-back-black.png,THE SENTINEL (Black) — back design,active
-the-sentinel-black,,,,,,,Size,M,HR-SENTINEL-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-sentinel-black,,,,,,,Size,L,HR-SENTINEL-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-sentinel-black,,,,,,,Size,XL,HR-SENTINEL-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-stormbringer,THE STORMBRINGER,<p>When his wings open, the sky turns to a colder shade of black.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-STORM-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-crow-samurai-aerial-back-black.png,THE STORMBRINGER — back design,active
-the-stormbringer,,,,,,,Size,M,HR-STORM-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-stormbringer,,,,,,,Size,L,HR-STORM-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-stormbringer,,,,,,,Size,XL,HR-STORM-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
-the-reaper,THE REAPER,<p>The shadow tengu walks where the light dares not — the final judgment.</p>,Hollow Ronin,Shirts,"drop-001,shirt",TRUE,Size,S,HR-REAPER-BLK-S,,continue,manual,38.00,TRUE,TRUE,https://hollowronin.com/mockups/tee-cyberpunk-ninja-neon-back-black.png,THE REAPER — back design,active
-the-reaper,,,,,,,Size,M,HR-REAPER-BLK-M,,continue,manual,38.00,TRUE,TRUE,,,
-the-reaper,,,,,,,Size,L,HR-REAPER-BLK-L,,continue,manual,38.00,TRUE,TRUE,,,
-the-reaper,,,,,,,Size,XL,HR-REAPER-BLK-XL,,continue,manual,38.00,TRUE,TRUE,,,
+Handle,Title,Body (HTML),Vendor,Product Category,Type,Tags,Published,Option1 Name,Option1 Value,Option1 Linked To,Option2 Name,Option2 Value,Option2 Linked To,Option3 Name,Option3 Value,Option3 Linked To,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Compare At Price,Variant Requires Shipping,Variant Taxable,Variant Barcode,Image Src,Image Position,Image Alt Text,Gift Card,SEO Title,SEO Description,Google Shopping / Google Product Category,Google Shopping / Gender,Google Shopping / Age Group,Google Shopping / MPN,Google Shopping / Condition,Google Shopping / Custom Product,Google Shopping / Custom Label 0,Google Shopping / Custom Label 1,Google Shopping / Custom Label 2,Google Shopping / Custom Label 3,Google Shopping / Custom Label 4,Variant Image,Variant Weight Unit,Variant Tax Code,Cost per item,Included / United States,Price / United States,Compare At Price / United States,Included / International,Price / International,Compare At Price / International,Status
+the-ronin,THE RONIN,<p>The torii marks the threshold. The ronin chose to walk through it alone.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-RONIN-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-crow-ronin-bloodmoon-back-black.png,1,THE RONIN — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-ronin,,,,,,,,Size,M,,,,,,,,HR-RONIN-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ronin,,,,,,,,Size,L,,,,,,,,HR-RONIN-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ronin,,,,,,,,Size,XL,,,,,,,,HR-RONIN-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ronin-white,THE RONIN (White),<p>The torii marks the threshold. The ronin chose to walk through it alone.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-RONIN-WHT-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-crow-ronin-bloodmoon-back-white.png,1,THE RONIN (White) — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-ronin-white,,,,,,,,Size,M,,,,,,,,HR-RONIN-WHT-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ronin-white,,,,,,,,Size,L,,,,,,,,HR-RONIN-WHT-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ronin-white,,,,,,,,Size,XL,,,,,,,,HR-RONIN-WHT-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-hollow-warrior,THE HOLLOW WARRIOR,<p>What walks past death is no longer a man — only the promise he refused to break.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-HOLLOW-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-skeleton-ronin-redsun-back-black.png,1,THE HOLLOW WARRIOR — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-hollow-warrior,,,,,,,,Size,M,,,,,,,,HR-HOLLOW-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-hollow-warrior,,,,,,,,Size,L,,,,,,,,HR-HOLLOW-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-hollow-warrior,,,,,,,,Size,XL,,,,,,,,HR-HOLLOW-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-wrath,MASK OF WRATH,"<p>Hannya born of fury — horns of grief, eyes that never close.</p>",Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-WRATH-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-cyber-oni-clash-back-black.png,1,MASK OF WRATH — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+mask-of-wrath,,,,,,,,Size,M,,,,,,,,HR-WRATH-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-wrath,,,,,,,,Size,L,,,,,,,,HR-WRATH-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-wrath,,,,,,,,Size,XL,,,,,,,,HR-WRATH-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-mourning,MASK OF MOURNING,<p>The second mask weeps in silence — the river beneath the fire.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-MOURNING-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-oni-samurai-dark-back-black.png,1,MASK OF MOURNING — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+mask-of-mourning,,,,,,,,Size,M,,,,,,,,HR-MOURNING-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-mourning,,,,,,,,Size,L,,,,,,,,HR-MOURNING-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-mourning,,,,,,,,Size,XL,,,,,,,,HR-MOURNING-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-reckoning,MASK OF RECKONING,<p>The third mask remembers every name carved into the dark.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-RECKONING-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-cyber-oni-full-back-black.png,1,MASK OF RECKONING — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+mask-of-reckoning,,,,,,,,Size,M,,,,,,,,HR-RECKONING-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-reckoning,,,,,,,,Size,L,,,,,,,,HR-RECKONING-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-reckoning,,,,,,,,Size,XL,,,,,,,,HR-RECKONING-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-stillness,MASK OF STILLNESS,<p>The fourth mask is the most dangerous — patience sharpened into a blade.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-STILLNESS-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-cyber-oni-portrait-circle-back-black-model3.png,1,MASK OF STILLNESS — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+mask-of-stillness,,,,,,,,Size,M,,,,,,,,HR-STILLNESS-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-stillness,,,,,,,,Size,L,,,,,,,,HR-STILLNESS-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+mask-of-stillness,,,,,,,,Size,XL,,,,,,,,HR-STILLNESS-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-inscribed,THE INSCRIBED,"<p>Flesh gone, vow intact — kanji burned across the ribcage of what remained.</p>",Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-INSCRIBED-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-skeleton-samurai-kanji-back-black.png,1,THE INSCRIBED — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-inscribed,,,,,,,,Size,M,,,,,,,,HR-INSCRIBED-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-inscribed,,,,,,,,Size,L,,,,,,,,HR-INSCRIBED-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-inscribed,,,,,,,,Size,XL,,,,,,,,HR-INSCRIBED-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-dragon,THE DRAGON,"<p>Ryū. The dragon coils upward — neon scale, ink shadow, breath of cold light.</p>",Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-DRAGON-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-dragon-red-sun-back-black.png,1,THE DRAGON — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-dragon,,,,,,,,Size,M,,,,,,,,HR-DRAGON-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-dragon,,,,,,,,Size,L,,,,,,,,HR-DRAGON-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-dragon,,,,,,,,Size,XL,,,,,,,,HR-DRAGON-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-fox,THE FOX,<p>Kitsune. Nine-tailed silhouette drifting through the long grass between worlds.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-FOX-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-kitsune-nine-tails-back-black.png,1,THE FOX — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-fox,,,,,,,,Size,M,,,,,,,,HR-FOX-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-fox,,,,,,,,Size,L,,,,,,,,HR-FOX-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-fox,,,,,,,,Size,XL,,,,,,,,HR-FOX-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-fox-white,THE FOX (White),<p>Kitsune. Nine-tailed silhouette drifting through the long grass between worlds.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-FOX-WHT-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-kitsune-nine-tails-back-white.png,1,THE FOX (White) — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-fox-white,,,,,,,,Size,M,,,,,,,,HR-FOX-WHT-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-fox-white,,,,,,,,Size,L,,,,,,,,HR-FOX-WHT-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-fox-white,,,,,,,,Size,XL,,,,,,,,HR-FOX-WHT-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ghost,THE GHOST,"<p>Tengu. Crow-warrior of the mountain — black feathers, longer memory.</p>",Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-GHOST-WHT-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-crow-warrior-ghost-back-white.png,1,THE GHOST — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-ghost,,,,,,,,Size,M,,,,,,,,HR-GHOST-WHT-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ghost,,,,,,,,Size,L,,,,,,,,HR-GHOST-WHT-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ghost,,,,,,,,Size,XL,,,,,,,,HR-GHOST-WHT-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ghost-black,THE GHOST (Black),"<p>Tengu. Crow-warrior of the mountain — black feathers, longer memory.</p>",Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-GHOST-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-crow-warrior-ghost-back-black-model4.png,1,THE GHOST (Black) — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-ghost-black,,,,,,,,Size,M,,,,,,,,HR-GHOST-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ghost-black,,,,,,,,Size,L,,,,,,,,HR-GHOST-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-ghost-black,,,,,,,,Size,XL,,,,,,,,HR-GHOST-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-sentinel,THE SENTINEL,<p>The crow stands sentry above the pass. The mountain remembers.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-SENTINEL-WHT-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-crow-warrior-bloodmoon-dark-back-white-model4.png,1,THE SENTINEL — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-sentinel,,,,,,,,Size,M,,,,,,,,HR-SENTINEL-WHT-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-sentinel,,,,,,,,Size,L,,,,,,,,HR-SENTINEL-WHT-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-sentinel,,,,,,,,Size,XL,,,,,,,,HR-SENTINEL-WHT-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-sentinel-black,THE SENTINEL (Black),<p>The crow stands sentry above the pass. The mountain remembers.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-SENTINEL-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-crow-warrior-bloodmoon-dark-back-black.png,1,THE SENTINEL (Black) — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-sentinel-black,,,,,,,,Size,M,,,,,,,,HR-SENTINEL-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-sentinel-black,,,,,,,,Size,L,,,,,,,,HR-SENTINEL-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-sentinel-black,,,,,,,,Size,XL,,,,,,,,HR-SENTINEL-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-stormbringer,THE STORMBRINGER,"<p>When his wings open, the sky turns to a colder shade of black.</p>",Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-STORM-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-crow-samurai-aerial-back-black.png,1,THE STORMBRINGER — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-stormbringer,,,,,,,,Size,M,,,,,,,,HR-STORM-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-stormbringer,,,,,,,,Size,L,,,,,,,,HR-STORM-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-stormbringer,,,,,,,,Size,XL,,,,,,,,HR-STORM-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-reaper,THE REAPER,<p>The shadow tengu walks where the light dares not — the final judgment.</p>,Hollow Ronin,,Shirts,"drop-001, shirt",TRUE,Size,S,,,,,,,,HR-REAPER-BLK-S,200,,,continue,manual,38.00,,TRUE,TRUE,,https://hollowronin.com/mockups/tee-cyberpunk-ninja-neon-back-black.png,1,THE REAPER — back design,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,active
+the-reaper,,,,,,,,Size,M,,,,,,,,HR-REAPER-BLK-M,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-reaper,,,,,,,,Size,L,,,,,,,,HR-REAPER-BLK-L,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,
+the-reaper,,,,,,,,Size,XL,,,,,,,,HR-REAPER-BLK-XL,200,,,continue,manual,38.00,,TRUE,TRUE,,,,,FALSE,,,,,,,,,,,,,,,g,,,,,,,,,

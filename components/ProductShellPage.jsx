@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { PRODUCTS, getProductsByCategory } from '@/lib/products';
 
 export default function ProductShellPage({ title, subtitle, category }) {
@@ -66,47 +67,23 @@ export default function ProductShellPage({ title, subtitle, category }) {
           border-color: var(--card-accent);
           box-shadow: 0 0 50px -8px var(--card-accent), inset 0 0 36px -10px var(--card-accent);
         }
-        .hr-card-link:hover .hr-shirt-stage {
-          transform: rotateY(-8deg) rotateX(4deg) scale(1.05);
-        }
-        .hr-card-link:hover .hr-shirt {
-          filter: brightness(1.15) drop-shadow(0 24px 32px rgba(0,0,0,0.85));
-        }
-        .hr-card-link:hover .hr-floor {
-          opacity: 0.85;
-          transform: translateX(-50%) scaleX(1.05);
-        }
         .hr-card-link:hover .hr-view {
           background: var(--card-accent);
           color: #ffffff;
         }
-        .hr-shirt-stage {
-          position: relative;
-          width: 88%;
-          aspect-ratio: 1 / 1.1;
-          transform-style: preserve-3d;
-          transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        .hr-card-link:hover .hr-mock-front {
+          opacity: 0;
         }
-        .hr-shirt {
-          width: 100%;
-          height: 100%;
-          transition: filter 0.6s ease;
-          filter: drop-shadow(0 18px 26px rgba(0,0,0,0.75));
+        .hr-card-link:hover .hr-mock-back {
+          opacity: 1;
         }
-        .hr-floor {
-          position: absolute;
-          bottom: 14px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 62%;
-          height: 14px;
-          background: radial-gradient(ellipse at center, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 70%);
-          filter: blur(4px);
-          opacity: 0.6;
-          transition: opacity 0.5s ease, transform 0.5s ease;
-          pointer-events: none;
-          z-index: 0;
+        .hr-mock-front,
+        .hr-mock-back {
+          object-fit: cover;
+          transition: opacity 0.5s ease-in-out;
         }
+        .hr-mock-front { opacity: 1; }
+        .hr-mock-back  { opacity: 0; }
         .hr-view {
           transition: background 0.3s ease, color 0.3s ease;
         }
@@ -275,13 +252,11 @@ export default function ProductShellPage({ title, subtitle, category }) {
             >
               {/* Visual area */}
               <div style={{
-                position: 'relative',
-                height:   420,
-                display:  'flex',
-                alignItems:     'center',
-                justifyContent: 'center',
-                overflow: 'hidden',
-                background: `radial-gradient(ellipse at center 60%, ${product.accent}1a 0%, transparent 65%), ${product.bg}`,
+                position:    'relative',
+                aspectRatio: '1 / 1',
+                width:       '100%',
+                overflow:    'hidden',
+                background:  `radial-gradient(ellipse at center 60%, ${product.accent}1a 0%, transparent 65%), ${product.bg}`,
               }}>
                 {/* Drop label */}
                 <span style={{
@@ -306,168 +281,24 @@ export default function ProductShellPage({ title, subtitle, category }) {
                   {product.color}
                 </span>
 
-                {/* Shirt stage — 3D tilt happens here */}
-                <div className="hr-shirt-stage">
-                  <div className="hr-floor" />
-                  <svg
-                    className="hr-shirt"
-                    viewBox="0 0 320 360"
-                    preserveAspectRatio="xMidYMid meet"
-                  >
-                    <defs>
-                      {/* Body — top highlight to bottom shadow */}
-                      <linearGradient id={`body-grad-${product.slug}`} x1="0.5" y1="0" x2="0.5" y2="1">
-                        <stop offset="0%"   stopColor="#262626" />
-                        <stop offset="20%"  stopColor="#1d1d1d" />
-                        <stop offset="55%"  stopColor="#161616" />
-                        <stop offset="100%" stopColor="#080808" />
-                      </linearGradient>
-
-                      {/* Side shading — darken edges to suggest fabric curving */}
-                      <linearGradient id={`side-grad-${product.slug}`} x1="0" y1="0.5" x2="1" y2="0.5">
-                        <stop offset="0%"   stopColor="rgba(0,0,0,0.7)" />
-                        <stop offset="18%"  stopColor="rgba(0,0,0,0.0)" />
-                        <stop offset="82%"  stopColor="rgba(0,0,0,0.0)" />
-                        <stop offset="100%" stopColor="rgba(0,0,0,0.7)" />
-                      </linearGradient>
-
-                      {/* Sleeve highlights */}
-                      <linearGradient id={`sleeve-l-${product.slug}`} x1="0" y1="0.3" x2="1" y2="0.7">
-                        <stop offset="0%"   stopColor="rgba(0,0,0,0.55)" />
-                        <stop offset="60%"  stopColor="rgba(255,255,255,0.04)" />
-                        <stop offset="100%" stopColor="rgba(0,0,0,0.35)" />
-                      </linearGradient>
-                      <linearGradient id={`sleeve-r-${product.slug}`} x1="1" y1="0.3" x2="0" y2="0.7">
-                        <stop offset="0%"   stopColor="rgba(0,0,0,0.55)" />
-                        <stop offset="60%"  stopColor="rgba(255,255,255,0.04)" />
-                        <stop offset="100%" stopColor="rgba(0,0,0,0.35)" />
-                      </linearGradient>
-
-                      {/* Soft drop shadow under collar — gives depth where neck sits */}
-                      <radialGradient id={`collar-shadow-${product.slug}`} cx="0.5" cy="0" r="0.5">
-                        <stop offset="0%"   stopColor="rgba(0,0,0,0.7)" />
-                        <stop offset="100%" stopColor="rgba(0,0,0,0)" />
-                      </radialGradient>
-
-                      {/* Back print zone */}
-                      <clipPath id={`print-${product.slug}`}>
-                        <path d="M 108 100 L 212 100 L 212 248 L 108 248 Z" />
-                      </clipPath>
-
-                      {/* Filter: subtle blur on print edges to suggest fabric absorption */}
-                      <filter id={`print-fx-${product.slug}`} x="-5%" y="-5%" width="110%" height="110%">
-                        <feGaussianBlur stdDeviation="0.45" />
-                      </filter>
-
-                      {/* Full shirt body path (T-shape) — reused for clip + outline */}
-                      <clipPath id={`shirt-${product.slug}`}>
-                        <path d="
-                          M 110 40
-                          L 90 36
-                          Q 78 36 68 44
-                          L 26 80
-                          Q 14 90 18 102
-                          L 38 134
-                          Q 42 140 50 138
-                          L 78 122
-                          L 78 332
-                          Q 78 342 88 342
-                          L 232 342
-                          Q 242 342 242 332
-                          L 242 122
-                          L 270 138
-                          Q 278 140 282 134
-                          L 302 102
-                          Q 306 90 294 80
-                          L 252 44
-                          Q 242 36 230 36
-                          L 210 40
-                          Q 198 56 160 56
-                          Q 122 56 110 40
-                          Z" />
-                      </clipPath>
-                    </defs>
-
-                    {/* Render fabric inside the T-shape clip */}
-                    <g clipPath={`url(#shirt-${product.slug})`}>
-                      {/* Base fabric */}
-                      <rect x="0" y="0" width="320" height="360" fill={`url(#body-grad-${product.slug})`} />
-                      {/* Side darkening */}
-                      <rect x="0" y="0" width="320" height="360" fill={`url(#side-grad-${product.slug})`} />
-                      {/* Left sleeve shading — overlay narrow rect */}
-                      <rect x="18" y="36" width="80" height="110" fill={`url(#sleeve-l-${product.slug})`} />
-                      {/* Right sleeve shading */}
-                      <rect x="222" y="36" width="80" height="110" fill={`url(#sleeve-r-${product.slug})`} />
-                      {/* Collar shadow */}
-                      <ellipse cx="160" cy="50" rx="60" ry="18" fill={`url(#collar-shadow-${product.slug})`} />
-
-                      {/* Vertical center fold — subtle vertical break */}
-                      <line x1="160" y1="68" x2="160" y2="338" stroke="rgba(0,0,0,0.35)" strokeWidth="0.6" />
-
-                      {/* Fabric wrinkles — fine diagonal lines near sleeves and waist */}
-                      <path d="M 80 130 Q 100 145 78 165" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-                      <path d="M 240 130 Q 220 145 242 165" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-                      <path d="M 86 260 Q 100 274 92 290" fill="none" stroke="rgba(255,255,255,0.025)" strokeWidth="1" />
-                      <path d="M 234 260 Q 220 274 228 290" fill="none" stroke="rgba(255,255,255,0.025)" strokeWidth="1" />
-                      <path d="M 110 320 Q 160 326 210 320" fill="none" stroke="rgba(0,0,0,0.45)" strokeWidth="1.2" />
-
-                      {/* Design — printed on back, blended into fabric */}
-                      <g filter={`url(#print-fx-${product.slug})`}>
-                        <image
-                          href={product.design}
-                          x="108" y="100"
-                          width="104" height="148"
-                          preserveAspectRatio="xMidYMid meet"
-                          clipPath={`url(#print-${product.slug})`}
-                          style={{ mixBlendMode: 'lighten', opacity: 0.95 }}
-                        />
-                      </g>
-                    </g>
-
-                    {/* Shirt outline */}
-                    <path
-                      d="
-                        M 110 40
-                        L 90 36
-                        Q 78 36 68 44
-                        L 26 80
-                        Q 14 90 18 102
-                        L 38 134
-                        Q 42 140 50 138
-                        L 78 122
-                        L 78 332
-                        Q 78 342 88 342
-                        L 232 342
-                        Q 242 342 242 332
-                        L 242 122
-                        L 270 138
-                        Q 278 140 282 134
-                        L 302 102
-                        Q 306 90 294 80
-                        L 252 44
-                        Q 242 36 230 36
-                        L 210 40
-                        Q 198 56 160 56
-                        Q 122 56 110 40
-                        Z"
-                      fill="none"
-                      stroke="rgba(255,255,255,0.07)"
-                      strokeWidth="1"
-                    />
-
-                    {/* Back-neck collar curve */}
-                    <path
-                      d="M 110 40 Q 160 70 210 40"
-                      fill="none"
-                      stroke="rgba(255,255,255,0.18)"
-                      strokeWidth="1.2"
-                    />
-
-                    {/* Sleeve seam lines */}
-                    <path d="M 90 36 Q 80 76 78 122" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="0.8" />
-                    <path d="M 230 36 Q 240 76 242 122" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="0.8" />
-                  </svg>
-                </div>
+                {/* Front mockup — visible by default */}
+                <Image
+                  className="hr-mock-front"
+                  src={product.frontImage}
+                  alt={`${product.name} — front`}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  priority={i < 4}
+                />
+                {/* Back mockup — revealed on hover */}
+                <Image
+                  className="hr-mock-back"
+                  src={product.backImage}
+                  alt={`${product.name} — back`}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  priority={i < 4}
+                />
 
                 {/* Vignette */}
                 <div style={{

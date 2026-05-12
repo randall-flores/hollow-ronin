@@ -1,17 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import dynamic from 'next/dynamic'
+import Image from 'next/image'
+import Lightbox from 'yet-another-react-lightbox'
+import 'yet-another-react-lightbox/styles.css'
 import type { Product } from '@/lib/products'
-
-const TshirtViewer = dynamic(() => import('@/components/TshirtViewer'), {
-  ssr: false,
-  loading: () => (
-    <div style={{ width: '100%', height: '100%', background: '#080808', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <p style={{ margin: 0, fontSize: 9, letterSpacing: 6, fontFamily: 'monospace', color: 'rgba(255,255,255,0.15)', textTransform: 'uppercase' }}>Loading</p>
-    </div>
-  ),
-})
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL'] as const
 type Size   = typeof SIZES[number]
@@ -48,10 +41,103 @@ function Rule() {
   )
 }
 
+function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number) => void }) {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const active = product.images[activeIndex]
+
+  return (
+    <div style={{ display: 'flex', gap: 16, width: '100%', height: '100%', padding: '32px 32px 32px 24px' }}>
+      {/* Thumbnail strip */}
+      <div
+        role="tablist"
+        aria-label="Product images"
+        style={{ display: 'flex', flexDirection: 'column', gap: 10, width: 72, flexShrink: 0 }}
+      >
+        {product.images.map((img, i) => {
+          const isActive = i === activeIndex
+          return (
+            <button
+              key={img.url}
+              role="tab"
+              aria-selected={isActive}
+              aria-label={`View ${img.alt}`}
+              onClick={() => setActiveIndex(i)}
+              style={{
+                position:   'relative',
+                width:      72,
+                height:     72,
+                padding:    0,
+                background: '#0d0d0d',
+                border:     `1px solid ${isActive ? '#cc2222' : 'rgba(255,255,255,0.08)'}`,
+                boxShadow:  isActive ? '0 0 0 2px rgba(204,34,34,0.18)' : 'none',
+                cursor:     'pointer',
+                transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                outline:    'none',
+              }}
+            >
+              <Image
+                src={img.url}
+                alt={img.alt}
+                fill
+                sizes="72px"
+                style={{ objectFit: 'cover' }}
+              />
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Hero */}
+      <button
+        onClick={() => onZoom(activeIndex)}
+        aria-label="Zoom image"
+        style={{
+          position:   'relative',
+          flex:       1,
+          minWidth:   0,
+          background: '#0a0a0a',
+          border:     '1px solid rgba(255,255,255,0.06)',
+          cursor:     'zoom-in',
+          padding:    0,
+          outline:    'none',
+        }}
+      >
+        <Image
+          key={active.url}
+          src={active.url}
+          alt={active.alt}
+          fill
+          sizes="(min-width: 1200px) 50vw, 100vw"
+          priority
+          style={{ objectFit: 'contain' }}
+        />
+        {/* Zoom hint */}
+        <span style={{
+          position:  'absolute',
+          bottom:    16,
+          right:     16,
+          fontSize:  9,
+          letterSpacing: 4,
+          fontFamily: 'monospace',
+          color:     'rgba(255,255,255,0.35)',
+          background: 'rgba(0,0,0,0.4)',
+          padding:   '6px 10px',
+          border:    '1px solid rgba(255,255,255,0.08)',
+          textTransform: 'uppercase',
+          pointerEvents: 'none',
+        }}>
+          Click to zoom
+        </span>
+      </button>
+    </div>
+  )
+}
+
 export default function ProductPage({ product }: { product: Product }) {
-  const [size,      setSize]      = useState<Size | null>(null)
-  const [qty,       setQty]       = useState(1)
-  const [cartState, setCartState] = useState<'idle' | 'added'>('idle')
+  const [size,        setSize]        = useState<Size | null>(null)
+  const [qty,         setQty]         = useState(1)
+  const [cartState,   setCartState]   = useState<'idle' | 'added'>('idle')
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
 
   const handleAdd = () => {
     if (!size) return
@@ -62,13 +148,15 @@ export default function ProductPage({ product }: { product: Product }) {
   return (
     <main style={{ minHeight: '100vh', background: '#080808', color: '#ffffff', display: 'flex', fontFamily: 'Georgia, Times New Roman, serif' }}>
 
-      {/* 3D Viewer — left 58% */}
+      {/* Gallery — left 58% */}
       <div style={{ position: 'relative', width: '58%', height: 'calc(100vh - 68px)', flexShrink: 0 }}>
         <div style={{ position: 'absolute', top: 28, left: 28, zIndex: 10, pointerEvents: 'none' }}>
           <p style={{ margin: 0, fontSize: 9, letterSpacing: 6, color: 'rgba(255,255,255,0.13)', fontFamily: 'monospace' }}>HOLLOW RONIN</p>
           <p style={{ margin: '5px 0 0', fontSize: 9, letterSpacing: 4, color: 'rgba(204,34,34,0.65)', fontFamily: 'monospace' }}>{product.label}</p>
         </div>
-        <TshirtViewer designUrl={product.design} shirtColor={product.color} />
+
+        <Gallery product={product} onZoom={(i) => setLightboxIdx(i)} />
+
         <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 1, background: 'linear-gradient(to bottom, transparent, rgba(204,34,34,0.18) 40%, rgba(204,34,34,0.18) 60%, transparent)' }} />
       </div>
 
@@ -143,6 +231,14 @@ export default function ProductPage({ product }: { product: Product }) {
           © HOLLOW RONIN  ·  No master. No rules.
         </p>
       </div>
+
+      <Lightbox
+        open={lightboxIdx !== null}
+        close={() => setLightboxIdx(null)}
+        index={lightboxIdx ?? 0}
+        slides={product.images.map((img) => ({ src: img.url, alt: img.alt }))}
+        styles={{ container: { backgroundColor: 'rgba(0, 0, 0, 0.9)' } }}
+      />
     </main>
   )
 }

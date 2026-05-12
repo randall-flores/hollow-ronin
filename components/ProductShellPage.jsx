@@ -80,7 +80,11 @@ export default function ProductShellPage({ title, subtitle, category }) {
         .hr-mock-default,
         .hr-mock-reveal {
           object-fit: cover;
-          transition: opacity 0.5s ease-in-out;
+          transition: opacity 0.2s ease;
+        }
+        @media (hover: none) {
+          .hr-card-link:hover .hr-mock-default { opacity: 1; }
+          .hr-card-link:hover .hr-mock-reveal  { opacity: 0; }
         }
         .hr-mock-default { opacity: 1; }
         .hr-mock-reveal  { opacity: 0; }

@@ -242,10 +242,13 @@ function SizeGuide({ open, onClose }: { open: boolean; onClose: () => void }) {
 
 function VariantPicker({ product, variants }: { product: Product; variants: Product[] }) {
   if (variants.length <= 1) return null
+  const activeIndex = variants.findIndex((v) => v.slug === product.slug)
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <p style={{ margin: 0, fontSize: 9, letterSpacing: 4, color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace', textTransform: 'uppercase' }}>Color</p>
+        <p style={{ margin: 0, fontSize: 9, letterSpacing: 4, color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace', textTransform: 'uppercase' }}>
+          Color  <span style={{ color: 'rgba(255,255,255,0.2)' }}>· {activeIndex + 1} of {variants.length}</span>
+        </p>
         <p style={{ margin: 0, fontSize: 10, fontFamily: 'monospace', color: 'rgba(255,255,255,0.55)' }}>{product.color}</p>
       </div>
       <div style={{ display: 'flex', gap: 10 }}>
@@ -289,12 +292,30 @@ function Related({ items }: { items: Product[] }) {
       padding: '80px 32px 100px',
       maxWidth: 1440, margin: '0 auto',
     }}>
-      <header style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 36 }}>
-        <div style={{ width: 36, height: 1, background: 'rgba(204,34,34,0.55)' }} />
-        <p style={{ margin: 0, fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: 6, color: 'rgba(204,34,34,0.85)', textTransform: 'uppercase' }}>
-          More from the Drop
-        </p>
-        <div style={{ width: 36, height: 1, background: 'rgba(204,34,34,0.55)' }} />
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginBottom: 36, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{ width: 36, height: 1, background: 'rgba(204,34,34,0.55)' }} />
+          <p style={{ margin: 0, fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: 6, color: 'rgba(204,34,34,0.85)', textTransform: 'uppercase' }}>
+            More from the Drop
+          </p>
+          <div style={{ width: 36, height: 1, background: 'rgba(204,34,34,0.55)' }} />
+        </div>
+        <Link
+          href="/shop"
+          style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: 10, letterSpacing: 4,
+            color: 'rgba(255,255,255,0.55)',
+            textTransform: 'uppercase',
+            textDecoration: 'none',
+            padding: '8px 14px',
+            border: '1px solid rgba(255,255,255,0.12)',
+            transition: 'border-color 0.2s ease, color 0.2s ease',
+          }}
+          className="hr-rel-viewall"
+        >
+          View All →
+        </Link>
       </header>
       <div style={{
         display: 'grid',
@@ -452,6 +473,35 @@ export default function ProductPage({ product }: { product: Product }) {
           border-color: rgba(204,34,34,0.55) !important;
           transform: translateY(-4px);
         }
+        .hr-rel-viewall:hover {
+          border-color: #cc2222 !important;
+          color: #cc2222 !important;
+        }
+        .hr-hero img {
+          animation: heroFade 0.35s ease-out;
+        }
+        @keyframes heroFade {
+          from { opacity: 0; transform: scale(0.985); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+        .hr-size-pill {
+          display: inline-flex;
+          align-items: center;
+          height: 18px;
+          padding: 0 6px;
+          margin-left: 6px;
+          font-family: 'Space Mono', monospace;
+          font-size: 9px;
+          letter-spacing: 2px;
+          color: #f0ede6;
+          background: rgba(204,34,34,0.18);
+          border: 1px solid rgba(204,34,34,0.5);
+        }
+        .hr-size-btn:focus-visible,
+        .hr-qty-btn:focus-visible {
+          outline: 2px solid #cc2222;
+          outline-offset: 2px;
+        }
         .hr-mobile-cta {
           position: fixed;
           left: 0; right: 0; bottom: 0;
@@ -529,6 +579,7 @@ export default function ProductPage({ product }: { product: Product }) {
                       key={s}
                       onClick={() => setSize(s)}
                       aria-pressed={selected}
+                      className="hr-size-btn"
                       style={{
                         width: 48, height: 48, fontSize: 11, fontFamily: 'monospace', letterSpacing: 1,
                         border: `1px solid ${selected ? '#cc2222' : 'rgba(255,255,255,0.12)'}`,
@@ -551,14 +602,16 @@ export default function ProductPage({ product }: { product: Product }) {
                 <button
                   onClick={() => setQty((q) => Math.max(1, q - 1))}
                   aria-label="Decrease quantity"
+                  className="hr-qty-btn"
                   style={{ width: 48, height: 48, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.55)', fontFamily: 'monospace', fontSize: 18, cursor: 'pointer', outline: 'none' }}
                 >−</button>
-                <span style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', borderLeft: '1px solid rgba(255,255,255,0.1)', borderRight: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontFamily: 'monospace', fontSize: 14 }}>
+                <span aria-live="polite" style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', borderLeft: '1px solid rgba(255,255,255,0.1)', borderRight: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontFamily: 'monospace', fontSize: 14 }}>
                   {qty}
                 </span>
                 <button
                   onClick={() => setQty((q) => q + 1)}
                   aria-label="Increase quantity"
+                  className="hr-qty-btn"
                   style={{ width: 48, height: 48, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.55)', fontFamily: 'monospace', fontSize: 18, cursor: 'pointer', outline: 'none' }}
                 >+</button>
               </div>
@@ -567,6 +620,7 @@ export default function ProductPage({ product }: { product: Product }) {
             <button
               onClick={handleAdd}
               disabled={!size}
+              aria-live="polite"
               style={{
                 height: 56, width: '100%', outline: 'none', fontFamily: 'monospace',
                 fontSize: 11, letterSpacing: 5, textTransform: 'uppercase',
@@ -617,9 +671,11 @@ export default function ProductPage({ product }: { product: Product }) {
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ margin: 0, fontFamily: 'Georgia, serif', fontSize: 13, color: '#f0ede6', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {product.name}
+              {size && <span className="hr-size-pill">{size}</span>}
             </p>
             <p style={{ margin: '2px 0 0', fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>
-              ${product.price}.00 {size ? `· ${size}` : '· pick size'}
+              ${(product.price * qty).toFixed(2)} {!size && '· pick size'}
+              {size && qty > 1 ? ` · ×${qty}` : ''}
             </p>
           </div>
           <button

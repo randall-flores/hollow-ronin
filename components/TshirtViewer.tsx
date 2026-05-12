@@ -1,77 +1,121 @@
 'use client';
 
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import {
   OrbitControls,
   useGLTF,
   Decal,
   useTexture,
-  Environment,
-  Center,
+  ContactShadows,
+  Float,
 } from '@react-three/drei';
-import { Suspense, useMemo } from 'react';
+import { Suspense, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
 /**
- * Loads the oversized t-shirt GLB and applies two decals:
- *   - Large back-print of the product design (designUrl)
- *   - Small front-left chest logo-mask
+ * GLB: single Mesh, node Object_2, material Material.001.
+ * useGLTF returns nodes indexed by NODE name, so we traverse to grab the
+ * first Mesh — robust regardless of naming.
  *
- * GLB facts (verified by reading the JSON chunk):
- *   - node name:     Object_2
- *   - mesh name:     Object_0
- *   - material name: Material.001
- * useGLTF's `nodes` indexes by NODE name, so we walk the scene to pull the
- * first Mesh — works regardless of which name was used.
+ * The bare GLB material is white. We override with dark cotton, then place
+ * two Decals using the geometry's own bounding-box so positions scale with
+ * whatever model we swap in.
  */
 function Shirt({ designUrl }: { designUrl: string }) {
-  const { scene, materials } = useGLTF('/models/tshirt.glb') as any;
+  const { scene } = useGLTF('/models/tshirt.glb') as any;
   const backTex   = useTexture(designUrl);
   const frontTex  = useTexture('/images/logo-mask.png');
 
-  const mesh = useMemo<THREE.Mesh | null>(() => {
-    let found: THREE.Mesh | null = null;
-    scene.traverse((obj: THREE.Object3D) => {
-      if (!found && obj instanceof THREE.Mesh) found = obj;
+  const data = useMemo(() => {
+    let m: THREE.Mesh | null = null;
+    scene.traverse((o: THREE.Object3D) => {
+      if (!m && o instanceof THREE.Mesh) m = o;
     });
-    return found;
+    if (!m) return null;
+
+    const geom = (m as THREE.Mesh).geometry;
+    geom.computeBoundingBox();
+    const box    = geom.boundingBox!;
+    const center = box.getCenter(new THREE.Vector3());
+    const size   = box.getSize(new THREE.Vector3());
+
+    return { geom, center, size };
   }, [scene]);
 
-  if (!mesh) return null;
+  if (!data) return null;
 
   backTex.colorSpace  = THREE.SRGBColorSpace;
   backTex.anisotropy  = 8;
   frontTex.colorSpace = THREE.SRGBColorSpace;
   frontTex.anisotropy = 8;
 
-  const material = (materials?.['Material.001'] as THREE.Material | undefined) ?? mesh.material;
+  const { geom, center, size } = data;
+
+  // Position decals in MESH-LOCAL space (geometry's own coords)
+  const backPos  : [number, number, number] = [
+    center.x,
+    center.y + size.y * 0.04,
+    center.z - size.z * 0.55,
+  ];
+  const frontPos : [number, number, number] = [
+    center.x - size.x * 0.22,
+    center.y + size.y * 0.28,
+    center.z + size.z * 0.55,
+  ];
+  const backScale  : [number, number, number] = [size.x * 0.55, size.y * 0.45, size.x * 0.6];
+  const frontScale : [number, number, number] = [size.x * 0.15, size.x * 0.15, size.x * 0.3];
+
+  // Translate mesh so geometry bbox center sits at world origin
+  const meshPos : [number, number, number] = [-center.x, -center.y, -center.z];
 
   return (
     <mesh
       castShadow
       receiveShadow
-      geometry={mesh.geometry}
-      material={material}
-      material-roughness={0.85}
-      material-metalness={0}
-      dispose={null}
+      geometry={geom}
+      position={meshPos}
     >
-      {/* Big back print — facing -Z */}
+      <meshStandardMaterial
+        color="#141414"
+        roughness={0.92}
+        metalness={0}
+      />
+
+      {/* Back print — design rotated 180° to face -Z */}
       <Decal
-        position={[0, 1.32, -0.14]}
+        position={backPos}
         rotation={[0, Math.PI, 0]}
-        scale={[0.35, 0.42, 0.35]}
+        scale={backScale}
         map={backTex}
       />
 
-      {/* Small front-left chest logo */}
+      {/* Front-left chest logo */}
       <Decal
-        position={[-0.07, 1.43, 0.13]}
+        position={frontPos}
         rotation={[0, 0, 0]}
-        scale={[0.09, 0.09, 0.09]}
+        scale={frontScale}
         map={frontTex}
       />
     </mesh>
+  );
+}
+
+function KeyLight() {
+  const ref = useRef<THREE.PointLight>(null!);
+  useFrame(({ clock }) => {
+    if (ref.current) {
+      ref.current.intensity = 4.8 + Math.sin(clock.elapsedTime * 0.7) * 0.5;
+    }
+  });
+  return (
+    <pointLight
+      ref={ref}
+      position={[2.5, 3.5, 3]}
+      color="#ff3333"
+      intensity={4.8}
+      distance={14}
+      castShadow
+    />
   );
 }
 
@@ -81,42 +125,68 @@ export default function TshirtViewer({
   designUrl?: string;
 }) {
   return (
-    <div className="w-full h-full min-h-[600px] cursor-grab active:cursor-grabbing">
+    <div className="w-full h-full min-h-[600px] cursor-grab active:cursor-grabbing"
+      style={{ position: 'relative', background: '#080808' }}
+    >
       <Canvas
-        shadows
-        camera={{ position: [0, 1.3, 1.4], fov: 30 }}
+        shadows={{ type: THREE.PCFShadowMap }}
+        camera={{ position: [0, 0.05, 1.05], fov: 38 }}
         gl={{
-          preserveDrawingBuffer: true,
           antialias: true,
           toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.15,
         }}
       >
-        <ambientLight intensity={0.4} />
-        <directionalLight
-          position={[3, 4, 3]}
-          intensity={1.1}
+        <ambientLight intensity={0.45} />
+        <KeyLight />
+        <pointLight position={[-3, 1, 2.5]} color="#ddeeff" intensity={1.6} distance={10} />
+        <pointLight position={[0, 0, -4]}   color="#660000" intensity={3.0} distance={10} />
+        <spotLight
+          position={[0, 6, 2]}
+          color="#ffffff"
+          intensity={2.2}
+          angle={0.35}
+          penumbra={0.85}
+          distance={12}
           castShadow
           shadow-mapSize={[1024, 1024]}
         />
-        <directionalLight position={[-3, 2, -2]} intensity={0.4} />
-        <Environment preset="city" />
 
         <Suspense fallback={null}>
-          <Center>
+          <Float speed={1.2} rotationIntensity={0} floatIntensity={0.22}>
             <Shirt designUrl={designUrl} />
-          </Center>
+          </Float>
         </Suspense>
+
+        <ContactShadows
+          position={[0, -0.42, 0]}
+          opacity={0.55}
+          scale={3.5}
+          blur={2.8}
+          color="#550000"
+          resolution={512}
+        />
 
         <OrbitControls
           enableZoom={false}
           enablePan={false}
           autoRotate
-          autoRotateSpeed={0.4}
-          minPolarAngle={Math.PI / 2.4}
-          maxPolarAngle={Math.PI / 1.8}
+          autoRotateSpeed={0.55}
+          minPolarAngle={Math.PI / 3.2}
+          maxPolarAngle={Math.PI / 1.75}
+          enableDamping
+          dampingFactor={0.06}
           target={[0, 0, 0]}
         />
       </Canvas>
+
+      {/* Vignette overlay */}
+      <div
+        style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          background: 'radial-gradient(ellipse at center, transparent 45%, #080808 100%)',
+        }}
+      />
     </div>
   );
 }

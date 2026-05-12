@@ -31,6 +31,34 @@ export type Product = {
 const FRONT_BLACK = '/mockups/tee-hollow-ronin-logo-front-black.png'
 const FRONT_WHITE = '/mockups/tee-hollow-ronin-logo-front-white.png'
 
+type ImgMod = 'back' | 'm1' | 'm3' | 'm4'
+
+/**
+ * Build the images array in the canonical order:
+ *   back flat → front flat → model 1 → model 3 → model 4
+ * Pass only the modifiers whose files actually exist on disk; anything
+ * omitted is silently dropped from the array (no 404 references).
+ */
+function teeImages(
+  mockup: string,
+  color: 'black' | 'white',
+  name:  string,
+  mods:  ImgMod[],
+): ProductImage[] {
+  const front  = color === 'black' ? FRONT_BLACK : FRONT_WHITE
+  const base   = `/mockups/tee-${mockup}-back-${color}`
+  const has    = (m: ImgMod) => mods.includes(m)
+  const images: ProductImage[] = []
+
+  if (has('back')) images.push({ url: `${base}.png`,          alt: `${name} — back design` })
+                   images.push({ url: front,                    alt: `${name} — front logo` })
+  if (has('m1'))   images.push({ url: `${base}-model1.png`,    alt: `${name} — worn, side` })
+  if (has('m3'))   images.push({ url: `${base}-model3.png`,    alt: `${name} — worn, studio` })
+  if (has('m4'))   images.push({ url: `${base}-model4.png`,    alt: `${name} — worn, editorial` })
+
+  return images
+}
+
 export const PRODUCTS: Product[] = [
   {
     slug:   'torii-ronin-tee',
@@ -38,14 +66,29 @@ export const PRODUCTS: Product[] = [
     tag:    'The Ronin',
     price:  38,
     design: '/designs/torii-ronin.png',
-    images: [
-      { url: '/mockups/tee-crow-warrior-bloodmoon-dark-back-black.png', alt: 'Torii Ronin Tee — back design' },
-      { url: FRONT_BLACK,                                                alt: 'Torii Ronin Tee — front' },
-    ],
+    images: teeImages('crow-warrior-bloodmoon-dark', 'black', 'Torii Ronin Tee', ['back', 'm1', 'm3']),
     accent: '#cc2222',
     bg:     '#0f0a0a',
     label:  'DROP 001',
     color:  'Black',
+    category: 'shirts',
+    blurb:  'A masterless warrior beneath the gates of nothing.',
+    story:  'The torii marks the threshold. The ronin chose to walk through it alone.',
+  },
+  {
+    slug:   'torii-ronin-tee-white',
+    name:   'Torii Ronin Tee',
+    tag:    'The Ronin',
+    price:  38,
+    design: '/designs/torii-ronin.png',
+    images: [
+      { url: '/mockups/tee-crow-warrior-bloodmoon-dark-back-white-model4.png', alt: 'Torii Ronin Tee — worn, editorial' },
+      { url: FRONT_WHITE,                                                       alt: 'Torii Ronin Tee — front logo' },
+    ],
+    accent: '#cc2222',
+    bg:     '#15100f',
+    label:  'DROP 001',
+    color:  'White',
     category: 'shirts',
     blurb:  'A masterless warrior beneath the gates of nothing.',
     story:  'The torii marks the threshold. The ronin chose to walk through it alone.',
@@ -56,10 +99,7 @@ export const PRODUCTS: Product[] = [
     tag:    'The Hollow Warrior',
     price:  38,
     design: '/designs/skeleton-ronin.png',
-    images: [
-      { url: '/mockups/tee-skeleton-ronin-redsun-back-black.png', alt: 'Skeleton Ronin Tee — back design' },
-      { url: FRONT_BLACK,                                          alt: 'Skeleton Ronin Tee — front' },
-    ],
+    images: teeImages('skeleton-ronin-redsun', 'black', 'Skeleton Ronin Tee', ['back', 'm1', 'm3', 'm4']),
     accent: '#cc2222',
     bg:     '#0a0a0a',
     label:  'DROP 001',
@@ -74,10 +114,7 @@ export const PRODUCTS: Product[] = [
     tag:    'Mask of Wrath',
     price:  38,
     design: '/designs/hannya-rage.png',
-    images: [
-      { url: '/mockups/tee-cyber-oni-clash-back-black.png', alt: 'Hannya: Rage Tee — back design' },
-      { url: FRONT_BLACK,                                    alt: 'Hannya: Rage Tee — front' },
-    ],
+    images: teeImages('cyber-oni-clash', 'black', 'Hannya: Rage Tee', ['back', 'm1', 'm3', 'm4']),
     accent: '#cc2222',
     bg:     '#0f0a0a',
     label:  'DROP 001',
@@ -92,10 +129,7 @@ export const PRODUCTS: Product[] = [
     tag:    'Mask of Mourning',
     price:  38,
     design: '/designs/hannya-sorrow.png',
-    images: [
-      { url: '/mockups/tee-oni-samurai-dark-back-black.png', alt: 'Hannya: Sorrow Tee — back design' },
-      { url: FRONT_BLACK,                                     alt: 'Hannya: Sorrow Tee — front' },
-    ],
+    images: teeImages('oni-samurai-dark', 'black', 'Hannya: Sorrow Tee', ['back', 'm1', 'm3', 'm4']),
     accent: '#aa1f3a',
     bg:     '#0a0a10',
     label:  'DROP 001',
@@ -110,10 +144,7 @@ export const PRODUCTS: Product[] = [
     tag:    'Mask of Reckoning',
     price:  38,
     design: '/designs/hannya-vengeance.png',
-    images: [
-      { url: '/mockups/tee-cyber-oni-full-back-black.png', alt: 'Hannya: Vengeance Tee — back design' },
-      { url: FRONT_BLACK,                                   alt: 'Hannya: Vengeance Tee — front' },
-    ],
+    images: teeImages('cyber-oni-full', 'black', 'Hannya: Vengeance Tee', ['back', 'm1', 'm3', 'm4']),
     accent: '#cc2222',
     bg:     '#0f0808',
     label:  'DROP 001',
@@ -128,10 +159,7 @@ export const PRODUCTS: Product[] = [
     tag:    'Mask of Stillness',
     price:  38,
     design: '/designs/hannya-silence.png',
-    images: [
-      { url: '/mockups/tee-skeleton-samurai-kanji-back-black.png', alt: 'Hannya: Silence Tee — back design' },
-      { url: FRONT_BLACK,                                           alt: 'Hannya: Silence Tee — front' },
-    ],
+    images: teeImages('skeleton-samurai-kanji', 'black', 'Hannya: Silence Tee', ['back', 'm1', 'm3', 'm4']),
     accent: '#a83244',
     bg:     '#0a0a0a',
     label:  'DROP 001',
@@ -146,10 +174,7 @@ export const PRODUCTS: Product[] = [
     tag:    'The Dragon',
     price:  38,
     design: '/designs/dragon.png',
-    images: [
-      { url: '/mockups/tee-dragon-red-sun-back-black.png', alt: 'Dragon Tee — back design' },
-      { url: FRONT_BLACK,                                   alt: 'Dragon Tee — front' },
-    ],
+    images: teeImages('dragon-red-sun', 'black', 'Dragon Tee', ['back', 'm1', 'm3']),
     accent: '#cc2222',
     bg:     '#1a1a1f',
     label:  'DROP 001',
@@ -164,14 +189,26 @@ export const PRODUCTS: Product[] = [
     tag:    'The Fox Spirit',
     price:  38,
     design: '/designs/kitsune.png',
-    images: [
-      { url: '/mockups/tee-kitsune-nine-tails-back-black.png', alt: 'Kitsune Tee — back design' },
-      { url: FRONT_BLACK,                                       alt: 'Kitsune Tee — front' },
-    ],
+    images: teeImages('kitsune-nine-tails', 'black', 'Kitsune Tee', ['back', 'm1', 'm3', 'm4']),
     accent: '#cc2222',
     bg:     '#161816',
     label:  'DROP 001',
     color:  'Black',
+    category: 'shirts',
+    blurb:  'Nine tails. One trickster. Zero apologies.',
+    story:  'Kitsune. Nine-tailed silhouette drifting through the long grass between worlds.',
+  },
+  {
+    slug:   'kitsune-tee-white',
+    name:   'Kitsune Tee',
+    tag:    'The Fox Spirit',
+    price:  38,
+    design: '/designs/kitsune.png',
+    images: teeImages('kitsune-nine-tails', 'white', 'Kitsune Tee', ['back', 'm1', 'm3', 'm4']),
+    accent: '#cc2222',
+    bg:     '#1c1d1c',
+    label:  'DROP 001',
+    color:  'White',
     category: 'shirts',
     blurb:  'Nine tails. One trickster. Zero apologies.',
     story:  'Kitsune. Nine-tailed silhouette drifting through the long grass between worlds.',
@@ -182,14 +219,29 @@ export const PRODUCTS: Product[] = [
     tag:    'The Crow Warrior',
     price:  38,
     design: '/designs/tengu.png',
-    images: [
-      { url: '/mockups/tee-crow-warrior-ghost-back-white.png', alt: 'Tengu Tee — back design' },
-      { url: FRONT_WHITE,                                       alt: 'Tengu Tee — front' },
-    ],
+    images: teeImages('crow-warrior-ghost', 'white', 'Tengu Tee', ['back', 'm1', 'm3']),
     accent: '#cc2222',
     bg:     '#101010',
     label:  'DROP 001',
     color:  'White',
+    category: 'shirts',
+    blurb:  'Wings spread across the red sun.',
+    story:  'Tengu. Crow-warrior of the mountain — black feathers, longer memory.',
+  },
+  {
+    slug:   'tengu-tee-black',
+    name:   'Tengu Tee',
+    tag:    'The Crow Warrior',
+    price:  38,
+    design: '/designs/tengu.png',
+    images: [
+      { url: '/mockups/tee-crow-warrior-ghost-back-black-model4.png', alt: 'Tengu Tee — worn, editorial' },
+      { url: FRONT_BLACK,                                              alt: 'Tengu Tee — front logo' },
+    ],
+    accent: '#cc2222',
+    bg:     '#0c0c0c',
+    label:  'DROP 001',
+    color:  'Black',
     category: 'shirts',
     blurb:  'Wings spread across the red sun.',
     story:  'Tengu. Crow-warrior of the mountain — black feathers, longer memory.',
@@ -200,10 +252,7 @@ export const PRODUCTS: Product[] = [
     tag:    'The Sentinel',
     price:  38,
     design: '/designs/tengu-watch.png',
-    images: [
-      { url: '/mockups/tee-crow-ronin-bloodmoon-back-white.png', alt: 'Tengu: Watch Tee — back design' },
-      { url: FRONT_WHITE,                                         alt: 'Tengu: Watch Tee — front' },
-    ],
+    images: teeImages('crow-ronin-bloodmoon', 'white', 'Tengu: Watch Tee', ['back', 'm1', 'm3', 'm4']),
     accent: '#cc2222',
     bg:     '#15151a',
     label:  'DROP 001',
@@ -218,10 +267,7 @@ export const PRODUCTS: Product[] = [
     tag:    'The Stormbringer',
     price:  38,
     design: '/designs/tengu-wing.png',
-    images: [
-      { url: '/mockups/tee-crow-samurai-aerial-back-black.png', alt: 'Tengu: Wing Tee — back design' },
-      { url: FRONT_BLACK,                                        alt: 'Tengu: Wing Tee — front' },
-    ],
+    images: teeImages('crow-samurai-aerial', 'black', 'Tengu: Wing Tee', ['back', 'm1', 'm3', 'm4']),
     accent: '#cc2222',
     bg:     '#1a1a1f',
     label:  'DROP 001',
@@ -236,10 +282,7 @@ export const PRODUCTS: Product[] = [
     tag:    'The Reaper',
     price:  38,
     design: '/designs/tengu-shadow.png',
-    images: [
-      { url: '/mockups/tee-cyberpunk-ninja-neon-back-black.png', alt: 'Tengu: Shadow Tee — back design' },
-      { url: FRONT_BLACK,                                         alt: 'Tengu: Shadow Tee — front' },
-    ],
+    images: teeImages('cyberpunk-ninja-neon', 'black', 'Tengu: Shadow Tee', ['back', 'm1', 'm4']),
     accent: '#cc2222',
     bg:     '#151515',
     label:  'DROP 001',

@@ -1,26 +1,17 @@
 import HeroSection from "@/components/HeroSection";
 import Ticker from "@/components/layout/Ticker";
-import ProductGrid from "@/components/product/ProductGrid";
+import TheCode from "@/components/ui/TheCode";
 import BrandStatement from "@/components/ui/BrandStatement";
-import EmailCapture from "@/components/ui/EmailCapture";
+import TheOrder from "@/components/ui/TheOrder";
 
 export default function HomePage() {
   return (
     <main>
-      {/* ── HERO ───────────────────────────────────── */}
       <HeroSection />
-
-      {/* ── TICKER ─────────────────────────────────── */}
       <Ticker />
-
-      {/* ── PRODUCTS ───────────────────────────────── */}
-      <ProductGrid />
-
-      {/* ── BRAND STATEMENT ────────────────────────── */}
+      <TheCode />
       <BrandStatement />
-
-      {/* ── EMAIL CAPTURE ───────────────────────────── */}
-      <EmailCapture />
+      <TheOrder />
     </main>
   );
 }

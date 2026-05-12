@@ -225,10 +225,12 @@ export default function Navbar() {
               border: "none",
               cursor: "pointer",
               color: "#a8a8a8",
-              fontSize: "20px",
               padding: 0,
               position: "relative",
               transition: "color 0.2s",
+              display: "flex",
+              alignItems: "center",
+              lineHeight: 0,
             }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLButtonElement).style.color = "#fff")
@@ -237,13 +239,17 @@ export default function Navbar() {
               ((e.currentTarget as HTMLButtonElement).style.color = "#a8a8a8")
             }
           >
-            🛒
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
+              <path d="M3 4h2l2.5 12h11L21 8H6" />
+              <circle cx="9" cy="20" r="1.2" fill="currentColor" stroke="none" />
+              <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none" />
+            </svg>
             {cartCount > 0 && (
               <span
                 aria-label={`${cartCount} item${cartCount === 1 ? "" : "s"} in cart`}
                 style={{
                   position: "absolute",
-                  top: "-6px",
+                  top: "-8px",
                   right: "-10px",
                   minWidth: 18,
                   height: 18,
@@ -274,10 +280,12 @@ export default function Navbar() {
               border: "none",
               cursor: "pointer",
               color: "#a8a8a8",
-              fontSize: "20px",
               padding: 0,
               textDecoration: "none",
               transition: "color 0.2s",
+              display: "flex",
+              alignItems: "center",
+              lineHeight: 0,
             }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")
@@ -286,7 +294,10 @@ export default function Navbar() {
               ((e.currentTarget as HTMLAnchorElement).style.color = "#a8a8a8")
             }
           >
-            👤
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.5" />
+              <path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6" />
+            </svg>
           </Link>
         </div>
       </nav>
@@ -495,16 +506,22 @@ export default function Navbar() {
               border: "none",
               cursor: "pointer",
               color: "#a8a8a8",
-              fontSize: "24px",
               position: "relative",
+              display: "flex",
+              alignItems: "center",
+              lineHeight: 0,
             }}
             aria-label="Cart"
           >
-            🛒
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
+              <path d="M3 4h2l2.5 12h11L21 8H6" />
+              <circle cx="9" cy="20" r="1.2" fill="currentColor" stroke="none" />
+              <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none" />
+            </svg>
             {cartCount > 0 && (
               <span style={{
                 position: "absolute",
-                top: "-4px",
+                top: "-6px",
                 right: "-12px",
                 minWidth: 18, height: 18, padding: "0 5px",
                 borderRadius: 999,
@@ -525,12 +542,17 @@ export default function Navbar() {
               border: "none",
               cursor: "pointer",
               color: "#a8a8a8",
-              fontSize: "24px",
               textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+              lineHeight: 0,
             }}
             aria-label="Account"
           >
-            👤
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.5" />
+              <path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6" />
+            </svg>
           </Link>
         </div>
       </div>

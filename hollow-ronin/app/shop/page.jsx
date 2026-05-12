@@ -1,6 +1,18 @@
 import Link from "next/link";
 import { PRODUCTS, getProductsByCategory } from "@/lib/products";
 
+export const metadata = {
+  title: "Shop · The Armory",
+  description:
+    "Browse the full Hollow Ronin armory — shirts, hoodies, hats, beanies, socks, scarfs, and hooded masks. DROP 001 // Void Collection.",
+  alternates: { canonical: "/shop" },
+  openGraph: {
+    title:       "Shop the Armory · HOLLOW RONIN",
+    description: "The full Hollow Ronin catalog. Limited transmissions, forged for the void.",
+    url:         "/shop",
+  },
+};
+
 const CATEGORIES = [
   { label: "SHIRTS",       slug: "shirts",         href: "/shop/shirts" },
   { label: "HOODIES",      slug: "hoodies",        href: "/shop/hoodies" },

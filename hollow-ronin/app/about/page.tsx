@@ -1,4 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "About · The Hollow Code",
+  description:
+    "Hollow Ronin is a cyber-samurai streetwear label born outside the system. No master, no rules, no compromise. Read the manifesto, the process, the transmission log.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title:       "About · The Hollow Code · HOLLOW RONIN",
+    description: "Manifesto, process, founder's note. Built for the masterless.",
+    url:         "/about",
+  },
+};
 
 const PHILOSOPHY = [
   "Hollow Ronin was born in the margins. Late nights. Cold lights. A laptop, a Wacom tablet, and a refusal to design for anyone but the ghosts in the mirror.",

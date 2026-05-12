@@ -7,9 +7,38 @@ import SlashCursor from "@/components/SlashCursor";
 import { CartProvider } from "@/components/cart/CartProvider";
 import CartDrawer from "@/components/cart/CartDrawer";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hollowronin.com";
+const OG_IMAGE = "/mockups/tee-cyber-oni-clash-back-black-model3.png";
+
 export const metadata: Metadata = {
-  title: "HOLLOW RONIN — No Master. No Rules.",
-  description: "Fabricated in the void. Designed for the resistance. A new protocol of functional aesthetics.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default:  "Hollow Ronin — Cyber-samurai streetwear. Drop-based. Limited by design.",
+    template: "%s · HOLLOW RONIN",
+  },
+  description:
+    "Hollow Ronin — Cyber-samurai streetwear. Drop-based. Limited by design.",
+  keywords: [
+    "Hollow Ronin", "cyber-samurai streetwear", "Japanese streetwear",
+    "ronin clothing", "yokai apparel", "limited drop", "DROP 001",
+    "cyberpunk streetwear", "samurai tees",
+  ],
+  openGraph: {
+    type:        "website",
+    siteName:    "HOLLOW RONIN",
+    title:       "Hollow Ronin — Cyber-samurai streetwear. Drop-based. Limited by design.",
+    description: "Six garments. Six ghosts. Cut once, then never again.",
+    url:         SITE_URL,
+    images: [{ url: OG_IMAGE, width: 1200, height: 1200, alt: "Hollow Ronin · DROP 001" }],
+  },
+  twitter: {
+    card:        "summary_large_image",
+    title:       "Hollow Ronin — Cyber-samurai streetwear",
+    description: "Drop-based. Limited by design.",
+    images:      [OG_IMAGE],
+  },
+  robots: { index: true, follow: true },
+  alternates: { canonical: "/" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

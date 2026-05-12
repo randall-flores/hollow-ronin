@@ -1,6 +1,19 @@
 import Link from "next/link";
 import Image from "next/image";
 
+export const metadata = {
+  title: "Lookbook · Editorial Vol. I",
+  description:
+    "Six fragments. One protocol. The Hollow Ronin DROP 001 editorial — Ronin, Oni, Kitsune, Tengu, Ryū, Hollow.",
+  alternates: { canonical: "/lookbook" },
+  openGraph: {
+    title:       "Lookbook · Editorial Vol. I · HOLLOW RONIN",
+    description: "Six fragments. One protocol. The cinematic DROP 001 editorial.",
+    url:         "/lookbook",
+    images:      ["/mockups/tee-cyber-oni-clash-back-black-model3.png"],
+  },
+};
+
 const CHAPTERS = [
   {
     num:     "I",

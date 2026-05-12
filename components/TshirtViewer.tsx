@@ -38,8 +38,10 @@ function Shirt({ designUrl }: { designUrl: string }) {
     const box    = geom.boundingBox!;
     const center = box.getCenter(new THREE.Vector3());
     const size   = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const fitScale = 1.0 / maxDim; // normalize shirt into ~1 unit cube
 
-    return { geom, center, size };
+    return { geom, center, size, fitScale };
   }, [scene]);
 
   if (!data) return null;
@@ -49,9 +51,10 @@ function Shirt({ designUrl }: { designUrl: string }) {
   frontTex.colorSpace = THREE.SRGBColorSpace;
   frontTex.anisotropy = 8;
 
-  const { geom, center, size } = data;
+  const { geom, center, size, fitScale } = data;
 
-  // Position decals in MESH-LOCAL space (geometry's own coords)
+  // Decals use MESH-LOCAL (= original geometry) coords. Group scale below
+  // shrinks the whole shirt; positions/scales scale with it automatically.
   const backPos  : [number, number, number] = [
     center.x,
     center.y + size.y * 0.04,
@@ -65,38 +68,40 @@ function Shirt({ designUrl }: { designUrl: string }) {
   const backScale  : [number, number, number] = [size.x * 0.55, size.y * 0.45, size.x * 0.6];
   const frontScale : [number, number, number] = [size.x * 0.15, size.x * 0.15, size.x * 0.3];
 
-  // Translate mesh so geometry bbox center sits at world origin
+  // Re-center geometry at parent origin (parent group then scales the result)
   const meshPos : [number, number, number] = [-center.x, -center.y, -center.z];
 
   return (
-    <mesh
-      castShadow
-      receiveShadow
-      geometry={geom}
-      position={meshPos}
-    >
-      <meshStandardMaterial
-        color="#141414"
-        roughness={0.92}
-        metalness={0}
-      />
+    <group scale={fitScale}>
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={geom}
+        position={meshPos}
+      >
+        <meshStandardMaterial
+          color="#141414"
+          roughness={0.92}
+          metalness={0}
+        />
 
-      {/* Back print — design rotated 180° to face -Z */}
-      <Decal
-        position={backPos}
-        rotation={[0, Math.PI, 0]}
-        scale={backScale}
-        map={backTex}
-      />
+        {/* Back print — rotated 180° to face -Z */}
+        <Decal
+          position={backPos}
+          rotation={[0, Math.PI, 0]}
+          scale={backScale}
+          map={backTex}
+        />
 
-      {/* Front-left chest logo */}
-      <Decal
-        position={frontPos}
-        rotation={[0, 0, 0]}
-        scale={frontScale}
-        map={frontTex}
-      />
-    </mesh>
+        {/* Front-left chest logo */}
+        <Decal
+          position={frontPos}
+          rotation={[0, 0, 0]}
+          scale={frontScale}
+          map={frontTex}
+        />
+      </mesh>
+    </group>
   );
 }
 
@@ -130,7 +135,7 @@ export default function TshirtViewer({
     >
       <Canvas
         shadows={{ type: THREE.PCFShadowMap }}
-        camera={{ position: [0, 0.05, 1.05], fov: 38 }}
+        camera={{ position: [0, 0.05, 1.75], fov: 36 }}
         gl={{
           antialias: true,
           toneMapping: THREE.ACESFilmicToneMapping,
@@ -159,7 +164,7 @@ export default function TshirtViewer({
         </Suspense>
 
         <ContactShadows
-          position={[0, -0.42, 0]}
+          position={[0, -0.55, 0]}
           opacity={0.55}
           scale={3.5}
           blur={2.8}

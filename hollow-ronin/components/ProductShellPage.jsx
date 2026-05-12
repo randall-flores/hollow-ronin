@@ -91,6 +91,28 @@ export default function ProductShellPage({ title, subtitle, category }) {
         .hr-view {
           transition: background 0.3s ease, color 0.3s ease;
         }
+        .hr-grid {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 1px;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.06);
+        }
+        .hr-grid > .hr-card-link {
+          flex: 1 1 320px;
+          max-width: calc(25% - 1px);
+          min-width: 280px;
+        }
+        @media (max-width: 1180px) {
+          .hr-grid > .hr-card-link { max-width: calc(33.333% - 1px); }
+        }
+        @media (max-width: 860px) {
+          .hr-grid > .hr-card-link { max-width: calc(50% - 1px); }
+        }
+        @media (max-width: 560px) {
+          .hr-grid > .hr-card-link { max-width: 100%; }
+        }
         @keyframes hr-scan {
           0%   { transform: translateY(-100%); }
           100% { transform: translateY(100%); }
@@ -235,13 +257,7 @@ export default function ProductShellPage({ title, subtitle, category }) {
             </Link>
           </div>
         ) : (
-        <div style={{
-          display:             'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-          gap:                 '1px',
-          background:          'rgba(255,255,255,0.05)',
-          border:              '1px solid rgba(255,255,255,0.06)',
-        }}>
+        <div className="hr-grid">
           {products.map((product, i) => (
             <Link
               key={product.slug}
@@ -310,22 +326,6 @@ export default function ProductShellPage({ title, subtitle, category }) {
                   background: 'radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%)',
                 }} />
 
-                {/* Tag at bottom */}
-                <div style={{
-                  position: 'absolute', bottom: 22, left: '50%', transform: 'translateX(-50%)',
-                  display: 'flex', alignItems: 'center', gap: 10, zIndex: 4,
-                }}>
-                  <div style={{ width: 22, height: 1, background: product.accent, opacity: 0.7 }} />
-                  <span style={{
-                    fontSize: 10, letterSpacing: 4,
-                    fontFamily: '"Space Mono", monospace',
-                    color: 'rgba(255,255,255,0.55)',
-                    textTransform: 'uppercase',
-                  }}>
-                    {product.tag}
-                  </span>
-                  <div style={{ width: 22, height: 1, background: product.accent, opacity: 0.7 }} />
-                </div>
               </div>
 
               {/* Footer */}

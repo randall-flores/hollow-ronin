@@ -165,7 +165,8 @@ export default function ProductPage({ product }: { product: Product }) {
 
         <div>
           <p style={{ margin: '0 0 14px', fontSize: 9, letterSpacing: 5, color: '#cc2222', fontFamily: 'monospace', textTransform: 'uppercase' }}>{product.label}  ·  Limited Edition</p>
-          <h1 style={{ margin: '0 0 18px', fontSize: 42, fontWeight: 700, lineHeight: 1.06, letterSpacing: -0.5 }}>{product.name}</h1>
+          <h1 style={{ margin: '0 0 6px', fontFamily: "'Bebas Neue', sans-serif", fontSize: 56, fontWeight: 400, lineHeight: 1, letterSpacing: '0.06em', color: '#f0ede6' }}>{product.name}</h1>
+          <p style={{ margin: '0 0 18px', fontSize: 10, letterSpacing: 6, fontFamily: 'monospace', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>{product.subtitle}</p>
           <p style={{ margin: '0 0 18px', fontSize: 13, fontStyle: 'italic', color: 'rgba(255,255,255,0.45)', lineHeight: 1.5, maxWidth: 420 }}>{product.story}</p>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
             <span style={{ fontSize: 24, fontFamily: 'monospace' }}>${product.price}.00</span>

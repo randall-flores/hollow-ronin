@@ -3,14 +3,14 @@ import Image from "next/image";
 import { getProduct, type Product } from "@/lib/products";
 
 const FEATURED_SLUGS = [
-  "torii-ronin-tee",
-  "hannya-rage-tee",
-  "skeleton-ronin-tee",
-  "dragon-tee",
-  "kitsune-tee",
-  "tengu-wing-tee",      // Crow Samurai design (crow-samurai-aerial)
-  "tengu-shadow-tee",    // Cyberpunk Ninja design (cyberpunk-ninja-neon)
-  "hannya-silence-tee",
+  "the-ronin",
+  "mask-of-wrath",
+  "the-hollow-warrior",
+  "the-dragon",
+  "the-fox",
+  "the-stormbringer",   // Crow Samurai design (crow-samurai-aerial)
+  "the-reaper",         // Cyberpunk Ninja design (cyberpunk-ninja-neon)
+  "mask-of-stillness",
 ];
 
 export default function TheDrop() {
@@ -84,6 +84,28 @@ export default function TheDrop() {
         @media (hover: none) {
           .td-link:hover .td-default { opacity: 1; }
           .td-link:hover .td-reveal  { opacity: 0; }
+        }
+        .td-grid {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 1px;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.06);
+        }
+        .td-grid > .td-link {
+          flex: 1 1 280px;
+          max-width: calc(25% - 1px);
+          min-width: 260px;
+        }
+        @media (max-width: 1180px) {
+          .td-grid > .td-link { max-width: calc(33.333% - 1px); }
+        }
+        @media (max-width: 860px) {
+          .td-grid > .td-link { max-width: calc(50% - 1px); }
+        }
+        @media (max-width: 560px) {
+          .td-grid > .td-link { max-width: 100%; }
         }
         .td-scanline {
           position: absolute; left: 0; right: 0; height: 180px;
@@ -159,13 +181,7 @@ export default function TheDrop() {
         position: "relative", zIndex: 2,
         maxWidth: 1440, margin: "0 auto",
       }}>
-        <div style={{
-          display:             "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap:                 "1px",
-          background:          "rgba(255,255,255,0.05)",
-          border:              "1px solid rgba(255,255,255,0.06)",
-        }}>
+        <div className="td-grid">
           {featured.map((product, i) => (
             <Link
               key={product.slug}
@@ -226,22 +242,6 @@ export default function TheDrop() {
                   background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%)",
                 }} />
 
-                <div style={{
-                  position: "absolute", bottom: 20, left: "50%", transform: "translateX(-50%)",
-                  display: "flex", alignItems: "center", gap: 10, zIndex: 4,
-                }}>
-                  <div style={{ width: 20, height: 1, background: product.accent, opacity: 0.7 }} />
-                  <span style={{
-                    fontSize: 9, letterSpacing: 4,
-                    fontFamily: "'Space Mono', monospace",
-                    color: "rgba(255,255,255,0.55)",
-                    textTransform: "uppercase",
-                    whiteSpace: "nowrap",
-                  }}>
-                    {product.tag}
-                  </span>
-                  <div style={{ width: 20, height: 1, background: product.accent, opacity: 0.7 }} />
-                </div>
               </div>
 
               <div style={{

@@ -1,10 +1,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { PRODUCTS, getProductsByCategory } from '@/lib/products';
+import { PRODUCTS, getProductsByCategory, getLeadVariants, getFamilyVariants } from '@/lib/products';
+
+const COLOR_DOT = {
+  Black: '#1a1a1a',
+  White: '#e8e2d6',
+};
 
 export default function ProductShellPage({ title, subtitle, category }) {
-  const products = category ? getProductsByCategory(category) : PRODUCTS;
-  const isEmpty  = products.length === 0;
+  const allInCategory = category ? getProductsByCategory(category) : PRODUCTS;
+  const products      = getLeadVariants(allInCategory);
+  const isEmpty       = products.length === 0;
 
   return (
     <main style={{ minHeight: '100vh', background: '#080808', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
@@ -258,7 +264,10 @@ export default function ProductShellPage({ title, subtitle, category }) {
           </div>
         ) : (
         <div className="hr-grid">
-          {products.map((product, i) => (
+          {products.map((product, i) => {
+            const variants = getFamilyVariants(product.designFamily, allInCategory);
+            const hasMultipleColors = variants.length > 1;
+            return (
             <Link
               key={product.slug}
               href={`/products/${product.slug}`}
@@ -269,6 +278,11 @@ export default function ProductShellPage({ title, subtitle, category }) {
                 '--card-accent': product.accent,
                 animationDelay:  `${i * 0.12}s`,
               }}
+              aria-label={
+                hasMultipleColors
+                  ? `${product.name} · available in ${variants.length} colors`
+                  : product.name
+              }
             >
               {/* Visual area */}
               <div style={{
@@ -355,14 +369,41 @@ export default function ProductShellPage({ title, subtitle, category }) {
                   }}>
                     {product.name}
                   </p>
-                  <p style={{
-                    margin: 0, fontSize: 11,
-                    fontFamily: '"Space Mono", monospace',
-                    color: 'rgba(255,255,255,0.42)',
-                    letterSpacing: 2,
-                  }}>
-                    ${product.price}.00 USD
-                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <p style={{
+                      margin: 0, fontSize: 11,
+                      fontFamily: '"Space Mono", monospace',
+                      color: 'rgba(255,255,255,0.42)',
+                      letterSpacing: 2,
+                    }}>
+                      ${product.price}.00 USD
+                    </p>
+                    {hasMultipleColors && (
+                      <span
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}
+                        aria-hidden="true"
+                      >
+                        {variants.map((v) => (
+                          <span
+                            key={v.slug}
+                            title={v.color}
+                            style={{
+                              width: 8,
+                              height: 8,
+                              borderRadius: '50%',
+                              background: COLOR_DOT[v.color],
+                              border: v.slug === product.slug
+                                ? `1px solid ${product.accent}`
+                                : '1px solid rgba(255,255,255,0.18)',
+                              boxShadow: v.slug === product.slug
+                                ? `0 0 0 2px ${product.accent}33`
+                                : 'none',
+                            }}
+                          />
+                        ))}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div
                   className="hr-view"
@@ -380,7 +421,8 @@ export default function ProductShellPage({ title, subtitle, category }) {
                 </div>
               </div>
             </Link>
-          ))}
+            );
+          })}
         </div>
         )}
 

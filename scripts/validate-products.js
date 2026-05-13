@@ -4,18 +4,17 @@
  * reaches production.
  *
  * Gallery contract (must be true for every product):
- *   [0] back design (unique per product)
- *   [1] front view — color-matched brand-mark tee
- *   [2..] model shots (optional)
+ *   [0]  back design — /mockups/tee-{slug}-back-{color}.png
+ *   [1]  chest sigil — /sigils/mon-{slug}-transparent.png (per-character)
+ *   [2+] model shots — /mockups/tee-{slug}-back-{color}-model{N}.png
  *
- * Checks:
- *   1. Every image URL in every product's gallery resolves to a real file
- *      on disk under public/.
- *   2. Every product has a non-empty `designFamily` field.
- *   3. Every product has at least 2 images (back + front).
- *   4. gallery[1] is the brand-mark front-logo tee.
- *   5. gallery[1] color matches the product's color variant (white tee
- *      for White products, black tee for Black products).
+ * Field checks (per product):
+ *   - slug, name, clan, title, japaneseName, tagline, blurb, story, designFamily
+ *   - clan ∈ { Akatsuki, Yami, Kage, Protagonist }
+ *   - tagline, blurb, story all non-empty strings
+ *   - gallery has at least 2 images (back + sigil)
+ *   - gallery[1] url matches /sigils/mon-{slug}-transparent.png
+ *   - every image file exists on disk under public/
  *
  * Exits 1 on any failure.
  */
@@ -28,8 +27,9 @@ const Module = require('module');
 const REPO_ROOT     = path.resolve(__dirname, '..');
 const PRODUCTS_TS   = path.join(REPO_ROOT, 'lib', 'products.ts');
 const PUBLIC_DIR    = path.join(REPO_ROOT, 'public');
-const FRONT_BLACK   = '/mockups/tee-hollow-ronin-logo-front-black.png';
-const FRONT_WHITE   = '/mockups/tee-hollow-ronin-logo-front-white.png';
+
+const VALID_CLANS = new Set(['Akatsuki', 'Yami', 'Kage', 'Protagonist']);
+const TEXT_FIELDS = ['name', 'japaneseName', 'clan', 'title', 'tagline', 'blurb', 'story', 'designFamily'];
 
 function loadProducts() {
   const src = fs.readFileSync(PRODUCTS_TS, 'utf8');
@@ -53,29 +53,49 @@ function main() {
   }
 
   const familyCounts = new Map();
+  const seenSlugs    = new Set();
 
   for (const p of PRODUCTS) {
     const tag = `[${p.slug ?? '<no-slug>'}]`;
 
     if (!p.slug || typeof p.slug !== 'string') {
       errors.push(`${tag} missing slug`);
+      continue;
     }
 
-    if (!p.designFamily || typeof p.designFamily !== 'string') {
-      errors.push(`${tag} missing designFamily`);
-    } else {
+    if (seenSlugs.has(p.slug)) errors.push(`${tag} duplicate slug`);
+    seenSlugs.add(p.slug);
+
+    for (const field of TEXT_FIELDS) {
+      if (!p[field] || typeof p[field] !== 'string' || !p[field].trim()) {
+        errors.push(`${tag} missing or empty ${field}`);
+      }
+    }
+
+    if (p.clan && !VALID_CLANS.has(p.clan)) {
+      errors.push(`${tag} clan "${p.clan}" not in { Akatsuki, Yami, Kage, Protagonist }`);
+    }
+
+    if (p.designFamily) {
       familyCounts.set(p.designFamily, (familyCounts.get(p.designFamily) ?? 0) + 1);
     }
 
     if (!Array.isArray(p.images) || p.images.length < 2) {
-      errors.push(`${tag} gallery is incomplete (needs back [0] + front [1], has ${Array.isArray(p.images) ? p.images.length : 0})`);
+      errors.push(`${tag} gallery is incomplete (needs back [0] + sigil [1], has ${Array.isArray(p.images) ? p.images.length : 0})`);
       continue;
     }
 
-    const expectedFront = p.color === 'White' ? FRONT_WHITE : FRONT_BLACK;
-    const frontUrl      = p.images[1]?.url;
-    if (frontUrl !== expectedFront) {
-      errors.push(`${tag} gallery[1] must be the ${p.color} front view (${expectedFront}); got: ${frontUrl ?? '<missing>'}`);
+    const expectedSigil = `/sigils/mon-${p.slug}-transparent.png`;
+    const sigilUrl      = p.images[1]?.url;
+    if (sigilUrl !== expectedSigil) {
+      errors.push(`${tag} gallery[1] must be the per-character sigil (${expectedSigil}); got: ${sigilUrl ?? '<missing>'}`);
+    }
+
+    const color = (p.color === 'White' ? 'white' : 'black');
+    const expectedBack = `/mockups/tee-${p.slug}-back-${color}.png`;
+    const backUrl      = p.images[0]?.url;
+    if (backUrl !== expectedBack) {
+      errors.push(`${tag} gallery[0] must be the back design (${expectedBack}); got: ${backUrl ?? '<missing>'}`);
     }
 
     for (const img of p.images) {
@@ -89,10 +109,6 @@ function main() {
         errors.push(`${tag} image file does not exist on disk: ${img.url}`);
       }
     }
-  }
-
-  for (const [family, count] of familyCounts) {
-    if (count < 1) errors.push(`design family "${family}" has zero variants`);
   }
 
   report(errors, PRODUCTS.length, familyCounts.size);

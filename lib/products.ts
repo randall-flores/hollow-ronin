@@ -7,6 +7,8 @@ export type Category =
   | 'scarfs'
   | 'masked-hoodies'
 
+export type Clan = 'Akatsuki' | 'Yami' | 'Kage' | 'Protagonist'
+
 export type ProductImage = {
   url: string
   alt: string
@@ -15,7 +17,13 @@ export type ProductImage = {
 export type Product = {
   slug:          string
   name:          string
+  japaneseName:  string
+  clan:          Clan
+  title:         string
   subtitle:      string
+  tagline:       string
+  blurb:         string
+  story:         string
   tag:           string
   price:         number
   designFamily:  string
@@ -25,326 +33,299 @@ export type Product = {
   label:         string
   color:         'Black' | 'White'
   category:      Category
-  blurb:         string
-  story:         string
 }
 
-const FRONT_BLACK = '/mockups/tee-hollow-ronin-logo-front-black.png'
-const FRONT_WHITE = '/mockups/tee-hollow-ronin-logo-front-white.png'
+type ImgMod = 'm1' | 'm3' | 'm4'
 
-type ImgMod = 'back' | 'm1' | 'm3' | 'm4'
-
-// Gallery order is fixed and per-color:
-//   [0] back design (the unique artwork for this product)
-//   [1] front view — color-matched brand-mark tee (same image for every
-//       product of that color, because the brand mark is what prints on
-//       the chest of every Hollow Ronin shirt). Drives listing hover swap.
-//   [2..] model shots: model-1, model-3, model-4 in mods order.
-//
-// Every product MUST have indices [0] and [1] populated. Enforced by
-// scripts/validate-products.js.
+// Gallery contract (per product, enforced by scripts/validate-products.js):
+//   [0]  back design — /mockups/tee-{slug}-back-{color}.png
+//   [1]  chest sigil — /sigils/mon-{slug}-transparent.png (per-character)
+//   [2+] worn model shots — /mockups/tee-{slug}-back-{color}-model{N}.png
 function teeImages(
-  mockup: string,
+  slug:  string,
   color: 'black' | 'white',
   name:  string,
   mods:  ImgMod[],
 ): ProductImage[] {
-  const front = color === 'black' ? FRONT_BLACK : FRONT_WHITE
-  const base  = `/mockups/tee-${mockup}-back-${color}`
-  const has   = (m: ImgMod) => mods.includes(m)
-  const images: ProductImage[] = []
-
-  if (has('back')) images.push({ url: `${base}.png`,        alt: `${name} — back design` })
-                   images.push({ url: front,                alt: `${name} — front view` })
-  if (has('m1'))   images.push({ url: `${base}-model1.png`, alt: `${name} — worn, side` })
-  if (has('m3'))   images.push({ url: `${base}-model3.png`, alt: `${name} — worn, studio` })
-  if (has('m4'))   images.push({ url: `${base}-model4.png`, alt: `${name} — worn, editorial` })
-
+  const base   = `/mockups/tee-${slug}-back-${color}`
+  const sigil  = `/sigils/mon-${slug}-transparent.png`
+  const images: ProductImage[] = [
+    { url: `${base}.png`, alt: `${name} — back design` },
+    { url: sigil,         alt: `${name} — chest sigil` },
+  ]
+  if (mods.includes('m1')) images.push({ url: `${base}-model1.png`, alt: `${name} — worn, side` })
+  if (mods.includes('m3')) images.push({ url: `${base}-model3.png`, alt: `${name} — worn, studio` })
+  if (mods.includes('m4')) images.push({ url: `${base}-model4.png`, alt: `${name} — worn, editorial` })
   return images
 }
 
 export const PRODUCTS: Product[] = [
+  // 00 — THE NAMELESS
   {
-    slug:         'the-ronin',
-    name:         'THE RONIN',
-    subtitle:     'Torii Ronin',
-    tag:          'The Ronin',
+    slug:         'hollow-ronin',
+    name:         'HOLLOW RONIN',
+    japaneseName: 'Mon no Mukō',
+    clan:         'Protagonist',
+    title:        'The Nameless',
+    subtitle:     'Mon no Mukō · The Nameless',
+    tagline:      'The torii marks the threshold. The ronin chose to walk through it alone.',
+    blurb:        'No master. No name. No way back.',
+    story:        'He walked through the gate between the living and the forgotten with no master to mourn and no name worth speaking. What came back was not a man — but a vow that refused to die. He is the first. He is the last. He walks among the thirteen.',
+    tag:          'The Nameless',
     price:        38,
-    designFamily: 'torii-ronin',
-    images:       teeImages('crow-ronin-bloodmoon', 'black', 'THE RONIN', ['back']),
-    accent:       '#cc2222',
-    bg:           '#0f0a0a',
+    designFamily: 'hollow-ronin',
+    images:       teeImages('hollow-ronin', 'black', 'HOLLOW RONIN', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
-    blurb:        'A masterless warrior beneath the gates of nothing.',
-    story:        'The torii marks the threshold. The ronin chose to walk through it alone.',
   },
+
+  // 01 — AKATSUKI-GUMI
   {
-    slug:         'the-ronin-white',
-    name:         'THE RONIN',
-    subtitle:     'Torii Ronin',
-    tag:          'The Ronin',
+    slug:         'ryujin-dragon-vow',
+    name:         'RYŪJIN',
+    japaneseName: 'Ryūjin',
+    clan:         'Akatsuki',
+    title:        'The Dragon Vow',
+    subtitle:     'Akatsuki-Gumi · The Dragon Vow',
+    tagline:      'The dragon coils upward — neon scale, ink shadow, breath of cold light.',
+    blurb:        'One body. Two vows. No master.',
+    story:        'First of the Crimson Clan. His blood ran with the river kami, and when his master fell, the dragon refused to leave him. Now they share one body, two vows, and no master worth serving.',
+    tag:          'The Dragon Vow',
     price:        38,
-    designFamily: 'torii-ronin',
-    images:       teeImages('crow-ronin-bloodmoon', 'white', 'THE RONIN', ['back', 'm1', 'm3', 'm4']),
-    accent:       '#cc2222',
-    bg:           '#15100f',
-    label:        'DROP 001',
-    color:        'White',
-    category:     'shirts',
-    blurb:        'A masterless warrior beneath the gates of nothing.',
-    story:        'The torii marks the threshold. The ronin chose to walk through it alone.',
-  },
-  {
-    slug:         'the-hollow-warrior',
-    name:         'THE HOLLOW WARRIOR',
-    subtitle:     'Skeleton Ronin',
-    tag:          'The Hollow Warrior',
-    price:        38,
-    designFamily: 'skeleton-ronin',
-    images:       teeImages('skeleton-ronin-redsun', 'black', 'THE HOLLOW WARRIOR', ['back', 'm1', 'm3', 'm4']),
-    accent:       '#cc2222',
-    bg:           '#0a0a0a',
+    designFamily: 'ryujin-dragon-vow',
+    images:       teeImages('ryujin-dragon-vow', 'black', 'RYŪJIN', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
-    blurb:        'Flesh forgotten. Vow remembered.',
-    story:        'What walks past death is no longer a man — only the promise he refused to break.',
   },
   {
-    slug:         'mask-of-wrath',
-    name:         'MASK OF WRATH',
-    subtitle:     'Hannya: Rage',
-    tag:          'Mask of Wrath',
-    price:        38,
-    designFamily: 'hannya-rage',
-    images:       teeImages('cyber-oni-clash', 'black', 'MASK OF WRATH', ['back', 'm1', 'm3', 'm4']),
-    accent:       '#cc2222',
-    bg:           '#0f0a0a',
-    label:        'DROP 001',
-    color:        'Black',
-    category:     'shirts',
-    blurb:        'The first mask. The one she could not take off.',
-    story:        'Hannya born of fury — horns of grief, eyes that never close.',
-  },
-  {
-    slug:         'mask-of-mourning',
-    name:         'MASK OF MOURNING',
-    subtitle:     'Hannya: Sorrow',
-    tag:          'Mask of Mourning',
-    price:        38,
-    designFamily: 'hannya-sorrow',
-    images:       teeImages('oni-samurai-dark', 'black', 'MASK OF MOURNING', ['back', 'm1', 'm3', 'm4']),
-    accent:       '#aa1f3a',
-    bg:           '#0a0a10',
-    label:        'DROP 001',
-    color:        'Black',
-    category:     'shirts',
-    blurb:        'Quiet rage. Louder than any scream.',
-    story:        'The second mask weeps in silence — the river beneath the fire.',
-  },
-  {
-    slug:         'mask-of-reckoning',
-    name:         'MASK OF RECKONING',
-    subtitle:     'Hannya: Vengeance',
-    tag:          'Mask of Reckoning',
-    price:        38,
-    designFamily: 'hannya-vengeance',
-    images:       teeImages('cyber-oni-full', 'black', 'MASK OF RECKONING', ['back', 'm1', 'm3', 'm4']),
-    accent:       '#cc2222',
-    bg:           '#0f0808',
-    label:        'DROP 001',
-    color:        'Black',
-    category:     'shirts',
-    blurb:        'The debt is overdue.',
-    story:        'The third mask remembers every name carved into the dark.',
-  },
-  {
-    slug:         'mask-of-stillness',
-    name:         'MASK OF STILLNESS',
-    subtitle:     'Hannya: Silence',
-    tag:          'Mask of Stillness',
-    price:        38,
-    designFamily: 'hannya-silence',
-    images: [
-      { url: '/mockups/tee-cyber-oni-portrait-circle-back-black-model3.png', alt: 'MASK OF STILLNESS — back design' },
-      { url: FRONT_BLACK,                                                    alt: 'MASK OF STILLNESS — front view' },
-      { url: '/mockups/tee-cyber-oni-portrait-circle-back-black-model4.png', alt: 'MASK OF STILLNESS — worn, editorial' },
-    ],
-    accent:       '#a83244',
-    bg:           '#0a0a0a',
-    label:        'DROP 001',
-    color:        'Black',
-    category:     'shirts',
-    blurb:        'When the screaming stops, listen harder.',
-    story:        'The fourth mask is the most dangerous — patience sharpened into a blade.',
-  },
-  {
-    slug:         'the-inscribed',
-    name:         'THE INSCRIBED',
-    subtitle:     'Bone Kanji',
+    slug:         'hone-no-chikai-bone-vow',
+    name:         'HONE NO CHIKAI',
+    japaneseName: 'Hone no Chikai',
+    clan:         'Akatsuki',
+    title:        'The Bone Vow',
+    subtitle:     'Akatsuki-Gumi · The Bone Vow',
+    tagline:      'What walks past death is no longer a man — only the promise he refused to break.',
+    blurb:        'Died once. Stood up anyway.',
+    story:        'Died at Sekigahara. Stood up anyway. The vow was louder than the silence, and the silence has been getting quieter ever since.',
     tag:          'The Bone Vow',
     price:        38,
-    designFamily: 'bone-kanji',
-    images:       teeImages('skeleton-samurai-kanji', 'black', 'THE INSCRIBED', ['back', 'm1', 'm3', 'm4']),
-    accent:       '#cc2222',
-    bg:           '#0a0a0a',
+    designFamily: 'hone-no-chikai-bone-vow',
+    images:       teeImages('hone-no-chikai-bone-vow', 'black', 'HONE NO CHIKAI', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
-    blurb:        'Bone, ink, and kanji. The warrior that endured the void.',
-    story:        'Flesh gone, vow intact — kanji burned across the ribcage of what remained.',
   },
   {
-    slug:         'the-dragon',
-    name:         'THE DRAGON',
-    subtitle:     'Dragon',
-    tag:          'The Dragon',
+    slug:         'karada-nashi-hollow-warrior',
+    name:         'KARADA-NASHI',
+    japaneseName: 'Karada-Nashi',
+    clan:         'Akatsuki',
+    title:        'The Hollow Warrior',
+    subtitle:     'Akatsuki-Gumi · The Hollow Warrior',
+    tagline:      'Flesh gone, vow intact — kanji burned across the ribcage of what remained.',
+    blurb:        'Flesh forgot. Bone did not.',
+    story:        'He tattooed his oath into bone so even the worms would know who he served. The flesh forgot. The bones did not.',
+    tag:          'The Hollow Warrior',
     price:        38,
-    designFamily: 'dragon',
-    images:       teeImages('dragon-red-sun', 'black', 'THE DRAGON', ['back', 'm1', 'm3']),
-    accent:       '#cc2222',
-    bg:           '#1a1a1f',
+    designFamily: 'karada-nashi-hollow-warrior',
+    images:       teeImages('karada-nashi-hollow-warrior', 'black', 'KARADA-NASHI', ['m3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
-    blurb:        'Coiled fire ascending the spine of the void.',
-    story:        'Ryū. The dragon coils upward — neon scale, ink shadow, breath of cold light.',
   },
   {
-    slug:         'the-fox',
-    name:         'THE FOX',
-    subtitle:     'Kitsune',
-    tag:          'The Fox Spirit',
+    slug:         'arashi-maru-stormchild',
+    name:         'ARASHI-MARU',
+    japaneseName: 'Arashi-Maru',
+    clan:         'Akatsuki',
+    title:        'The Stormchild',
+    subtitle:     'Akatsuki-Gumi · The Stormchild',
+    tagline:      'Born in the eye of the storm, named by the thunder that followed.',
+    blurb:        'Thunder named him. Thunder never left.',
+    story:        'The youngest of the Crimson Clan. They say he was born during a typhoon that drowned three villages — and that the thunder that named him has never stopped following.',
+    tag:          'The Stormchild',
     price:        38,
-    designFamily: 'kitsune',
-    images:       teeImages('kitsune-nine-tails', 'black', 'THE FOX', ['back', 'm1', 'm3', 'm4']),
-    accent:       '#cc2222',
-    bg:           '#161816',
+    designFamily: 'arashi-maru-stormchild',
+    images:       teeImages('arashi-maru-stormchild', 'black', 'ARASHI-MARU', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
-    blurb:        'Nine tails. One trickster. Zero apologies.',
-    story:        'Kitsune. Nine-tailed silhouette drifting through the long grass between worlds.',
   },
+
+  // 05 — YAMI-GUMI
   {
-    slug:         'the-fox-white',
-    name:         'THE FOX',
-    subtitle:     'Kitsune',
-    tag:          'The Fox Spirit',
+    slug:         'akuma-no-ikari-mask-of-wrath',
+    name:         'AKUMA NO IKARI',
+    japaneseName: 'Akuma no Ikari',
+    clan:         'Yami',
+    title:        'Mask of Wrath',
+    subtitle:     'Yami-Gumi · Mask of Wrath',
+    tagline:      'Hannya born of fury — horns of grief, eyes that never close.',
+    blurb:        'Rage made flesh — twice.',
+    story:        'The first mask of the Hannya Court. Rage made flesh, then made flesh again. She does not sleep. She does not need to.',
+    tag:          'Mask of Wrath',
     price:        38,
-    designFamily: 'kitsune',
-    images:       teeImages('kitsune-nine-tails', 'white', 'THE FOX', ['back', 'm1', 'm3', 'm4']),
-    accent:       '#cc2222',
-    bg:           '#1c1d1c',
-    label:        'DROP 001',
-    color:        'White',
-    category:     'shirts',
-    blurb:        'Nine tails. One trickster. Zero apologies.',
-    story:        'Kitsune. Nine-tailed silhouette drifting through the long grass between worlds.',
-  },
-  {
-    slug:         'the-ghost',
-    name:         'THE GHOST',
-    subtitle:     'Tengu',
-    tag:          'The Crow Warrior',
-    price:        38,
-    designFamily: 'tengu-ghost',
-    images:       teeImages('crow-warrior-ghost', 'white', 'THE GHOST', ['back', 'm1', 'm3']),
-    accent:       '#cc2222',
-    bg:           '#101010',
-    label:        'DROP 001',
-    color:        'White',
-    category:     'shirts',
-    blurb:        'Wings spread across the red sun.',
-    story:        'Tengu. Crow-warrior of the mountain — black feathers, longer memory.',
-  },
-  {
-    slug:         'the-ghost-black',
-    name:         'THE GHOST',
-    subtitle:     'Tengu',
-    tag:          'The Crow Warrior',
-    price:        38,
-    designFamily: 'tengu-ghost',
-    images: [
-      { url: '/mockups/tee-crow-warrior-ghost-back-black-model4.png', alt: 'THE GHOST — back design' },
-      { url: FRONT_BLACK,                                              alt: 'THE GHOST — front view' },
-    ],
-    accent:       '#cc2222',
-    bg:           '#0c0c0c',
+    designFamily: 'akuma-no-ikari-mask-of-wrath',
+    images:       teeImages('akuma-no-ikari-mask-of-wrath', 'black', 'AKUMA NO IKARI', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
-    blurb:        'Wings spread across the red sun.',
-    story:        'Tengu. Crow-warrior of the mountain — black feathers, longer memory.',
   },
   {
-    slug:         'the-sentinel',
-    name:         'THE SENTINEL',
-    subtitle:     'Tengu: Watch',
+    slug:         'namida-no-oni-mask-of-mourning',
+    name:         'NAMIDA NO ONI',
+    japaneseName: 'Namida no Oni',
+    clan:         'Yami',
+    title:        'Mask of Mourning',
+    subtitle:     'Yami-Gumi · Mask of Mourning',
+    tagline:      'The second mask weeps in silence — the river beneath the fire.',
+    blurb:        'Sorrow that outlasted its cause.',
+    story:        'Sorrow that outlasted the one who caused it. He carries the tears of every name his clan forgot to speak.',
+    tag:          'Mask of Mourning',
+    price:        38,
+    designFamily: 'namida-no-oni-mask-of-mourning',
+    images:       teeImages('namida-no-oni-mask-of-mourning', 'black', 'NAMIDA NO ONI', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 001',
+    color:        'Black',
+    category:     'shirts',
+  },
+  {
+    slug:         'saigo-no-sabaki-mask-of-reckoning',
+    name:         'SAIGO NO SABAKI',
+    japaneseName: 'Saigo no Sabaki',
+    clan:         'Yami',
+    title:        'Mask of Reckoning',
+    subtitle:     'Yami-Gumi · Mask of Reckoning',
+    tagline:      'The third mask remembers every name carved into the dark.',
+    blurb:        'The ledger is overdue.',
+    story:        'Final judgment. Keeps the ledger of debts unpaid. When the third mask arrives, the asking is over.',
+    tag:          'Mask of Reckoning',
+    price:        38,
+    designFamily: 'saigo-no-sabaki-mask-of-reckoning',
+    images:       teeImages('saigo-no-sabaki-mask-of-reckoning', 'black', 'SAIGO NO SABAKI', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 001',
+    color:        'Black',
+    category:     'shirts',
+  },
+  {
+    slug:         'mu-no-kamen-mask-of-stillness',
+    name:         'MU NO KAMEN',
+    japaneseName: 'Mu no Kamen',
+    clan:         'Yami',
+    title:        'Mask of Stillness',
+    subtitle:     'Yami-Gumi · Mask of Stillness',
+    tagline:      'The fourth mask is the most dangerous — patience sharpened into a blade.',
+    blurb:        'The strike you never see.',
+    story:        'The mask that does not move. The strike you never see. Of all four, fear her last — but fear her most.',
+    tag:          'Mask of Stillness',
+    price:        38,
+    designFamily: 'mu-no-kamen-mask-of-stillness',
+    images:       teeImages('mu-no-kamen-mask-of-stillness', 'black', 'MU NO KAMEN', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 001',
+    color:        'Black',
+    category:     'shirts',
+  },
+
+  // 09 — KAGE-GUMI
+  {
+    slug:         'kurokitsune-vow-keeper',
+    name:         'KUROKITSUNE',
+    japaneseName: 'Kurokitsune',
+    clan:         'Kage',
+    title:        'The Vow-Keeper',
+    subtitle:     'Kage-Gumi · The Vow-Keeper',
+    tagline:      'Nine tails, nine lifetimes, one promise unkept.',
+    blurb:        'A thousand-year vow, finally claimed.',
+    story:        'Nine-tailed fox spirit. She waited a thousand years at the shrine fires for a master who would never return. The Hollow took her vow when no one else would honor it.',
+    tag:          'The Vow-Keeper',
+    price:        38,
+    designFamily: 'kurokitsune-vow-keeper',
+    images:       teeImages('kurokitsune-vow-keeper', 'black', 'KUROKITSUNE', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 001',
+    color:        'Black',
+    category:     'shirts',
+  },
+  {
+    slug:         'yurei-ghost',
+    name:         'YŪREI',
+    japaneseName: 'Yūrei',
+    clan:         'Kage',
+    title:        'The Ghost',
+    subtitle:     'Kage-Gumi · The Ghost',
+    tagline:      'The ghost does not haunt — it remembers, and that is worse.',
+    blurb:        'Not haunting. Remembering.',
+    story:        'Crow-spirit of the second clan. Walks where the living forgot to. The dead recognize him. The living try not to.',
+    tag:          'The Ghost',
+    price:        38,
+    designFamily: 'yurei-ghost',
+    images:       teeImages('yurei-ghost', 'black', 'YŪREI', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 001',
+    color:        'Black',
+    category:     'shirts',
+  },
+  {
+    slug:         'karasu-tengu-sentinel',
+    name:         'KARASU-TENGU',
+    japaneseName: 'Karasu-Tengu',
+    clan:         'Kage',
+    title:        'The Sentinel',
+    subtitle:     'Kage-Gumi · The Sentinel',
+    tagline:      'Wings of the watcher — sees every blade before it falls.',
+    blurb:        'He watches when the Hollow walks alone.',
+    story:        'Tengu of the crow mountain. Sentinel of those the world abandoned. When the Hollow Ronin walks alone, he is not alone — Karasu watches from above.',
     tag:          'The Sentinel',
     price:        38,
-    designFamily: 'tengu-watch',
-    images: [
-      { url: '/mockups/tee-crow-warrior-bloodmoon-dark-back-white-model4.png', alt: 'THE SENTINEL — back design' },
-      { url: FRONT_WHITE,                                                       alt: 'THE SENTINEL — front view' },
-    ],
-    accent:       '#cc2222',
-    bg:           '#15151a',
-    label:        'DROP 001',
-    color:        'White',
-    category:     'shirts',
-    blurb:        'Eyes that never blink. Wings that never tire.',
-    story:        'The crow stands sentry above the pass. The mountain remembers.',
-  },
-  {
-    slug:         'the-sentinel-black',
-    name:         'THE SENTINEL',
-    subtitle:     'Tengu: Watch',
-    tag:          'The Sentinel',
-    price:        38,
-    designFamily: 'tengu-watch',
-    images:       teeImages('crow-warrior-bloodmoon-dark', 'black', 'THE SENTINEL', ['back', 'm1', 'm3']),
-    accent:       '#cc2222',
-    bg:           '#0f0f12',
+    designFamily: 'karasu-tengu-sentinel',
+    images:       teeImages('karasu-tengu-sentinel', 'black', 'KARASU-TENGU', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
-    blurb:        'Eyes that never blink. Wings that never tire.',
-    story:        'The crow stands sentry above the pass. The mountain remembers.',
   },
   {
-    slug:         'the-stormbringer',
-    name:         'THE STORMBRINGER',
-    subtitle:     'Tengu: Wing',
-    tag:          'The Stormbringer',
-    price:        38,
-    designFamily: 'tengu-wing',
-    images:       teeImages('crow-samurai-aerial', 'black', 'THE STORMBRINGER', ['back', 'm1', 'm3', 'm4']),
-    accent:       '#cc2222',
-    bg:           '#1a1a1f',
-    label:        'DROP 001',
-    color:        'Black',
-    category:     'shirts',
-    blurb:        'A storm folded into feathers.',
-    story:        'When his wings open, the sky turns to a colder shade of black.',
-  },
-  {
-    slug:         'the-reaper',
-    name:         'THE REAPER',
-    subtitle:     'Tengu: Shadow',
+    slug:         'shinigami-reaper',
+    name:         'SHINIGAMI',
+    japaneseName: 'Shinigami',
+    clan:         'Kage',
+    title:        'The Reaper',
+    subtitle:     'Kage-Gumi · The Reaper',
+    tagline:      'Death wore neon the night the city forgot how to pray.',
+    blurb:        'Death wore neon.',
+    story:        'The last one. The one who collects the others when their vow is done. He does not arrive in shadow — he arrives in the only light left.',
     tag:          'The Reaper',
     price:        38,
-    designFamily: 'tengu-shadow',
-    images:       teeImages('cyberpunk-ninja-neon', 'black', 'THE REAPER', ['back', 'm1', 'm4']),
-    accent:       '#cc2222',
-    bg:           '#151515',
+    designFamily: 'shinigami-reaper',
+    images:       teeImages('shinigami-reaper', 'black', 'SHINIGAMI', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
-    blurb:        'The last thing the wicked ever see.',
-    story:        'The shadow tengu walks where the light dares not — the final judgment.',
   },
 ]
 
@@ -357,7 +338,8 @@ export function getProductsByCategory(category: Category): Product[] {
 }
 
 // Returns one product per design family — the "lead variant" for the listing
-// card. Black is preferred when present, otherwise the first variant found.
+// card. With Drop 001 = 13 unique characters, designFamily == slug, so this
+// returns every product. Kept for forward-compat with color variants.
 export function getLeadVariants(products: Product[] = PRODUCTS): Product[] {
   const byFamily = new Map<string, Product>()
   for (const p of products) {
@@ -371,4 +353,8 @@ export function getLeadVariants(products: Product[] = PRODUCTS): Product[] {
 
 export function getFamilyVariants(family: string, products: Product[] = PRODUCTS): Product[] {
   return products.filter((p) => p.designFamily === family)
+}
+
+export function getProductsByClan(clan: Clan, products: Product[] = PRODUCTS): Product[] {
+  return products.filter((p) => p.clan === clan)
 }

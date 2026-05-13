@@ -3,17 +3,19 @@
  * Product data validator. Runs as `prebuild` so a broken product never
  * reaches production.
  *
+ * Gallery contract (must be true for every product):
+ *   [0] back design (unique per product)
+ *   [1] front view — color-matched brand-mark tee
+ *   [2..] model shots (optional)
+ *
  * Checks:
  *   1. Every image URL in every product's gallery resolves to a real file
  *      on disk under public/.
- *   2. No product's gallery contains the shared brand-mark front-logo tee
- *      (tee-hollow-ronin-logo-front-*.png). This is a regression guard:
- *      that image previously appeared in every product's gallery and was
- *      the root cause of the "wrong design in thumbnails" bug.
- *   3. Every product has a non-empty `designFamily` field.
- *   4. Every product has at least one gallery image.
- *   5. Every designFamily groups at least one product (trivially true if 3
- *      passes, but stated explicitly so the report shows family counts).
+ *   2. Every product has a non-empty `designFamily` field.
+ *   3. Every product has at least 2 images (back + front).
+ *   4. gallery[1] is the brand-mark front-logo tee.
+ *   5. gallery[1] color matches the product's color variant (white tee
+ *      for White products, black tee for Black products).
  *
  * Exits 1 on any failure.
  */
@@ -26,7 +28,8 @@ const Module = require('module');
 const REPO_ROOT     = path.resolve(__dirname, '..');
 const PRODUCTS_TS   = path.join(REPO_ROOT, 'lib', 'products.ts');
 const PUBLIC_DIR    = path.join(REPO_ROOT, 'public');
-const LOGO_PATTERN  = /tee-hollow-ronin-logo-front-/;
+const FRONT_BLACK   = '/mockups/tee-hollow-ronin-logo-front-black.png';
+const FRONT_WHITE   = '/mockups/tee-hollow-ronin-logo-front-white.png';
 
 function loadProducts() {
   const src = fs.readFileSync(PRODUCTS_TS, 'utf8');
@@ -64,19 +67,21 @@ function main() {
       familyCounts.set(p.designFamily, (familyCounts.get(p.designFamily) ?? 0) + 1);
     }
 
-    if (!Array.isArray(p.images) || p.images.length === 0) {
-      errors.push(`${tag} has no gallery images`);
+    if (!Array.isArray(p.images) || p.images.length < 2) {
+      errors.push(`${tag} gallery is incomplete (needs back [0] + front [1], has ${Array.isArray(p.images) ? p.images.length : 0})`);
       continue;
+    }
+
+    const expectedFront = p.color === 'White' ? FRONT_WHITE : FRONT_BLACK;
+    const frontUrl      = p.images[1]?.url;
+    if (frontUrl !== expectedFront) {
+      errors.push(`${tag} gallery[1] must be the ${p.color} front view (${expectedFront}); got: ${frontUrl ?? '<missing>'}`);
     }
 
     for (const img of p.images) {
       if (!img.url || typeof img.url !== 'string') {
         errors.push(`${tag} gallery entry has no url`);
         continue;
-      }
-
-      if (LOGO_PATTERN.test(img.url)) {
-        errors.push(`${tag} contains shared logo tee in gallery: ${img.url}`);
       }
 
       const abs = path.join(PUBLIC_DIR, img.url.replace(/^\//, ''));

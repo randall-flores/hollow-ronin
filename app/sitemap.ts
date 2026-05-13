@@ -5,18 +5,14 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hollowronin.com";
 
 const STATIC_ROUTES = [
   "",
-  "/shop",
   "/shop/shirts",
-  "/shop/hoodies",
-  "/shop/masked-hoodies",
-  "/shop/hats",
-  "/shop/beanies",
-  "/shop/socks",
-  "/shop/scarfs",
   "/lookbook",
   "/about",
   "/drops",
-  "/account",
+  "/shipping",
+  "/returns",
+  "/privacy",
+  "/terms",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -10,14 +10,8 @@ const NAV_LINKS = [
 ];
 
 const SHOP_CATEGORIES = [
-  { label: "HOODIES", href: "/shop/hoodies" },
-  { label: "SHIRTS", href: "/shop/shirts" },
-  { label: "HATS", href: "/shop/hats" },
-  { label: "BEANIES", href: "/shop/beanies" },
-  { label: "SOCKS", href: "/shop/socks" },
-  { label: "SCARFS", href: "/shop/scarfs" },
-  { label: "HOODED MASKS", href: "/shop/masked-hoodies" },
-  { label: "VIEW ALL →", href: "/shop" },
+  { label: "SHIRTS",    href: "/shop/shirts" },
+  { label: "VIEW ALL →", href: "/shop/shirts" },
 ];
 
 const navLinkStyle: React.CSSProperties = {

@@ -48,16 +48,23 @@ export default function CartDrawer() {
         }}
       />
 
+      <style>{`
+        .hr-cart-drawer { width: min(440px, 96vw); }
+        @media (max-width: 479px) {
+          .hr-cart-drawer { width: 100vw; }
+        }
+      `}</style>
+
       {/* Drawer */}
       <aside
         role="dialog"
         aria-label="Shopping cart"
         aria-hidden={!isOpen}
+        className="hr-cart-drawer"
         style={{
           position:      "fixed",
           top:           0,
           right:         0,
-          width:         "min(440px, 96vw)",
           height:        "100vh",
           background:    "linear-gradient(180deg, #0a0707 0%, #0a0a0a 60%)",
           borderLeft:    "1px solid rgba(204,34,34,0.25)",

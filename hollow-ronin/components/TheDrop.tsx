@@ -102,10 +102,10 @@ export default function TheDrop() {
           .td-grid > .td-link { max-width: calc(33.333% - 1px); }
         }
         @media (max-width: 860px) {
-          .td-grid > .td-link { max-width: calc(50% - 1px); }
+          .td-grid > .td-link { max-width: calc(50% - 1px); min-width: 150px; }
         }
-        @media (max-width: 560px) {
-          .td-grid > .td-link { max-width: 100%; }
+        @media (max-width: 360px) {
+          .td-grid > .td-link { max-width: 100%; min-width: 0; }
         }
         .td-scanline {
           position: absolute; left: 0; right: 0; height: 180px;

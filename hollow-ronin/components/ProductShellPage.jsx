@@ -108,10 +108,10 @@ export default function ProductShellPage({ title, subtitle, category }) {
           .hr-grid > .hr-card-link { max-width: calc(33.333% - 1px); }
         }
         @media (max-width: 860px) {
-          .hr-grid > .hr-card-link { max-width: calc(50% - 1px); }
+          .hr-grid > .hr-card-link { max-width: calc(50% - 1px); min-width: 150px; }
         }
-        @media (max-width: 560px) {
-          .hr-grid > .hr-card-link { max-width: 100%; }
+        @media (max-width: 360px) {
+          .hr-grid > .hr-card-link { max-width: 100%; min-width: 0; }
         }
         @keyframes hr-scan {
           0%   { transform: translateY(-100%); }

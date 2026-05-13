@@ -1,0 +1,90 @@
+import Link from "next/link";
+
+type Props = {
+  eyebrow: string;
+  title:   string;
+  intro:   string;
+};
+
+export default function PolicyPage({ eyebrow, title, intro }: Props) {
+  return (
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#0a0a0a",
+        color:      "#f0ede6",
+      }}
+    >
+      <section
+        style={{
+          minHeight: 360,
+          background:
+            "radial-gradient(ellipse at center, rgba(120,10,10,0.18) 0%, #0a0a0a 70%)",
+          borderBottom: "1px solid rgba(180,20,20,0.4)",
+          display:      "flex",
+          flexDirection: "column",
+          alignItems:    "center",
+          justifyContent: "center",
+          paddingTop:    100,
+          paddingBottom: 40,
+          textAlign: "center",
+        }}
+      >
+        <p style={{
+          margin: "0 0 18px",
+          fontFamily: "'Space Mono', monospace",
+          fontSize: 10, letterSpacing: "0.5em",
+          color: "rgba(204,34,34,0.85)",
+          textTransform: "uppercase",
+        }}>
+          {eyebrow}
+        </p>
+        <h1 style={{
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: "clamp(56px, 8vw, 96px)",
+          color: "#f0ede6",
+          letterSpacing: "0.14em",
+          margin: 0, lineHeight: 1,
+          textShadow: "0 0 40px rgba(204,34,34,0.18)",
+        }}>
+          {title}
+        </h1>
+      </section>
+
+      <section style={{
+        maxWidth: 720, margin: "0 auto",
+        padding: "100px 32px 140px",
+        textAlign: "center",
+      }}>
+        <p style={{
+          fontFamily: "Georgia, serif", fontStyle: "italic",
+          fontSize: 17, lineHeight: 1.85,
+          color: "rgba(240,237,230,0.7)",
+          margin: "0 0 32px",
+        }}>
+          {intro}
+        </p>
+        <p style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: 10, letterSpacing: 5,
+          color: "rgba(204,34,34,0.7)",
+          textTransform: "uppercase",
+          marginBottom: 40,
+        }}>
+          ⟁ &nbsp; Transmission incoming &nbsp; ⟁
+        </p>
+        <Link href="/" style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: 10, letterSpacing: 5,
+          color: "#cc2222",
+          textTransform: "uppercase",
+          border: "1px solid #cc2222",
+          padding: "12px 24px",
+          textDecoration: "none",
+        }}>
+          Return to base →
+        </Link>
+      </section>
+    </main>
+  );
+}

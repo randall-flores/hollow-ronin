@@ -29,22 +29,33 @@ export type Product = {
   story:         string
 }
 
+const FRONT_BLACK = '/mockups/tee-hollow-ronin-logo-front-black.png'
+const FRONT_WHITE = '/mockups/tee-hollow-ronin-logo-front-white.png'
+
 type ImgMod = 'back' | 'm1' | 'm3' | 'm4'
 
-// Each product's gallery contains ONLY mockups of that product's own design.
-// The shared brand-mark front-logo tee is NOT inserted here — it produced the
-// "wrong design in thumbnails" bug across every product page.
+// Gallery order is fixed and per-color:
+//   [0] back design (the unique artwork for this product)
+//   [1] front view — color-matched brand-mark tee (same image for every
+//       product of that color, because the brand mark is what prints on
+//       the chest of every Hollow Ronin shirt). Drives listing hover swap.
+//   [2..] model shots: model-1, model-3, model-4 in mods order.
+//
+// Every product MUST have indices [0] and [1] populated. Enforced by
+// scripts/validate-products.js.
 function teeImages(
   mockup: string,
   color: 'black' | 'white',
   name:  string,
   mods:  ImgMod[],
 ): ProductImage[] {
-  const base = `/mockups/tee-${mockup}-back-${color}`
-  const has  = (m: ImgMod) => mods.includes(m)
+  const front = color === 'black' ? FRONT_BLACK : FRONT_WHITE
+  const base  = `/mockups/tee-${mockup}-back-${color}`
+  const has   = (m: ImgMod) => mods.includes(m)
   const images: ProductImage[] = []
 
   if (has('back')) images.push({ url: `${base}.png`,        alt: `${name} — back design` })
+                   images.push({ url: front,                alt: `${name} — front view` })
   if (has('m1'))   images.push({ url: `${base}-model1.png`, alt: `${name} — worn, side` })
   if (has('m3'))   images.push({ url: `${base}-model3.png`, alt: `${name} — worn, studio` })
   if (has('m4'))   images.push({ url: `${base}-model4.png`, alt: `${name} — worn, editorial` })
@@ -157,7 +168,8 @@ export const PRODUCTS: Product[] = [
     price:        38,
     designFamily: 'hannya-silence',
     images: [
-      { url: '/mockups/tee-cyber-oni-portrait-circle-back-black-model3.png', alt: 'MASK OF STILLNESS — worn, studio' },
+      { url: '/mockups/tee-cyber-oni-portrait-circle-back-black-model3.png', alt: 'MASK OF STILLNESS — back design' },
+      { url: FRONT_BLACK,                                                    alt: 'MASK OF STILLNESS — front view' },
       { url: '/mockups/tee-cyber-oni-portrait-circle-back-black-model4.png', alt: 'MASK OF STILLNESS — worn, editorial' },
     ],
     accent:       '#a83244',
@@ -256,7 +268,8 @@ export const PRODUCTS: Product[] = [
     price:        38,
     designFamily: 'tengu-ghost',
     images: [
-      { url: '/mockups/tee-crow-warrior-ghost-back-black-model4.png', alt: 'THE GHOST — worn, editorial' },
+      { url: '/mockups/tee-crow-warrior-ghost-back-black-model4.png', alt: 'THE GHOST — back design' },
+      { url: FRONT_BLACK,                                              alt: 'THE GHOST — front view' },
     ],
     accent:       '#cc2222',
     bg:           '#0c0c0c',
@@ -274,7 +287,8 @@ export const PRODUCTS: Product[] = [
     price:        38,
     designFamily: 'tengu-watch',
     images: [
-      { url: '/mockups/tee-crow-warrior-bloodmoon-dark-back-white-model4.png', alt: 'THE SENTINEL — worn, editorial' },
+      { url: '/mockups/tee-crow-warrior-bloodmoon-dark-back-white-model4.png', alt: 'THE SENTINEL — back design' },
+      { url: FRONT_WHITE,                                                       alt: 'THE SENTINEL — front view' },
     ],
     accent:       '#cc2222',
     bg:           '#15151a',

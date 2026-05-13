@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "validate": "node scripts/validate-products.js",
+    "prebuild": "npm run validate"
   },
   "dependencies": {
     "clsx": "^2.1.1",

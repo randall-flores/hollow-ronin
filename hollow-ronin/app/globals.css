@@ -1,23 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  /* ── BRAND PALETTE — locked ───────────────────── */
-  --color-obsidian: #0A0A0A;
-  --color-bone:     #F4EDE2;
-  --color-blood:    #A1182A;
-  --color-kintsugi: #C9A027;
-  --color-bamboo:   #1C3A2A;
-  --color-ash:      #2A2A2A;
-
-  /* Backwards-compat aliases (old code still references these) */
-  --color-void:         #0A0A0A;
-  --color-cream:        #F4EDE2;
-  --color-red:          #A1182A;
-  --color-surface:      #2A2A2A;
+  --color-void:         #0a0a0a;
+  --color-cream:        #f0ede6;
+  --color-red:          #c0001e;
+  --color-surface:      #131313;
   --color-surface-low:  #1c1b1b;
-  --color-surface-high: #2A2A2A;
-  --color-gray-dim:     #6B6B6B;
+  --color-surface-high: #2a2a2a;
+  --color-gray-dim:     #6b6b6b;
   --color-gray-outline: #444748;
   --color-gray-mid:     #2e2e2e;
 
@@ -28,152 +19,130 @@
   --animate-fade-up:  fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both;
   --animate-fade-in:  fadeIn 1s ease both;
   --animate-blink:    blink 1.2s step-end infinite;
-
-  --font-display: 'Shippori Mincho', 'Noto Serif JP', Georgia, serif;
-  --font-ui:      'DM Mono', 'Space Mono', ui-monospace, monospace;
 }
 
-@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes blink  { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-@keyframes pulse  { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-@keyframes shimmer {
-  0%   { transform: translateX(-120%) skewX(-20deg); }
-  100% { transform: translateX(220%)  skewX(-20deg); }
-}
+@keyframes ticker  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes fadeUp  { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes blink   { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes pulse   { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 
 @utility delay-1 { animation-delay: 0.15s; }
-@utility delay-2 { animation-delay: 0.30s; }
-@utility delay-3 { animation-delay: 0.45s; }
-@utility delay-4 { animation-delay: 0.60s; }
-@utility delay-5 { animation-delay: 0.75s; }
+@utility delay-2 { animation-delay: 0.35s; }
+@utility delay-3 { animation-delay: 0.55s; }
+@utility delay-4 { animation-delay: 0.75s; }
+@utility delay-5 { animation-delay: 0.95s; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; background: #0A0A0A; }
+html { scroll-behavior: smooth; background: #0a0a0a; }
 
 body {
-  background: #0A0A0A;
-  color: #F4EDE2;
-  font-family: 'DM Mono', 'Space Mono', ui-monospace, monospace;
-  font-weight: 400;
+  background: #0a0a0a;
+  color: #f0ede6;
+  font-family: 'Inter', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, h5, h6, .font-display {
-  font-family: 'Shippori Mincho', 'Noto Serif JP', Georgia, serif;
-  font-weight: 600;
-}
-
-/* ── Global grain — fixed overlay, top of stack ─── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.03;
+  opacity: 0.05;
   pointer-events: none;
   z-index: 9999;
   mix-blend-mode: overlay;
 }
 
-/* Legacy utility classes used across older components — kept stable */
-.font-bebas { font-family: 'Shippori Mincho', 'Noto Serif JP', Georgia, serif; letter-spacing: 0.08em; }
-.font-mono  { font-family: 'DM Mono', 'Space Mono', ui-monospace, monospace; }
-.text-stroke-cream { -webkit-text-stroke: 1.5px #F4EDE2; color: transparent; }
-.text-stroke-red   { -webkit-text-stroke: 1.5px #A1182A; color: transparent; }
+.font-bebas        { font-family: 'Bebas Neue', sans-serif; }
+.font-mono         { font-family: 'Space Mono', monospace; }
+.text-stroke-cream { -webkit-text-stroke: 1.5px #f0ede6; color: transparent; }
+.text-stroke-red   { -webkit-text-stroke: 1.5px #c0001e; color: transparent; }
 
 .grid-lines {
   background-image:
-    linear-gradient(to right,  rgba(201,160,39,0.10) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(201,160,39,0.10) 1px, transparent 1px);
+    linear-gradient(to right,  rgba(192,0,30,0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(192,0,30,0.15) 1px, transparent 1px);
 }
 
-/* ── Scrollbar — thin, obsidian + kintsugi ─────── */
-::-webkit-scrollbar       { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #0A0A0A; }
-::-webkit-scrollbar-thumb { background: #C9A027; }
-::-webkit-scrollbar-thumb:hover { background: #d9af30; }
-* { scrollbar-width: thin; scrollbar-color: #C9A027 #0A0A0A; }
+::-webkit-scrollbar       { width: 2px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #c0001e; }
+::selection               { background: #c0001e; color: #f0ede6; }
 
-::selection { background: #C9A027; color: #0A0A0A; }
-
-/* ── Focus rings — kintsugi, replace browser blue ── */
-*:focus { outline: none; }
-*:focus-visible {
-  outline: 1px solid #C9A027;
-  outline-offset: 2px;
-}
-
-/* ── Buttons ─────────────────────────────────────── */
 .btn-primary {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.2em;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   padding: 16px 40px;
-  background: #F4EDE2;
-  color: #0A0A0A;
+  background: #f0ede6;
+  color: #0a0a0a;
   text-decoration: none;
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-  border: 1px solid #F4EDE2;
+  transition: all 0.3s;
+  border: 1px solid #f0ede6;
 }
-.btn-primary:hover { background: #A1182A; color: #F4EDE2; border-color: #A1182A; }
+.btn-primary:hover { background: #c0001e; color: #f0ede6; border-color: #c0001e; }
 
 .btn-outline {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.2em;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   padding: 16px 40px;
-  border: 1px solid #C9A027;
-  color: #C9A027;
+  border: 1px solid #f0ede6;
+  color: #f0ede6;
   text-decoration: none;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: all 0.3s;
   background: transparent;
 }
-.btn-outline:hover { background: #C9A027; color: #0A0A0A; }
+.btn-outline:hover { background: #f0ede6; color: #0a0a0a; }
 
 /* ── Product grid — responsive ─────────────────── */
 .product-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1px;
-  background: rgba(201,160,39,0.12);
+  background: rgba(68,71,72,0.2);
 }
 @media (min-width: 640px)  { .product-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
 
 /* ── Navbar — desktop vs mobile ────────────────── */
 .nav-hamburger { display: none; }
+
 @media (max-width: 767px) {
   .nav-desktop-links  { display: none !important; }
   .nav-hamburger      { display: flex !important; }
   .navbar             { padding: 0 24px !important; }
 }
 
-/* ── Drop / shop / lookbook cards ─────────────── */
-.drop-card,
-.shop-card,
-.lookbook-box {
-  background: #2A2A2A;
-  border: 1px solid rgba(201,160,39,0.30);
+/* ── Page card hover ──────────────────────────── */
+.drop-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 40px;
+  transition: border-color 0.3s;
+  cursor: pointer;
+}
+.drop-card:hover { border-color: rgba(180,20,20,0.4); }
+
+.shop-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
   padding: 32px;
-  transition: border-color 0.3s ease, transform 0.4s ease;
+  transition: border-color 0.3s;
   cursor: pointer;
   text-decoration: none;
   display: block;
 }
-.drop-card:hover,
-.shop-card:hover,
-.lookbook-box:hover { border-color: #C9A027; }
+.shop-card:hover { border-color: rgba(180,20,20,0.4); }
 
 .product-skeleton {
-  background: #2A2A2A;
-  border: 1px solid rgba(201,160,39,0.30);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
   aspect-ratio: 3/4;
   display: flex;
   flex-direction: column;
@@ -183,77 +152,15 @@ body::before {
   overflow: hidden;
 }
 
-/* ── Product card — luxury treatment ─────────────── */
-.hr-card {
-  position: relative;
-  display: block;
-  background: #2A2A2A;
-  border: 1px solid rgba(201,160,39,0.30);
-  text-decoration: none;
-  color: #F4EDE2;
-  overflow: hidden;
-  transition: border-color 0.35s ease;
+.lookbook-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s;
 }
-.hr-card:hover { border-color: rgba(201,160,39,1); }
-
-.hr-card-media {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  background: #0A0A0A;
-}
-.hr-card-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hr-card:hover .hr-card-media img { transform: scale(1.03); }
-
-.hr-card-media::after {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0; left: 0;
-  width: 40%;
-  background: linear-gradient(120deg, transparent 0%, rgba(201,160,39,0.35) 50%, transparent 100%);
-  transform: translateX(-120%) skewX(-20deg);
-  pointer-events: none;
-}
-.hr-card:hover .hr-card-media::after {
-  animation: shimmer 1.4s ease-out forwards;
-}
-
-.hr-card-cta {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  padding: 14px 20px;
-  background: #A1182A;
-  color: #F4EDE2;
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  text-align: center;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hr-card:hover .hr-card-cta { transform: translateY(0); }
-
-.hr-clan-badge {
-  display: inline-block;
-  padding: 4px 10px;
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #F4EDE2;
-  border: 1px solid transparent;
-}
-.hr-clan-akatsuki    { background: #A1182A; }
-.hr-clan-yami        { background: #0A0A0A; border-color: #F4EDE2; }
-.hr-clan-kage        { background: #1C3A2A; }
-.hr-clan-protagonist { background: #0A0A0A; border-color: #C9A027; color: #C9A027; }
+.lookbook-box:hover { border-color: rgba(180,20,20,0.3); }
 
 /* ── Product section padding ───────────────────── */
 @media (max-width: 767px) {

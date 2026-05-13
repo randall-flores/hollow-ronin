@@ -8,41 +8,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        obsidian: "#0A0A0A",
-        bone:     "#F4EDE2",
-        blood:    "#A1182A",
-        kintsugi: "#C9A027",
-        bamboo:   "#1C3A2A",
-        ash:      "#2A2A2A",
-
-        // Backwards-compat aliases
-        void:    "#0A0A0A",
-        cream:   "#F4EDE2",
-        red:     "#A1182A",
-        surface: "#2A2A2A",
+        void:    "#0a0a0a",
+        cream:   "#f0ede6",
+        red:     "#c0001e",
+        surface: "#131313",
         "surface-low":  "#1c1b1b",
-        "surface-high": "#2A2A2A",
-        "gray-dim":     "#6B6B6B",
+        "surface-high": "#2a2a2a",
+        "gray-dim":     "#8e9192",
         "gray-outline": "#444748",
       },
       fontFamily: {
-        display: ["'Shippori Mincho'", "'Noto Serif JP'", "Georgia", "serif"],
-        ui:      ["'DM Mono'", "'Space Mono'", "ui-monospace", "monospace"],
-        // Compat aliases — old code still imports these names
-        bebas:   ["'Shippori Mincho'", "'Noto Serif JP'", "Georgia", "serif"],
-        mono:    ["'DM Mono'", "'Space Mono'", "ui-monospace", "monospace"],
-        body:    ["'DM Mono'", "'Space Mono'", "ui-monospace", "monospace"],
-      },
-      borderRadius: {
-        none: "0",
-        sm:   "0",
-        DEFAULT: "0",
-        md:   "0",
-        lg:   "0",
-        xl:   "0",
-        "2xl": "0",
-        "3xl": "0",
-        full: "0",
+        bebas: ["'Bebas Neue'", "sans-serif"],
+        mono:  ["'Space Mono'", "monospace"],
+        body:  ["'Inter'", "sans-serif"],
       },
       spacing: {
         "page": "48px",
@@ -53,7 +31,6 @@ const config: Config = {
         "fade-up":"fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both",
         "fade-in":"fadeIn 1s ease both",
         blink:    "blink 1.2s step-end infinite",
-        shimmer:  "shimmer 1.4s ease-out forwards",
       },
       keyframes: {
         ticker: {
@@ -71,10 +48,6 @@ const config: Config = {
         blink: {
           "0%, 100%": { opacity: "1" },
           "50%":      { opacity: "0" },
-        },
-        shimmer: {
-          "0%":   { transform: "translateX(-120%) skewX(-20deg)" },
-          "100%": { transform: "translateX(220%) skewX(-20deg)"  },
         },
       },
     },

@@ -60,27 +60,9 @@ function teeImages(
 }
 
 export const PRODUCTS: Product[] = [
-  // 00 — THE NAMELESS
-  {
-    slug:         'hollow-ronin',
-    name:         'HOLLOW RONIN',
-    japaneseName: 'Mon no Mukō',
-    clan:         'Protagonist',
-    title:        'The Nameless',
-    subtitle:     'Mon no Mukō · The Nameless',
-    tagline:      'The torii marks the threshold. The ronin chose to walk through it alone.',
-    blurb:        'No master. No name. No way back.',
-    story:        'He walked through the gate between the living and the forgotten with no master to mourn and no name worth speaking. What came back was not a man — but a vow that refused to die. He is the first. He is the last. He walks among the thirteen.',
-    tag:          'The Nameless',
-    price:        38,
-    designFamily: 'hollow-ronin',
-    images:       teeImages('hollow-ronin', 'black', 'HOLLOW RONIN', ['m1', 'm3', 'm4']),
-    accent:       '#A1182A',
-    bg:           '#0A0A0A',
-    label:        'DROP 001',
-    color:        'Black',
-    category:     'shirts',
-  },
+  // 00 — THE NAMELESS (hollow-ronin) deferred — awaiting art assets.
+  // See HOLLOW-RONIN-LORE-BIBLE.md for the protagonist entry. When the
+  // tee mockups + sigil exist on disk, restore the product object here.
 
   // 01 — AKATSUKI-GUMI
   {

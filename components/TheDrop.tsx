@@ -3,14 +3,14 @@ import Image from "next/image";
 import { getProduct, type Product } from "@/lib/products";
 
 const FEATURED_SLUGS = [
-  "the-ronin",
-  "mask-of-wrath",
-  "the-hollow-warrior",
-  "the-dragon",
-  "the-fox",
-  "the-stormbringer",   // Crow Samurai design (crow-samurai-aerial)
-  "the-reaper",         // Cyberpunk Ninja design (cyberpunk-ninja-neon)
-  "mask-of-stillness",
+  "ryujin-dragon-vow",
+  "akuma-no-ikari-mask-of-wrath",
+  "karada-nashi-hollow-warrior",
+  "kurokitsune-vow-keeper",
+  "shinigami-reaper",
+  "arashi-maru-stormchild",
+  "karasu-tengu-sentinel",
+  "mu-no-kamen-mask-of-stillness",
 ];
 
 export default function TheDrop() {

@@ -1,38 +1,39 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useCart } from "@/components/cart/CartProvider";
 
 const NAV_LINKS = [
-  { label: "DROPS", href: "/shop" },
+  { label: "DROPS",    href: "/shop" },
   { label: "LOOKBOOK", href: "/lookbook" },
-  { label: "ABOUT", href: "/about" },
+  { label: "ABOUT",    href: "/about" },
 ];
 
 const SHOP_CATEGORIES = [
-  { label: "SHIRTS",    href: "/shop/shirts" },
+  { label: "SHIRTS",     href: "/shop/shirts" },
   { label: "VIEW ALL →", href: "/shop/shirts" },
 ];
 
 const navLinkStyle: React.CSSProperties = {
-  fontFamily: "'Space Mono', monospace",
-  fontSize: "10px",
-  letterSpacing: "0.2em",
-  color: "#a8a8a8",
-  textDecoration: "none",
+  fontFamily:    "'DM Mono', monospace",
+  fontSize:      "11px",
+  letterSpacing: "0.15em",
+  color:         "#F4EDE2",
+  textDecoration:"none",
   textTransform: "uppercase",
-  transition: "color 0.2s",
+  transition:    "color 0.25s ease",
 };
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [shopOpen, setShopOpen] = useState(false);
+  const [scrolled,  setScrolled]  = useState(false);
+  const [menuOpen,  setMenuOpen]  = useState(false);
+  const [shopOpen,  setShopOpen]  = useState(false);
   const shopTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { count: cartCount, open: openCart } = useCart();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -42,145 +43,68 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  function openShop() {
-    if (shopTimer.current) clearTimeout(shopTimer.current);
-    setShopOpen(true);
-  }
-
-  function closeShop() {
-    shopTimer.current = setTimeout(() => setShopOpen(false), 150);
-  }
+  function openShop()  { if (shopTimer.current) clearTimeout(shopTimer.current); setShopOpen(true); }
+  function closeShop() { shopTimer.current = setTimeout(() => setShopOpen(false), 150); }
 
   return (
     <>
       <nav
         className="navbar"
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          zIndex: 100,
-          height: "68px",
-          display: "flex",
-          alignItems: "center",
-          padding: "0 40px",
-          background: scrolled ? "rgba(0,0,0,0.92)" : "transparent",
-          backdropFilter: scrolled ? "blur(16px) saturate(180%)" : "none",
-          borderBottom: scrolled
-            ? "1px solid rgba(180,20,20,0.4)"
-            : "1px solid transparent",
-          transition:
-            "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
+          position:      "fixed",
+          top:           0,
+          left:          0,
+          width:         "100%",
+          zIndex:        100,
+          height:        "68px",
+          display:       "flex",
+          alignItems:    "center",
+          justifyContent:"space-between",
+          padding:       "0 40px",
+          background:    "#0A0A0A",
+          borderBottom:  "1px solid rgba(201,160,39,0.40)",
+          boxShadow:     scrolled ? "0 6px 24px rgba(0,0,0,0.45)" : "none",
+          transition:    "box-shadow 0.4s ease",
         }}
       >
-        {/* LEFT ZONE — empty desktop / hamburger mobile */}
-        <div style={{ width: "25%", display: "flex", alignItems: "center" }}>
+        {/* LEFT — logo */}
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <button
             className="nav-hamburger"
             onClick={() => setMenuOpen((o) => !o)}
             aria-label="Toggle menu"
             style={{
               background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "#ffffff",
-              fontSize: "24px",
-              lineHeight: "1",
-              padding: "4px",
+              border:     "none",
+              cursor:     "pointer",
+              color:      "#F4EDE2",
+              fontSize:   "22px",
+              lineHeight: 1,
+              padding:    "4px",
             }}
           >
             ☰
           </button>
-        </div>
 
-        {/* CENTER ZONE — logo lockup */}
-        <div
-          style={{
-            width: "50%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Link
-            href="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "14px",
-              textDecoration: "none",
-            }}
-          >
-            {/* Logo icon — black container + screen blend removes the black square */}
-            <div style={{
-              background: "#000000",
-              borderRadius: "8px",
-              padding: "3px",
-              border: "1px solid rgba(204,0,0,0.4)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-            }}>
-              <img
-                src="/images/logo-mask.png"
-                alt=""
-                style={{
-                  width: 56,
-                  height: 56,
-                  objectFit: "contain",
-                  display: "block",
-                  mixBlendMode: "screen",
-                }}
-              />
-            </div>
-
-            {/* Wordmark */}
-            <div style={{
-              display: "flex",
-              flexDirection: "column",
-              lineHeight: 1,
-              gap: "2px",
-            }}>
-              <span style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "20px",
-                color: "rgba(245,240,232,0.7)",
-                letterSpacing: "0.32em",
-                textShadow: "0 1px 4px rgba(0,0,0,0.9)",
-              }}>
-                HOLLOW
-              </span>
-              {/* Thin red separator */}
-              <div style={{
-                height: "1px",
-                background: "linear-gradient(to right, #cc0000, rgba(204,0,0,0.1))",
-                marginBottom: "1px",
-              }} />
-              <span style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "30px",
-                color: "#cc0000",
-                letterSpacing: "0.18em",
-                textShadow: "0 0 20px rgba(204,0,0,0.9), 0 0 50px rgba(204,0,0,0.4), 0 2px 6px rgba(0,0,0,0.9)",
-                marginTop: "-1px",
-              }}>
-                RONIN
-              </span>
-            </div>
+          <Link href="/" style={{ display: "flex", alignItems: "center" }} aria-label="Hollow Ronin home">
+            <Image
+              src="/logo-mask-transparent.png"
+              alt="Hollow Ronin"
+              width={120}
+              height={48}
+              className="object-contain"
+              priority
+            />
           </Link>
         </div>
 
-        {/* RIGHT ZONE — nav links + icons */}
+        {/* CENTER — nav links */}
         <div
           className="nav-desktop-links"
           style={{
-            width: "25%",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: "32px",
+            display:        "flex",
+            alignItems:     "center",
+            gap:            "32px",
           }}
         >
           {NAV_LINKS.map(({ label, href }) => (
@@ -188,54 +112,48 @@ export default function Navbar() {
               key={label}
               href={href}
               style={navLinkStyle}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#a8a8a8")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A027")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#F4EDE2")}
             >
               {label}
             </Link>
           ))}
 
-          {/* SHOP trigger */}
-          <div
-            style={{ position: "relative" }}
-            onMouseEnter={openShop}
-            onMouseLeave={closeShop}
-          >
+          <div style={{ position: "relative" }} onMouseEnter={openShop} onMouseLeave={closeShop}>
             <Link
               href="/shop"
               style={navLinkStyle}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#a8a8a8")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A027")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#F4EDE2")}
             >
               SHOP
             </Link>
           </div>
+        </div>
 
+        {/* RIGHT — cart + account */}
+        <div className="nav-desktop-links" style={{ display: "flex", alignItems: "center", gap: 24 }}>
           <button
             aria-label="Cart"
             onClick={openCart}
             style={{
               background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "#a8a8a8",
-              padding: 0,
-              position: "relative",
-              transition: "color 0.2s",
-              display: "flex",
+              border:     "none",
+              cursor:     "pointer",
+              color:      "#F4EDE2",
+              padding:    0,
+              position:   "relative",
+              transition: "color 0.25s ease",
+              display:    "flex",
               alignItems: "center",
               lineHeight: 0,
             }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.color = "#fff")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.color = "#a8a8a8")
-            }
+            onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "#C9A027")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "#F4EDE2")}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
               <path d="M3 4h2l2.5 12h11L21 8H6" />
-              <circle cx="9" cy="20" r="1.2" fill="currentColor" stroke="none" />
+              <circle cx="9"  cy="20" r="1.2" fill="currentColor" stroke="none" />
               <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none" />
             </svg>
             {cartCount > 0 && (
@@ -243,21 +161,17 @@ export default function Navbar() {
                 aria-label={`${cartCount} item${cartCount === 1 ? "" : "s"} in cart`}
                 style={{
                   position: "absolute",
-                  top: "-8px",
-                  right: "-10px",
-                  minWidth: 18,
-                  height: 18,
-                  padding: "0 5px",
-                  borderRadius: 999,
-                  background: "#cc2222",
-                  color: "#f0ede6",
-                  fontFamily: "'Space Mono', monospace",
-                  fontSize: 10,
-                  letterSpacing: 0,
-                  display: "flex",
+                  top:      "-8px",
+                  right:    "-10px",
+                  minWidth: 18, height: 18,
+                  padding:  "0 5px",
+                  background: "#A1182A",
+                  color:      "#F4EDE2",
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize:   10,
+                  display:    "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  boxShadow: "0 0 12px rgba(204,34,34,0.55)",
                   pointerEvents: "none",
                 }}
               >
@@ -270,25 +184,17 @@ export default function Navbar() {
             href="/account"
             aria-label="Account"
             style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "#a8a8a8",
-              padding: 0,
+              color: "#F4EDE2",
               textDecoration: "none",
-              transition: "color 0.2s",
+              transition: "color 0.25s ease",
               display: "flex",
               alignItems: "center",
               lineHeight: 0,
             }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.color = "#a8a8a8")
-            }
+            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#C9A027")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#F4EDE2")}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
               <circle cx="12" cy="8" r="3.5" />
               <path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6" />
             </svg>
@@ -301,69 +207,46 @@ export default function Navbar() {
         onMouseEnter={openShop}
         onMouseLeave={closeShop}
         style={{
-          position: "fixed",
-          top: "68px",
-          left: 0,
-          width: "100vw",
-          background: "rgba(4,2,2,0.97)",
-          backdropFilter: "blur(20px)",
-          borderTop: "1px solid rgba(180,20,20,0.3)",
-          borderBottom: "1px solid rgba(180,20,20,0.15)",
-          padding: "40px 80px",
-          zIndex: 99,
-          opacity: shopOpen ? 1 : 0,
-          transform: shopOpen ? "translateY(0)" : "translateY(-8px)",
-          transition: "opacity 0.25s ease, transform 0.25s ease",
+          position:     "fixed",
+          top:          "68px",
+          left:         0,
+          width:        "100vw",
+          background:   "#0A0A0A",
+          borderTop:    "1px solid rgba(201,160,39,0.40)",
+          borderBottom: "1px solid rgba(201,160,39,0.20)",
+          padding:      "40px 80px",
+          zIndex:       99,
+          opacity:      shopOpen ? 1 : 0,
+          transform:    shopOpen ? "translateY(0)" : "translateY(-8px)",
+          transition:   "opacity 0.25s ease, transform 0.25s ease",
           pointerEvents: shopOpen ? "auto" : "none",
         }}
       >
         <div style={{ display: "flex", alignItems: "flex-start" }}>
-          {/* LEFT — category grid */}
           <div style={{ width: "60%" }}>
-            <div
-              style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: "9px",
-                letterSpacing: "0.3em",
-                color: "rgba(180,20,20,0.8)",
-                textTransform: "uppercase",
-                marginBottom: "20px",
-              }}
-            >
+            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: "0.3em", color: "#C9A027", textTransform: "uppercase", marginBottom: 20 }}>
               COLLECTION
             </div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: "16px 24px",
-              }}
-            >
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px 24px" }}>
               {SHOP_CATEGORIES.map(({ label, href }) => (
                 <Link
                   key={label}
                   href={href}
                   onClick={() => setShopOpen(false)}
                   style={{
-                    fontFamily: "'Bebas Neue', sans-serif",
-                    fontSize: "22px",
-                    letterSpacing: "0.1em",
-                    color: "#6b6b6b",
+                    fontFamily: "'Shippori Mincho', serif",
+                    fontWeight: 600,
+                    fontSize:   "22px",
+                    letterSpacing: "0.06em",
+                    color: "#F4EDE2",
                     textDecoration: "none",
                     display: "block",
-                    transition: "color 0.2s",
-                    paddingBottom: "2px",
-                    borderBottom: "1px solid transparent",
+                    transition: "color 0.25s ease",
+                    paddingBottom: 2,
+                    borderBottom:  "1px solid transparent",
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = "#f0ede6";
-                    e.currentTarget.style.borderBottomColor =
-                      "rgba(180,20,20,0.6)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = "#6b6b6b";
-                    e.currentTarget.style.borderBottomColor = "transparent";
-                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = "#C9A027"; e.currentTarget.style.borderBottomColor = "rgba(201,160,39,0.6)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = "#F4EDE2"; e.currentTarget.style.borderBottomColor = "transparent"; }}
                 >
                   {label}
                 </Link>
@@ -371,67 +254,31 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Divider */}
-          <div
-            style={{
-              width: "1px",
-              alignSelf: "stretch",
-              background: "rgba(255,255,255,0.06)",
-              margin: "0 40px",
-              flexShrink: 0,
-            }}
-          />
+          <div style={{ width: "1px", alignSelf: "stretch", background: "rgba(201,160,39,0.2)", margin: "0 40px", flexShrink: 0 }} />
 
-          {/* RIGHT — drop info */}
           <div style={{ flex: 1 }}>
-            <div
-              style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: "9px",
-                letterSpacing: "0.3em",
-                color: "rgba(180,20,20,0.8)",
-                textTransform: "uppercase",
-                marginBottom: "12px",
-              }}
-            >
+            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: "0.3em", color: "#C9A027", textTransform: "uppercase", marginBottom: 12 }}>
               DROP 001
             </div>
-            <div
-              style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "36px",
-                letterSpacing: "0.05em",
-                color: "#2a2a2a",
-                marginBottom: "8px",
-              }}
-            >
-              THE VOID COLLECTION
+            <div style={{ fontFamily: "'Shippori Mincho', serif", fontWeight: 700, fontSize: 32, letterSpacing: "0.04em", color: "#F4EDE2", marginBottom: 8 }}>
+              The Void Collection
             </div>
-            <div
-              style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: "9px",
-                letterSpacing: "0.3em",
-                color: "#C9A84C",
-                textTransform: "uppercase",
-                marginBottom: "16px",
-              }}
-            >
+            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: "0.3em", color: "#C9A027", textTransform: "uppercase", marginBottom: 16 }}>
               NOW LIVE
             </div>
             <Link
               href="/drops"
               onClick={() => setShopOpen(false)}
               style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: "9px",
+                fontFamily: "'DM Mono', monospace",
+                fontSize:   10,
                 letterSpacing: "0.2em",
-                color: "#a8a8a8",
+                color: "#F4EDE2",
                 textDecoration: "none",
-                transition: "color 0.2s",
+                transition: "color 0.25s ease",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#a8a8a8")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A027")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#F4EDE2")}
             >
               → EXPLORE DROP
             </Link>
@@ -439,89 +286,66 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile drawer — slides from left */}
+      {/* Mobile drawer */}
       <div
         style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 200,
-          background: "rgba(0,0,0,0.97)",
-          display: "flex",
+          position:      "fixed",
+          inset:         0,
+          zIndex:        200,
+          background:    "#0A0A0A",
+          display:       "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "center",
-          padding: "80px 40px",
-          transform: menuOpen ? "translateX(0)" : "translateX(-100%)",
-          transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
+          alignItems:    "flex-start",
+          justifyContent:"center",
+          padding:       "80px 40px",
+          transform:     menuOpen ? "translateX(0)" : "translateX(-100%)",
+          transition:    "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
         }}
       >
         <button
           onClick={() => setMenuOpen(false)}
           aria-label="Close menu"
-          style={{
-            position: "absolute",
-            top: "24px",
-            right: "24px",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            color: "#f0ede6",
-            fontSize: "28px",
-          }}
+          style={{ position: "absolute", top: 24, right: 24, background: "none", border: "none", cursor: "pointer", color: "#F4EDE2", fontSize: 26 }}
         >
           ✕
         </button>
 
-        {[...NAV_LINKS, { label: "SHOP", href: "/shop" }].map(
-          ({ label, href }) => (
-            <Link
-              key={label}
-              href={href}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "clamp(28px, 6vw, 40px)",
-                letterSpacing: "0.08em",
-                color: "#C9A84C",
-                textDecoration: "none",
-                padding: "12px 0",
-              }}
-            >
-              {label}
-            </Link>
-          )
-        )}
+        {[...NAV_LINKS, { label: "SHOP", href: "/shop" }].map(({ label, href }) => (
+          <Link
+            key={label}
+            href={href}
+            onClick={() => setMenuOpen(false)}
+            style={{
+              fontFamily: "'Shippori Mincho', serif",
+              fontWeight: 700,
+              fontSize:   "clamp(28px, 6vw, 40px)",
+              letterSpacing: "0.06em",
+              color: "#C9A027",
+              textDecoration: "none",
+              padding: "12px 0",
+            }}
+          >
+            {label}
+          </Link>
+        ))}
 
-        <div style={{ display: "flex", gap: "24px", marginTop: "40px" }}>
+        <div style={{ display: "flex", gap: 24, marginTop: 40 }}>
           <button
             onClick={() => { setMenuOpen(false); openCart(); }}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "#a8a8a8",
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-              lineHeight: 0,
-            }}
+            style={{ background: "none", border: "none", cursor: "pointer", color: "#F4EDE2", position: "relative", display: "flex", alignItems: "center", lineHeight: 0 }}
             aria-label="Cart"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
               <path d="M3 4h2l2.5 12h11L21 8H6" />
               <circle cx="9" cy="20" r="1.2" fill="currentColor" stroke="none" />
               <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none" />
             </svg>
             {cartCount > 0 && (
               <span style={{
-                position: "absolute",
-                top: "-6px",
-                right: "-12px",
+                position: "absolute", top: -6, right: -12,
                 minWidth: 18, height: 18, padding: "0 5px",
-                borderRadius: 999,
-                background: "#cc2222", color: "#f0ede6",
-                fontFamily: "'Space Mono', monospace",
-                fontSize: 10,
+                background: "#A1182A", color: "#F4EDE2",
+                fontFamily: "'DM Mono', monospace", fontSize: 10,
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}>
                 {cartCount}
@@ -531,19 +355,10 @@ export default function Navbar() {
           <Link
             href="/account"
             onClick={() => setMenuOpen(false)}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "#a8a8a8",
-              textDecoration: "none",
-              display: "flex",
-              alignItems: "center",
-              lineHeight: 0,
-            }}
+            style={{ color: "#F4EDE2", textDecoration: "none", display: "flex", alignItems: "center", lineHeight: 0 }}
             aria-label="Account"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
               <circle cx="12" cy="8" r="3.5" />
               <path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6" />
             </svg>

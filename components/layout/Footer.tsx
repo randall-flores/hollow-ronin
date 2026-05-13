@@ -1,128 +1,169 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 
 type FooterLink = { label: string; href: string; external?: boolean };
 
-const LINKS: Record<string, FooterLink[]> = {
-  SHOP: [
-    { label: "SHOP",     href: "/shop" },
-    { label: "DROPS",    href: "/drops" },
-    { label: "LOOKBOOK", href: "/lookbook" },
-    { label: "ABOUT",    href: "/about" },
-  ],
-  SUPPORT: [
-    { label: "CONTACT",  href: "mailto:support@hollowronin.com", external: true },
-    { label: "SHIPPING", href: "/shipping" },
-    { label: "RETURNS",  href: "/returns" },
-  ],
-  LEGAL: [
-    { label: "PRIVACY", href: "/privacy" },
-    { label: "TERMS",   href: "/terms" },
-  ],
-  SOCIAL: [
-    { label: "INSTAGRAM", href: "https://instagram.com/hollow.ronin",   external: true },
-    { label: "TIKTOK",    href: "https://tiktok.com/@hollowronin",      external: true },
-    { label: "FACEBOOK",  href: "https://facebook.com/hollowronin",     external: true },
-  ],
-};
+const LINKS: FooterLink[] = [
+  { label: "SHOP",     href: "/shop" },
+  { label: "DROPS",    href: "/drops" },
+  { label: "LOOKBOOK", href: "/lookbook" },
+  { label: "ABOUT",    href: "/about" },
+  { label: "SHIPPING", href: "/shipping" },
+  { label: "RETURNS",  href: "/returns" },
+  { label: "PRIVACY",  href: "/privacy" },
+  { label: "TERMS",    href: "/terms" },
+];
 
-const linkStyle = {
-  fontFamily: "'Space Mono', monospace",
-  fontSize: "10px",
+const SOCIALS: FooterLink[] = [
+  { label: "INSTAGRAM", href: "https://instagram.com/hollow.ronin", external: true },
+  { label: "TIKTOK",    href: "https://tiktok.com/@hollowronin",    external: true },
+  { label: "FACEBOOK",  href: "https://facebook.com/hollowronin",   external: true },
+];
+
+const linkStyle: React.CSSProperties = {
+  fontFamily:    "'DM Mono', monospace",
+  fontSize:      "11px",
   letterSpacing: "0.15em",
-  textTransform: "uppercase" as const,
-  color: "#6b6b6b",
-  textDecoration: "none",
-  display: "block",
-  transition: "color 0.3s",
+  textTransform: "uppercase",
+  color:         "#F4EDE2",
+  textDecoration:"none",
+  display:       "block",
+  transition:    "color 0.25s ease",
+  padding:       "6px 0",
 };
 
 export default function Footer() {
   return (
-    <footer style={{ background: "#0a0a0a", borderTop: "1px solid rgba(192,0,30,0.3)", padding: "64px 48px 32px" }}>
+    <footer
+      style={{
+        background:   "#0A0A0A",
+        borderTop:    "1px solid rgba(201,160,39,0.30)",
+        padding:      "72px 48px 28px",
+      }}
+    >
       <style>{`
         .hr-footer-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 40px;
-          margin-bottom: 80px;
+          grid-template-columns: 1.5fr 1fr 1fr;
+          gap: 64px;
+          margin-bottom: 64px;
         }
         @media (max-width: 767px) {
           .hr-footer-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px 24px;
-            margin-bottom: 56px;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
           }
         }
         .hr-footer-bottom {
           display: flex;
-          justify-content: space-between;
+          justify-content: center;
           align-items: center;
-          border-top: 1px solid #2e2e2e;
+          border-top: 1px solid rgba(201,160,39,0.20);
           padding-top: 24px;
-          gap: 16px;
-        }
-        @media (max-width: 480px) {
-          .hr-footer-bottom {
-            flex-direction: column;
-            text-align: center;
-          }
         }
       `}</style>
 
-      <div style={{ overflow: "hidden", borderBottom: "1px solid #2e2e2e", paddingBottom: "32px", marginBottom: "64px" }}>
-        <div className="animate-ticker" style={{ display: "flex", whiteSpace: "nowrap", width: "max-content" }}>
-          {Array.from({ length: 8 }).map((_, i) => (
-            <span key={i} style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#444748", margin: "0 24px" }}>
-              HOLLOW RONIN — DROP 001 — NO MASTER. NO RULES — CYBER SAMURAI ◆
-            </span>
-          ))}
+      <div className="hr-footer-grid">
+        {/* BRAND COLUMN */}
+        <div>
+          <Link href="/" style={{ display: "inline-flex", alignItems: "center", marginBottom: 24 }}>
+            <Image
+              src="/logo-mask-transparent.png"
+              alt="Hollow Ronin"
+              width={140}
+              height={56}
+              className="object-contain"
+            />
+          </Link>
+          <p
+            style={{
+              fontFamily:    "'Shippori Mincho', 'Noto Serif JP', Georgia, serif",
+              fontStyle:     "italic",
+              fontSize:      "14px",
+              lineHeight:    1.6,
+              color:         "#F4EDE2",
+              maxWidth:      "30ch",
+              letterSpacing: "0.02em",
+            }}
+          >
+            When the masters fell, the masks remained.
+          </p>
+        </div>
+
+        {/* LINKS COLUMN */}
+        <div>
+          <h4
+            style={{
+              fontFamily:    "'DM Mono', monospace",
+              fontSize:      "10px",
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color:         "#C9A027",
+              marginBottom:  20,
+            }}
+          >
+            Navigate
+          </h4>
+          <nav style={{ display: "flex", flexDirection: "column" }}>
+            {LINKS.map((l) => (
+              <Link
+                key={l.label}
+                href={l.href}
+                style={linkStyle}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A027")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#F4EDE2")}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        {/* SOCIAL COLUMN */}
+        <div>
+          <h4
+            style={{
+              fontFamily:    "'DM Mono', monospace",
+              fontSize:      "10px",
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color:         "#C9A027",
+              marginBottom:  20,
+            }}
+          >
+            Follow
+          </h4>
+          <nav style={{ display: "flex", flexDirection: "column" }}>
+            {SOCIALS.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={linkStyle}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A027")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#F4EDE2")}
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
         </div>
       </div>
 
-      <div className="hr-footer-grid">
-        {Object.entries(LINKS).map(([col, links]) => (
-          <div key={col}>
-            <h4 style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "20px" }}>
-              {col}
-            </h4>
-            <nav style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              {links.map((l) =>
-                l.external ? (
-                  <a
-                    key={l.label}
-                    href={l.href}
-                    target={l.href.startsWith("mailto:") ? undefined : "_blank"}
-                    rel="noopener noreferrer"
-                    style={linkStyle}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ede6")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
-                  >
-                    {l.label}
-                  </a>
-                ) : (
-                  <Link
-                    key={l.label}
-                    href={l.href}
-                    style={linkStyle}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ede6")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
-                  >
-                    {l.label}
-                  </Link>
-                )
-              )}
-            </nav>
-          </div>
-        ))}
-      </div>
-
       <div className="hr-footer-bottom">
-        <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "28px", color: "#f0ede6", letterSpacing: "0.1em" }}>
-          HOLLOW RONIN
-        </span>
-        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#6b6b6b" }}>
-          ©2025 HOLLOW RONIN // PROTOCOL_001 // ALL RIGHTS RESERVED
+        <span
+          style={{
+            fontFamily:    "'DM Mono', monospace",
+            fontSize:      "10px",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            color:         "#6B6B6B",
+          }}
+        >
+          © 2025 Hollow Ronin. No gods. No masters.
         </span>
       </div>
     </footer>

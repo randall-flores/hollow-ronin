@@ -89,14 +89,19 @@ export default function LookbookPage() {
           position: relative;
           overflow: hidden;
           background: #0d0d0d;
+          transition: border-color 0.3s ease, box-shadow 0.3s ease;
+          border: 1px solid transparent;
         }
         .lb-frame img {
           filter: grayscale(0.6) brightness(0.62) contrast(1.1);
-          transition: filter 1.2s ease, transform 1.5s cubic-bezier(0.16,1,0.3,1);
+          transition: filter 0.6s ease;
+        }
+        .lb-frame:hover {
+          border-color: rgba(204,34,34,0.35);
+          box-shadow: 0 0 28px -10px rgba(204,34,34,0.4);
         }
         .lb-frame:hover img {
           filter: grayscale(0) brightness(0.92) contrast(1.05);
-          transform: scale(1.04);
         }
         .lb-chapter {
           opacity: 0;

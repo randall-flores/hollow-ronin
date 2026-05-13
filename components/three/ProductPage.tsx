@@ -75,20 +75,20 @@ function Breadcrumbs({ product }: { product: Product }) {
 }
 
 function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number) => void }) {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [hoverPos,    setHoverPos]    = useState<{ x: number; y: number } | null>(null)
-  const active = product.images[activeIndex]
+  // Track active image by URL — survives product swaps without leaking
+  // a stale index into a different image array.
+  const firstUrl = product.images[0]?.url ?? ''
+  const [activeUrl, setActiveUrl] = useState<string>(firstUrl)
 
-  useEffect(() => { setActiveIndex(0); setHoverPos(null) }, [product.slug])
+  useEffect(() => {
+    setActiveUrl(product.images[0]?.url ?? '')
+  }, [product.slug, product.images])
 
-  const handleMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (window.matchMedia('(hover: none)').matches) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    setHoverPos({
-      x: ((e.clientX - rect.left) / rect.width)  * 100,
-      y: ((e.clientY - rect.top)  / rect.height) * 100,
-    })
-  }
+  const safeActive =
+    product.images.find((img) => img.url === activeUrl) ?? product.images[0]
+  const activeIndex = product.images.findIndex((img) => img.url === safeActive?.url)
+
+  if (!safeActive) return null
 
   return (
     <div className="hr-gallery">
@@ -97,15 +97,15 @@ function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number
         aria-label="Product images"
         className="hr-thumbs"
       >
-        {product.images.map((img, i) => {
-          const isActive = i === activeIndex
+        {product.images.map((img) => {
+          const isActive = img.url === safeActive.url
           return (
             <button
-              key={img.url}
+              key={`${product.slug}::${img.url}`}
               role="tab"
               aria-selected={isActive}
               aria-label={`View ${img.alt}`}
-              onClick={() => setActiveIndex(i)}
+              onClick={() => setActiveUrl(img.url)}
               style={{
                 position:   'relative',
                 width:      72,
@@ -133,25 +133,18 @@ function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number
       </div>
 
       <button
-        onClick={() => onZoom(activeIndex)}
-        onMouseMove={handleMove}
-        onMouseLeave={() => setHoverPos(null)}
-        aria-label="Zoom image"
+        onClick={() => onZoom(activeIndex >= 0 ? activeIndex : 0)}
+        aria-label="Open full-size image"
         className="hr-hero"
       >
         <Image
-          key={active.url}
-          src={active.url}
-          alt={active.alt}
+          key={`${product.slug}::${safeActive.url}`}
+          src={safeActive.url}
+          alt={safeActive.alt}
           fill
           sizes="(min-width: 1024px) 58vw, 100vw"
           priority
-          style={{
-            objectFit:       'contain',
-            transform:       hoverPos ? 'scale(1.7)' : 'scale(1)',
-            transformOrigin: hoverPos ? `${hoverPos.x}% ${hoverPos.y}%` : 'center',
-            transition:      hoverPos ? 'transform 0.08s linear' : 'transform 0.35s ease',
-          }}
+          style={{ objectFit: 'contain' }}
         />
         <span style={{
           position:  'absolute', bottom: 16, right: 16,
@@ -163,10 +156,8 @@ function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number
           border:    '1px solid rgba(255,255,255,0.08)',
           textTransform: 'uppercase',
           pointerEvents: 'none',
-          opacity:    hoverPos ? 0 : 1,
-          transition: 'opacity 0.2s ease',
         }}>
-          {hoverPos ? '' : 'Hover to zoom · Click for full'}
+          Click for full
         </span>
       </button>
     </div>
@@ -453,6 +444,18 @@ export default function ProductPage({ product }: { product: Product }) {
           cursor: zoom-in;
           padding: 0;
           outline: none;
+          transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .hr-hero img {
+          transition: filter 0.3s ease;
+          filter: brightness(0.96);
+        }
+        .hr-hero:hover {
+          border-color: rgba(204,34,34,0.35);
+          box-shadow: 0 0 24px -6px rgba(204,34,34,0.25);
+        }
+        .hr-hero:hover img {
+          filter: brightness(1.03);
         }
         @media (min-width: 1024px) {
           .hr-pdp-grid {

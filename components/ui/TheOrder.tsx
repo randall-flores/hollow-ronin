@@ -126,14 +126,15 @@ export default function TheOrder() {
               disabled={loading}
               style={{
                 flex:          1,
+                minWidth:      0,
                 background:    'transparent',
                 border:        'none',
                 borderBottom:  '1px solid rgba(255,255,255,0.28)',
                 outline:       'none',
                 padding:       '10px 2px',
                 fontFamily:    "'Space Mono', monospace",
-                fontSize:      12,
-                letterSpacing: '0.15em',
+                fontSize:      16,
+                letterSpacing: '0.1em',
                 color:         '#f0ede6',
                 transition:    'border-color 0.2s ease',
               }}

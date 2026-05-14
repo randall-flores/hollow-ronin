@@ -123,7 +123,7 @@ body::before {
 .drop-card {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.06);
-  padding: 40px;
+  padding: clamp(24px, 5vw, 40px);
   transition: border-color 0.3s;
   cursor: pointer;
 }

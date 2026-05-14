@@ -31,14 +31,14 @@ export default function AboutPage() {
           background:
             "radial-gradient(ellipse at center top, rgba(120,10,10,0.18) 0%, #0a0a0a 65%)",
           borderBottom: "1px solid rgba(180,20,20,0.4)",
-          paddingTop: 140, paddingBottom: 120,
+          paddingTop: "clamp(96px, 14vw, 140px)", paddingBottom: "clamp(72px, 12vw, 120px)",
           overflow: "hidden",
         }}
       >
         {/* faint kanji backdrop */}
         <span style={{
           position: "absolute",
-          fontFamily: "serif", fontSize: 480,
+          fontFamily: "serif", fontSize: "clamp(220px, 40vw, 480px)",
           color: "rgba(204,34,34,0.022)",
           fontWeight: 700, lineHeight: 1,
           userSelect: "none", pointerEvents: "none",
@@ -51,18 +51,19 @@ export default function AboutPage() {
         {/* Eyebrow + headline */}
         <div className="ab-anim" style={{
           maxWidth: 900, margin: "0 auto",
-          padding: "0 32px",
+          padding: "0 20px",
           textAlign: "center",
           position: "relative",
         }}>
           <p style={{
             margin: "0 0 24px",
             fontFamily: "'Space Mono', monospace",
-            fontSize: 10, letterSpacing: "0.5em",
+            fontSize: 10, letterSpacing: "0.35em",
             color: "rgba(204,34,34,0.85)",
             textTransform: "uppercase",
+            wordBreak: "keep-all",
           }}>
-            ─────────  WEAR THE STORY  ─────────
+            ───  WEAR THE STORY  ───
           </p>
           <h1 style={{
             margin: 0,
@@ -80,13 +81,13 @@ export default function AboutPage() {
 
         {/* Opening narrative */}
         <div className="ab-anim" style={{
-          maxWidth: 680, margin: "72px auto 0",
-          padding: "0 32px",
+          maxWidth: 680, margin: "clamp(48px, 8vw, 72px) auto 0",
+          padding: "0 20px",
           fontFamily: "Georgia, serif",
-          fontSize: 18, lineHeight: 2,
+          fontSize: "clamp(15px, 1.8vw, 18px)", lineHeight: 1.85,
           color: "rgba(240,237,230,0.82)",
           animationDelay: "0.15s",
-          display: "flex", flexDirection: "column", gap: 28,
+          display: "flex", flexDirection: "column", gap: 24,
           textAlign: "center",
         }}>
           <p style={{ margin: 0 }}>The world was older once. Quieter.</p>
@@ -98,7 +99,7 @@ export default function AboutPage() {
             margin: 0,
             fontStyle: "italic",
             color: "rgba(204,34,34,0.85)",
-            fontSize: 22,
+            fontSize: "clamp(18px, 2.2vw, 22px)",
           }}>
             Then it broke.
           </p>
@@ -110,8 +111,8 @@ export default function AboutPage() {
             margin: 0,
             fontFamily: "'Bebas Neue', sans-serif",
             fontStyle: "normal",
-            fontSize: 32,
-            letterSpacing: "0.12em",
+            fontSize: "clamp(24px, 4vw, 32px)",
+            letterSpacing: "0.1em",
             color: "#f0ede6",
             textTransform: "uppercase",
           }}>
@@ -121,10 +122,10 @@ export default function AboutPage() {
 
         {/* Three clans */}
         <div className="ab-anim" style={{
-          maxWidth: 1100, margin: "88px auto 0",
-          padding: "0 32px",
+          maxWidth: 1100, margin: "clamp(56px, 9vw, 88px) auto 0",
+          padding: "0 16px",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
           gap: 1,
           background: "rgba(204,34,34,0.18)",
           border: "1px solid rgba(204,34,34,0.18)",
@@ -154,9 +155,9 @@ export default function AboutPage() {
               key={clan.romaji}
               style={{
                 background: "#0a0a0a",
-                padding: "44px 32px 40px",
+                padding: "clamp(28px, 5vw, 44px) clamp(20px, 4vw, 32px) clamp(28px, 5vw, 40px)",
                 display: "flex", flexDirection: "column", gap: 14,
-                minHeight: 280,
+                minHeight: 240,
               }}
             >
               <span style={{
@@ -198,15 +199,15 @@ export default function AboutPage() {
 
         {/* Hollow Ronin — the outsider */}
         <div className="ab-anim" style={{
-          maxWidth: 720, margin: "104px auto 0",
-          padding: "0 32px",
+          maxWidth: 720, margin: "clamp(64px, 12vw, 104px) auto 0",
+          padding: "0 20px",
           textAlign: "center",
           animationDelay: "0.45s",
         }}>
           <p style={{
             margin: "0 0 12px",
             fontFamily: "serif",
-            fontSize: 44,
+            fontSize: "clamp(32px, 6vw, 44px)",
             color: "rgba(204,34,34,0.85)",
             letterSpacing: "0.04em",
             lineHeight: 1,
@@ -216,7 +217,7 @@ export default function AboutPage() {
           <p style={{
             margin: "0 0 28px",
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 22, letterSpacing: "0.3em",
+            fontSize: "clamp(18px, 2.6vw, 22px)", letterSpacing: "0.22em",
             color: "#f0ede6",
             textTransform: "uppercase",
           }}>
@@ -232,7 +233,7 @@ export default function AboutPage() {
           </p>
           <div style={{
             fontFamily: "Georgia, serif",
-            fontSize: 17, lineHeight: 2,
+            fontSize: "clamp(14px, 1.8vw, 17px)", lineHeight: 1.85,
             color: "rgba(240,237,230,0.82)",
             display: "flex", flexDirection: "column", gap: 22,
           }}>
@@ -255,8 +256,8 @@ export default function AboutPage() {
 
         {/* Closing thesis + manifesto stamp */}
         <div className="ab-anim" style={{
-          maxWidth: 740, margin: "104px auto 0",
-          padding: "60px 32px 0",
+          maxWidth: 740, margin: "clamp(64px, 12vw, 104px) auto 0",
+          padding: "clamp(40px, 7vw, 60px) 20px 0",
           textAlign: "center",
           borderTop: "1px solid rgba(204,34,34,0.25)",
           animationDelay: "0.6s",
@@ -306,7 +307,7 @@ export default function AboutPage() {
       {/* ============== CTA ============== */}
       <section style={{
         borderTop: "1px solid rgba(204,34,34,0.35)",
-        padding: "120px 32px 140px",
+        padding: "clamp(80px, 14vw, 120px) clamp(20px, 5vw, 32px) clamp(96px, 16vw, 140px)",
         textAlign: "center",
         background:
           "radial-gradient(ellipse at center, rgba(120,10,10,0.15) 0%, #0a0a0a 70%)",

@@ -306,9 +306,9 @@ function QtyBtn({ onClick, label }: { onClick: () => void; label: string }) {
       onClick={onClick}
       style={{
         background: "none", border: "none", cursor: "pointer",
-        width: 26, height: 26,
+        width: 36, height: 36,
         color: "rgba(255,255,255,0.6)",
-        fontFamily: "'Space Mono', monospace", fontSize: 14,
+        fontFamily: "'Space Mono', monospace", fontSize: 16,
         transition: "color 0.2s",
       }}
       onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "#cc2222")}

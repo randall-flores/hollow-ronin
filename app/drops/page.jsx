@@ -25,7 +25,7 @@ export default function DropsPage() {
         <h1
           style={{
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: "72px",
+            fontSize: "clamp(48px, 10vw, 72px)",
             color: "#f0ede6",
             letterSpacing: "0.12em",
             margin: 0,
@@ -48,12 +48,12 @@ export default function DropsPage() {
       </div>
 
       {/* Content */}
-      <div style={{ padding: "80px", maxWidth: "1200px", margin: "0 auto" }}>
+      <div style={{ padding: "clamp(48px, 8vw, 80px) clamp(20px, 5vw, 80px)", maxWidth: "1200px", margin: "0 auto" }}>
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gap: "24px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "20px",
           }}
         >
           {/* Drop 001 — Live */}
@@ -73,7 +73,7 @@ export default function DropsPage() {
             <div
               style={{
                 fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "40px",
+                fontSize: "clamp(28px, 5vw, 40px)",
                 color: "#f0ede6",
                 letterSpacing: "0.08em",
                 marginBottom: "8px",
@@ -123,7 +123,7 @@ export default function DropsPage() {
             <div
               style={{
                 fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "40px",
+                fontSize: "clamp(28px, 5vw, 40px)",
                 color: "#f0ede6",
                 letterSpacing: "0.08em",
                 marginBottom: "8px",

@@ -17,7 +17,7 @@ export default function PolicyPage({ eyebrow, title, intro }: Props) {
     >
       <section
         style={{
-          minHeight: 360,
+          minHeight: 320,
           background:
             "radial-gradient(ellipse at center, rgba(120,10,10,0.18) 0%, #0a0a0a 70%)",
           borderBottom: "1px solid rgba(180,20,20,0.4)",
@@ -25,8 +25,10 @@ export default function PolicyPage({ eyebrow, title, intro }: Props) {
           flexDirection: "column",
           alignItems:    "center",
           justifyContent: "center",
-          paddingTop:    100,
+          paddingTop:    "clamp(80px, 12vw, 100px)",
           paddingBottom: 40,
+          paddingLeft:   20,
+          paddingRight:  20,
           textAlign: "center",
         }}
       >
@@ -53,7 +55,7 @@ export default function PolicyPage({ eyebrow, title, intro }: Props) {
 
       <section style={{
         maxWidth: 720, margin: "0 auto",
-        padding: "100px 32px 140px",
+        padding: "clamp(64px, 10vw, 100px) clamp(20px, 5vw, 32px) clamp(96px, 16vw, 140px)",
         textAlign: "center",
       }}>
         <p style={{

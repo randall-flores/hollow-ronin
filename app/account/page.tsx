@@ -11,7 +11,7 @@ export default function AccountPage() {
         minHeight:  "calc(100vh - 68px)",
         background: "radial-gradient(ellipse at 50% 20%, rgba(204,34,34,0.10) 0%, #0a0a0a 60%)",
         color:      "#f0ede6",
-        padding:    "120px 24px 160px",
+        padding:    "clamp(88px, 14vw, 120px) 20px clamp(96px, 16vw, 160px)",
         position:   "relative",
         overflow:   "hidden",
       }}

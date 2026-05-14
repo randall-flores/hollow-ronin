@@ -56,12 +56,12 @@ function Rule() {
 function Breadcrumbs({ product }: { product: Product }) {
   return (
     <nav aria-label="Breadcrumb" style={{
-      padding: '20px 32px 0',
+      padding: '20px clamp(16px, 4vw, 32px) 0',
       fontFamily: "'Space Mono', monospace",
-      fontSize: 10, letterSpacing: 3,
+      fontSize: 10, letterSpacing: 2,
       color: 'rgba(255,255,255,0.35)',
       textTransform: 'uppercase',
-      display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap',
+      display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap',
     }}>
       <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Home</Link>
       <span style={{ color: 'rgba(204,34,34,0.5)' }}>/</span>
@@ -301,7 +301,7 @@ function Related({ items }: { items: Product[] }) {
   return (
     <section style={{
       borderTop: '1px solid rgba(255,255,255,0.06)',
-      padding: '80px 32px 100px',
+      padding: 'clamp(56px, 9vw, 80px) clamp(16px, 4vw, 32px) clamp(72px, 12vw, 100px)',
       maxWidth: 1440, margin: '0 auto',
     }}>
       <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginBottom: 36, flexWrap: 'wrap' }}>

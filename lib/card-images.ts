@@ -32,7 +32,7 @@ function colorSlugFromProduct(product: Product, override?: ColorSlug): ColorSlug
 export function cardHoverImage(product: Product, color?: ColorSlug): { url: string; alt: string } {
   const slug      = product.slug
   const colorSlug = colorSlugFromProduct(product, color)
-  const frontUrl  = `/mockups/tee-${slug}-front-${colorSlug}.png`
+  const frontUrl  = `/mockups/${slug}/${colorSlug}/tee-${slug}-front-${colorSlug}.png`
   const backUrl   = product.images[0]?.url ?? frontUrl
   const backAlt   = product.images[0]?.alt ?? product.name
 
@@ -84,17 +84,18 @@ export function productGalleryImages(
   const colorSlug = colorSlugFromProduct(product, color)
   const name      = product.name
 
+  const dir = `/mockups/${slug}/${colorSlug}`
   type Candidate = { url: string; alt: string }
   const candidates: Candidate[] = [
-    { url: `/mockups/tee-${slug}-front-${colorSlug}.png`,        alt: `${name} — front view`            },
-    { url: `/mockups/tee-${slug}-back-${colorSlug}.png`,         alt: `${name} — back design`           },
-    { url: `/mockups/tee-${slug}-front-${colorSlug}-model1.png`, alt: `${name} — worn, front (1)`       },
-    { url: `/mockups/tee-${slug}-front-${colorSlug}-model3.png`, alt: `${name} — worn, front (studio)`  },
-    { url: `/mockups/tee-${slug}-front-${colorSlug}-model4.png`, alt: `${name} — worn, front (editorial)` },
-    { url: `/mockups/tee-${slug}-back-${colorSlug}-model1.png`,  alt: `${name} — worn, back (1)`        },
-    { url: `/mockups/tee-${slug}-back-${colorSlug}-model3.png`,  alt: `${name} — worn, back (studio)`   },
-    { url: `/mockups/tee-${slug}-back-${colorSlug}-model4.png`,  alt: `${name} — worn, back (editorial)` },
-    { url: CLAN_SIGIL[product.clan],                             alt: `${name} — clan sigil`            },
+    { url: `${dir}/tee-${slug}-front-${colorSlug}.png`,        alt: `${name} — front view`            },
+    { url: `${dir}/tee-${slug}-back-${colorSlug}.png`,         alt: `${name} — back design`           },
+    { url: `${dir}/tee-${slug}-front-${colorSlug}-model1.png`, alt: `${name} — worn, front (1)`       },
+    { url: `${dir}/tee-${slug}-front-${colorSlug}-model3.png`, alt: `${name} — worn, front (studio)`  },
+    { url: `${dir}/tee-${slug}-front-${colorSlug}-model4.png`, alt: `${name} — worn, front (editorial)` },
+    { url: `${dir}/tee-${slug}-back-${colorSlug}-model1.png`,  alt: `${name} — worn, back (1)`        },
+    { url: `${dir}/tee-${slug}-back-${colorSlug}-model3.png`,  alt: `${name} — worn, back (studio)`   },
+    { url: `${dir}/tee-${slug}-back-${colorSlug}-model4.png`,  alt: `${name} — worn, back (editorial)` },
+    { url: CLAN_SIGIL[product.clan],                           alt: `${name} — clan sigil`            },
   ]
 
   const present: ProductImage[] = []

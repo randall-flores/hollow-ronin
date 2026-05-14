@@ -62,9 +62,9 @@ export type Product = {
 type ImgMod = 'm1' | 'm3' | 'm4'
 
 // Gallery contract (per product, enforced by scripts/validate-products.js):
-//   [0]  back design — /mockups/tee-{slug}-back-{color}.png
+//   [0]  back design — /mockups/{slug}/{color}/tee-{slug}-back-{color}.png
 //   [1]  clan sigil  — /sigils/mon-{clan-slug}-transparent.png (shared per clan)
-//   [2+] worn model shots — /mockups/tee-{slug}-back-{color}-model{N}.png
+//   [2+] worn model shots — /mockups/{slug}/{color}/tee-{slug}-back-{color}-model{N}.png
 function teeImages(
   slug:  string,
   color: 'black' | 'white',
@@ -72,7 +72,7 @@ function teeImages(
   clan:  Clan,
   mods:  ImgMod[],
 ): ProductImage[] {
-  const base  = `/mockups/tee-${slug}-back-${color}`
+  const base  = `/mockups/${slug}/${color}/tee-${slug}-back-${color}`
   const sigil = CLAN_SIGIL[clan]
   const images: ProductImage[] = [
     { url: `${base}.png`, alt: `${name} — back design` },

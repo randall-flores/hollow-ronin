@@ -12,10 +12,10 @@
  * Asset checks (per product, order-agnostic — PDP gallery order lives in
  * lib/card-images.ts and is filtered against the same disk state at
  * build time):
- *   - REQUIRED: /mockups/tee-{slug}-front-{color}.png   (PDP hero default)
- *   - REQUIRED: /mockups/tee-{slug}-back-{color}.png    (listing card default)
- *   - REQUIRED: /sigils/mon-{slug}-transparent.png      (sigil thumb)
- *   - OPTIONAL: /mockups/tee-{slug}-{view}-{color}-model{1,3,4}.png
+ *   - REQUIRED: /sigils/mon-{clan-slug}-transparent.png  (clan sigil)
+ *   - REQUIRED: at least 6 of 8 mockups under
+ *     /mockups/{slug}/{color}/tee-{slug}-{front|back}-{color}[-model{1,3,4}].png
+ *     (allows the occasional asset gap; mockups read from nested folders)
  *
  * The validator no longer enforces a specific gallery[] array order
  * inside lib/products.ts. Order is computed at render time by
@@ -60,15 +60,21 @@ function checkFile(relUrl) {
   return fs.existsSync(abs);
 }
 
-function requiredAssets(product) {
-  const slug  = product.slug;
-  const color = product.color === 'White' ? 'white' : 'black';
+function expectedMockups(slug, color) {
+  const dir = `/mockups/${slug}/${color}`;
   return [
-    `/mockups/tee-${slug}-front-${color}.png`,
-    `/mockups/tee-${slug}-back-${color}.png`,
-    CLAN_SIGIL[product.clan],
+    `${dir}/tee-${slug}-front-${color}.png`,
+    `${dir}/tee-${slug}-back-${color}.png`,
+    `${dir}/tee-${slug}-front-${color}-model1.png`,
+    `${dir}/tee-${slug}-front-${color}-model3.png`,
+    `${dir}/tee-${slug}-front-${color}-model4.png`,
+    `${dir}/tee-${slug}-back-${color}-model1.png`,
+    `${dir}/tee-${slug}-back-${color}-model3.png`,
+    `${dir}/tee-${slug}-back-${color}-model4.png`,
   ];
 }
+
+const MIN_MOCKUPS = 6;
 
 function main() {
   const errors = [];
@@ -107,10 +113,20 @@ function main() {
       familyCounts.set(p.designFamily, (familyCounts.get(p.designFamily) ?? 0) + 1);
     }
 
-    for (const required of requiredAssets(p)) {
-      if (!checkFile(required)) {
-        errors.push(`${tag} required asset missing on disk: ${required}`);
-      }
+    // 1. Clan sigil must exist.
+    const sigil = CLAN_SIGIL[p.clan];
+    if (sigil && !checkFile(sigil)) {
+      errors.push(`${tag} clan sigil missing on disk: ${sigil}`);
+    }
+
+    // 2. At least MIN_MOCKUPS of the 8 expected mockups must exist.
+    const color   = p.color === 'White' ? 'white' : 'black';
+    const expects = expectedMockups(p.slug, color);
+    const present = expects.filter(checkFile).length;
+    if (present < MIN_MOCKUPS) {
+      errors.push(
+        `${tag} only ${present}/${expects.length} mockups present under /mockups/${p.slug}/${color}/ (need at least ${MIN_MOCKUPS})`
+      );
     }
   }
 

@@ -4,14 +4,19 @@ import Link from "next/link";
 import { useCart } from "@/components/cart/CartProvider";
 
 const NAV_LINKS = [
-  { label: "DROPS", href: "/shop" },
+  { label: "DROPS", href: "/drops" },
   { label: "LOOKBOOK", href: "/lookbook" },
   { label: "ABOUT", href: "/about" },
 ];
 
-const SHOP_CATEGORIES = [
-  { label: "SHIRTS",    href: "/shop/shirts" },
-  { label: "VIEW ALL →", href: "/shop/shirts" },
+const SHOP_CATEGORIES: { label: string; href: string; live: boolean }[] = [
+  { label: "SHIRTS",         href: "/shop/shirts",         live: true  },
+  { label: "HOODIES",        href: "/shop/hoodies",        live: false },
+  { label: "MASKED HOODIES", href: "/shop/masked-hoodies", live: false },
+  { label: "HATS",           href: "/shop/hats",           live: false },
+  { label: "BEANIES",        href: "/shop/beanies",        live: false },
+  { label: "SOCKS",          href: "/shop/socks",          live: false },
+  { label: "SCARVES",        href: "/shop/scarfs",         live: false },
 ];
 
 const navLinkStyle: React.CSSProperties = {
@@ -336,38 +341,91 @@ export default function Navbar() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(4, 1fr)",
-                gap: "16px 24px",
+                gap: "14px 24px",
               }}
             >
-              {SHOP_CATEGORIES.map(({ label, href }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  onClick={() => setShopOpen(false)}
-                  style={{
-                    fontFamily: "'Bebas Neue', sans-serif",
-                    fontSize: "22px",
-                    letterSpacing: "0.1em",
-                    color: "#6b6b6b",
-                    textDecoration: "none",
-                    display: "block",
-                    transition: "color 0.2s",
-                    paddingBottom: "2px",
-                    borderBottom: "1px solid transparent",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = "#f0ede6";
-                    e.currentTarget.style.borderBottomColor =
-                      "rgba(180,20,20,0.6)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = "#6b6b6b";
-                    e.currentTarget.style.borderBottomColor = "transparent";
-                  }}
-                >
-                  {label}
-                </Link>
-              ))}
+              {SHOP_CATEGORIES.map(({ label, href, live }) =>
+                live ? (
+                  <Link
+                    key={label}
+                    href={href}
+                    onClick={() => setShopOpen(false)}
+                    style={{
+                      fontFamily: "'Bebas Neue', sans-serif",
+                      fontSize: "22px",
+                      letterSpacing: "0.1em",
+                      color: "#f0ede6",
+                      textDecoration: "none",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                      transition: "color 0.2s, border-color 0.2s",
+                      paddingBottom: "2px",
+                      borderBottom: "1px solid transparent",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = "#cc2222";
+                      e.currentTarget.style.borderBottomColor = "rgba(204,34,34,0.6)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = "#f0ede6";
+                      e.currentTarget.style.borderBottomColor = "transparent";
+                    }}
+                  >
+                    {label}
+                  </Link>
+                ) : (
+                  <span
+                    key={label}
+                    aria-disabled="true"
+                    style={{
+                      fontFamily: "'Bebas Neue', sans-serif",
+                      fontSize: "22px",
+                      letterSpacing: "0.1em",
+                      color: "rgba(255,255,255,0.30)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      cursor: "not-allowed",
+                      paddingBottom: "2px",
+                    }}
+                  >
+                    {label}
+                    <span style={{
+                      fontFamily: "'Space Mono', monospace",
+                      fontSize: 8,
+                      letterSpacing: "0.2em",
+                      color: "rgba(204,34,34,0.55)",
+                      textTransform: "uppercase",
+                    }}>
+                      · forging
+                    </span>
+                  </span>
+                )
+              )}
+            </div>
+            <div style={{
+              marginTop: 24,
+              borderTop: "1px solid rgba(255,255,255,0.06)",
+              paddingTop: 18,
+            }}>
+              <Link
+                href="/shop"
+                onClick={() => setShopOpen(false)}
+                style={{
+                  fontFamily: "'Space Mono', monospace",
+                  fontSize: 10,
+                  letterSpacing: "0.3em",
+                  color: "rgba(255,255,255,0.6)",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  transition: "color 0.2s",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#cc2222")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
+              >
+                VIEW ALL →
+              </Link>
             </div>
           </div>
 

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import ProductPage from '@/components/three/ProductPage'
 import { PRODUCTS, getProduct } from '@/lib/products'
+import { productGalleryImages } from '@/lib/card-images'
 
 export function generateStaticParams() {
   return PRODUCTS.map((p) => ({ slug: p.slug }))
@@ -35,5 +36,6 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const { slug } = await params
   const product  = getProduct(slug)
   if (!product) notFound()
-  return <ProductPage product={product} />
+  const galleryProduct = { ...product, images: productGalleryImages(product) }
+  return <ProductPage product={galleryProduct} />
 }

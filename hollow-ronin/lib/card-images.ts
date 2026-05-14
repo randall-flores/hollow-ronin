@@ -1,6 +1,6 @@
 import fs   from 'node:fs'
 import path from 'node:path'
-import type { Product } from './products'
+import type { Product, ProductImage } from './products'
 
 /*
  * Resolve the hover image shown on listing cards.
@@ -45,3 +45,48 @@ export function cardHoverImage(product: Product): { url: string; alt: string } {
   }
   return { url: backUrl, alt: backAlt }
 }
+
+/*
+ * Build the ordered PDP gallery for a product.
+ *
+ * Display order:
+ *   1. /mockups/tee-{slug}-front-{color}.png         (MAIN, default)
+ *   2. /mockups/tee-{slug}-back-{color}.png
+ *   3. /mockups/tee-{slug}-front-{color}-model1.png  (lifestyle front)
+ *   4. /mockups/tee-{slug}-back-{color}-model1.png   (lifestyle back)
+ *   5. /sigils/mon-{slug}-transparent.png            (clean sigil, last)
+ *
+ * Any file that does not exist on disk is silently skipped so the
+ * gallery never breaks. Always returns at least one image — falls back
+ * to product.images[0] if every preferred file is missing.
+ *
+ * Server-only: do not import from a client component.
+ */
+export function productGalleryImages(product: Product): ProductImage[] {
+  const slug      = product.slug
+  const colorSlug = product.color === 'White' ? 'white' : 'black'
+  const name      = product.name
+
+  type Candidate = { url: string; alt: string }
+  const candidates: Candidate[] = [
+    { url: `/mockups/tee-${slug}-front-${colorSlug}.png`,        alt: `${name} — front view`        },
+    { url: `/mockups/tee-${slug}-back-${colorSlug}.png`,         alt: `${name} — back design`       },
+    { url: `/mockups/tee-${slug}-front-${colorSlug}-model1.png`, alt: `${name} — worn, front`       },
+    { url: `/mockups/tee-${slug}-back-${colorSlug}-model1.png`,  alt: `${name} — worn, back`        },
+    { url: `/sigils/mon-${slug}-transparent.png`,                alt: `${name} — clan sigil`        },
+  ]
+
+  const present: ProductImage[] = []
+  for (const c of candidates) {
+    const abs = path.join(PUBLIC_DIR, c.url.replace(/^\//, ''))
+    try {
+      if (fs.existsSync(abs)) present.push(c)
+    } catch {
+      /* fs unavailable — skip */
+    }
+  }
+
+  if (present.length === 0) return product.images
+  return present
+}
+

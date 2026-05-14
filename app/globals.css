@@ -4,7 +4,10 @@
 @theme {
   --color-void:         #0a0a0a;
   --color-cream:        #f0ede6;
+  --color-bone:         #f4ede2;
   --color-red:          #c0001e;
+  --color-blood:        #a1182a;
+  --color-gold:         #c9a961;
   --color-surface:      #131313;
   --color-surface-low:  #1c1b1b;
   --color-surface-high: #2a2a2a;
@@ -98,7 +101,7 @@ body::before {
   transition: all 0.3s;
   background: transparent;
 }
-.btn-outline:hover { background: #f0ede6; color: #0a0a0a; }
+.btn-outline:hover { background: #c9a961; color: #0a0a0a; border-color: #c9a961; }
 
 /* ── Product grid — responsive ─────────────────── */
 .product-grid {

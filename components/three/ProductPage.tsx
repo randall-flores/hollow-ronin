@@ -47,7 +47,7 @@ function Rule() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
       <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
-      <div style={{ width: 4, height: 4, background: 'rgba(204,34,34,0.38)', transform: 'rotate(45deg)' }} />
+      <div style={{ width: 4, height: 4, background: 'rgba(201,169,97,0.55)', transform: 'rotate(45deg)' }} />
       <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
     </div>
   )
@@ -587,7 +587,7 @@ export default function ProductPage({
                 {product.story}
               </p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-                <span style={{ fontSize: 24, fontFamily: 'monospace', color: '#f0ede6' }}>${product.price}.00</span>
+                <span style={{ fontSize: 24, fontFamily: 'monospace', color: '#f0ede6', borderBottom: '1px solid #c9a961', paddingBottom: 2 }}>${product.price}.00</span>
                 <span style={{ fontSize: 10, letterSpacing: 3, color: 'rgba(255,255,255,0.28)', fontFamily: 'monospace' }}>USD</span>
               </div>
               <div style={{ marginTop: 14 }}>

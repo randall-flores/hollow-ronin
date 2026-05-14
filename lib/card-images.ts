@@ -22,9 +22,16 @@ import type { Product, ProductImage } from './products'
 const PUBLIC_DIR = path.resolve(process.cwd(), 'public')
 const warned     = new Set<string>()
 
-export function cardHoverImage(product: Product): { url: string; alt: string } {
+type ColorSlug = 'black' | 'white'
+
+function colorSlugFromProduct(product: Product, override?: ColorSlug): ColorSlug {
+  if (override) return override
+  return product.color === 'White' ? 'white' : 'black'
+}
+
+export function cardHoverImage(product: Product, color?: ColorSlug): { url: string; alt: string } {
   const slug      = product.slug
-  const colorSlug = product.color === 'White' ? 'white' : 'black'
+  const colorSlug = colorSlugFromProduct(product, color)
   const frontUrl  = `/mockups/tee-${slug}-front-${colorSlug}.png`
   const backUrl   = product.images[0]?.url ?? frontUrl
   const backAlt   = product.images[0]?.alt ?? product.name
@@ -39,41 +46,55 @@ export function cardHoverImage(product: Product): { url: string; alt: string } {
     // fs unavailable (shouldn't happen on server) — silently fall through
   }
 
-  if (!warned.has(slug)) {
-    warned.add(slug)
+  const warnKey = `${slug}::${colorSlug}::hover`
+  if (!warned.has(warnKey)) {
+    warned.add(warnKey)
     console.warn(`[card-images] missing front mockup for "${slug}" (${frontUrl}). Falling back to back mockup.`)
   }
   return { url: backUrl, alt: backAlt }
 }
 
 /*
- * Build the ordered PDP gallery for a product.
+ * Build the ordered PDP gallery for a product (optionally for a specific
+ * color variant).
  *
  * Display order:
- *   1. /mockups/tee-{slug}-front-{color}.png         (MAIN, default)
+ *   1. /mockups/tee-{slug}-front-{color}.png             (MAIN, default)
  *   2. /mockups/tee-{slug}-back-{color}.png
- *   3. /mockups/tee-{slug}-front-{color}-model1.png  (lifestyle front)
- *   4. /mockups/tee-{slug}-back-{color}-model1.png   (lifestyle back)
- *   5. /sigils/mon-{slug}-transparent.png            (clean sigil, last)
+ *   3. /mockups/tee-{slug}-front-{color}-model1.png
+ *   4. /mockups/tee-{slug}-front-{color}-model3.png
+ *   5. /mockups/tee-{slug}-front-{color}-model4.png
+ *   6. /mockups/tee-{slug}-back-{color}-model1.png
+ *   7. /mockups/tee-{slug}-back-{color}-model3.png
+ *   8. /mockups/tee-{slug}-back-{color}-model4.png
+ *   9. /sigils/mon-{slug}-transparent.png                (last)
  *
- * Any file that does not exist on disk is silently skipped so the
- * gallery never breaks. Always returns at least one image — falls back
- * to product.images[0] if every preferred file is missing.
+ * Each candidate is filtered by fs.existsSync so missing files are
+ * silently skipped — the gallery never breaks. Always returns at least
+ * one image: falls back to product.images if every preferred candidate
+ * is missing.
  *
  * Server-only: do not import from a client component.
  */
-export function productGalleryImages(product: Product): ProductImage[] {
+export function productGalleryImages(
+  product: Product,
+  color?: ColorSlug,
+): ProductImage[] {
   const slug      = product.slug
-  const colorSlug = product.color === 'White' ? 'white' : 'black'
+  const colorSlug = colorSlugFromProduct(product, color)
   const name      = product.name
 
   type Candidate = { url: string; alt: string }
   const candidates: Candidate[] = [
-    { url: `/mockups/tee-${slug}-front-${colorSlug}.png`,        alt: `${name} — front view`        },
-    { url: `/mockups/tee-${slug}-back-${colorSlug}.png`,         alt: `${name} — back design`       },
-    { url: `/mockups/tee-${slug}-front-${colorSlug}-model1.png`, alt: `${name} — worn, front`       },
-    { url: `/mockups/tee-${slug}-back-${colorSlug}-model1.png`,  alt: `${name} — worn, back`        },
-    { url: `/sigils/mon-${slug}-transparent.png`,                alt: `${name} — clan sigil`        },
+    { url: `/mockups/tee-${slug}-front-${colorSlug}.png`,        alt: `${name} — front view`            },
+    { url: `/mockups/tee-${slug}-back-${colorSlug}.png`,         alt: `${name} — back design`           },
+    { url: `/mockups/tee-${slug}-front-${colorSlug}-model1.png`, alt: `${name} — worn, front (1)`       },
+    { url: `/mockups/tee-${slug}-front-${colorSlug}-model3.png`, alt: `${name} — worn, front (studio)`  },
+    { url: `/mockups/tee-${slug}-front-${colorSlug}-model4.png`, alt: `${name} — worn, front (editorial)` },
+    { url: `/mockups/tee-${slug}-back-${colorSlug}-model1.png`,  alt: `${name} — worn, back (1)`        },
+    { url: `/mockups/tee-${slug}-back-${colorSlug}-model3.png`,  alt: `${name} — worn, back (studio)`   },
+    { url: `/mockups/tee-${slug}-back-${colorSlug}-model4.png`,  alt: `${name} — worn, back (editorial)` },
+    { url: `/sigils/mon-${slug}-transparent.png`,                alt: `${name} — clan sigil`            },
   ]
 
   const present: ProductImage[] = []
@@ -89,4 +110,3 @@ export function productGalleryImages(product: Product): ProductImage[] {
   if (present.length === 0) return product.images
   return present
 }
-

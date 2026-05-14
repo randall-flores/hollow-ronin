@@ -136,8 +136,8 @@ export default function ShopPage() {
           fontSize: 15, lineHeight: 1.8,
           color: "rgba(240,237,230,0.55)",
         }}>
-          Twelve characters. Three clans. The first cut is open — more
-          forms are forging in the dark.
+          Thirteen characters. Three clans. One nameless. The first cut
+          is open — more forms are forging in the dark.
         </p>
       </section>
 

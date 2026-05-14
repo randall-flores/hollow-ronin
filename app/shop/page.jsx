@@ -29,7 +29,7 @@ export default function ShopPage() {
     <main style={{ minHeight: "100vh", background: "#0a0a0a", color: "#f0ede6" }}>
       <style>{`
         .shop-hero {
-          padding: 140px 32px 80px;
+          padding: clamp(96px, 16vw, 140px) clamp(16px, 4vw, 32px) clamp(56px, 8vw, 80px);
           text-align: center;
           background: radial-gradient(ellipse at 50% 30%, rgba(204,34,34,0.14) 0%, #0a0a0a 65%);
           border-bottom: 1px solid rgba(204,34,34,0.20);
@@ -37,9 +37,9 @@ export default function ShopPage() {
         .shop-grid {
           max-width: 1280px;
           margin: 0 auto;
-          padding: 80px 32px 140px;
+          padding: clamp(48px, 8vw, 80px) clamp(16px, 4vw, 32px) clamp(80px, 14vw, 140px);
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
           gap: 1px;
           background: rgba(204,34,34,0.18);
           border: 1px solid rgba(204,34,34,0.18);

@@ -39,7 +39,7 @@ const linkStyle = {
 
 export default function Footer() {
   return (
-    <footer style={{ background: "#0a0a0a", borderTop: "1px solid rgba(192,0,30,0.3)", padding: "64px 48px 32px" }}>
+    <footer style={{ background: "#0a0a0a", borderTop: "1px solid rgba(192,0,30,0.3)", padding: "clamp(40px, 7vw, 64px) clamp(20px, 5vw, 48px) 32px" }}>
       <style>{`
         .hr-footer-grid {
           display: grid;

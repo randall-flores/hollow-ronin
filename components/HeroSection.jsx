@@ -42,7 +42,7 @@ export default function HeroSection() {
       />
 
       {/* CONTENT */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-center px-12 md:px-20">
+      <div className="absolute inset-0 z-20 flex flex-col justify-center px-6 sm:px-12 md:px-20">
 
         {/* COLLECTION LABEL */}
         <div className="flex items-center gap-3 mb-6">
@@ -62,8 +62,8 @@ export default function HeroSection() {
         <div style={{ lineHeight: 0.85 }}>
           <h1 style={{
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 'clamp(80px, 14vw, 180px)',
-            letterSpacing: '0.08em',
+            fontSize: 'clamp(56px, 14vw, 180px)',
+            letterSpacing: '0.06em',
             color: '#f0ece4',
             textShadow: '0 0 120px rgba(180,0,0,0.25)',
             display: 'block'
@@ -72,8 +72,8 @@ export default function HeroSection() {
           </h1>
           <h1 style={{
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 'clamp(80px, 14vw, 180px)',
-            letterSpacing: '0.08em',
+            fontSize: 'clamp(56px, 14vw, 180px)',
+            letterSpacing: '0.06em',
             color: '#f0ece4',
             textShadow: '0 0 120px rgba(180,0,0,0.25)',
             display: 'block',
@@ -87,8 +87,8 @@ export default function HeroSection() {
         <p style={{
           fontFamily: 'Georgia, serif',
           fontStyle: 'italic',
-          fontSize: '16px',
-          letterSpacing: '0.2em',
+          fontSize: 'clamp(13px, 1.6vw, 16px)',
+          letterSpacing: '0.15em',
           color: '#a09080',
           marginTop: '24px',
           marginBottom: '40px'

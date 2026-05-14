@@ -25,7 +25,7 @@ export default function TheDrop() {
       style={{
         position:   "relative",
         background: "#080808",
-        padding:    "120px 32px 140px",
+        padding:    "clamp(72px, 12vw, 120px) clamp(16px, 4vw, 32px) clamp(80px, 14vw, 140px)",
         overflow:   "hidden",
         borderTop:    "1px solid rgba(204,34,34,0.18)",
         borderBottom: "1px solid rgba(204,34,34,0.10)",

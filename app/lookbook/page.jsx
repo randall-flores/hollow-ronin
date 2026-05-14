@@ -10,7 +10,7 @@ export const metadata = {
     title:       "Lookbook · Editorial Vol. I · HOLLOW RONIN",
     description: "Six fragments. One protocol. The cinematic DROP 001 editorial.",
     url:         "/lookbook",
-    images:      ["/mockups/tee-cyber-oni-clash-back-black-model3.png"],
+    images:      ["/mockups/namida-no-oni-mask-of-mourning/black/tee-namida-no-oni-mask-of-mourning-back-black-model3.png"],
   },
 };
 
@@ -20,48 +20,48 @@ const CHAPTERS = [
     title:   "THE RONIN",
     kanji:   "浪人",
     blurb:   "Masterless. Moving without flag, without lord. The first cut is always the one that frees you.",
-    hero:    "/mockups/tee-skeleton-ronin-redsun-back-black-model1.png",
-    detail:  "/mockups/tee-skeleton-ronin-redsun-back-black.png",
+    hero:    "/mockups/hone-no-chikai-bone-vow/black/tee-hone-no-chikai-bone-vow-back-black-model1.png",
+    detail:  "/mockups/hone-no-chikai-bone-vow/black/tee-hone-no-chikai-bone-vow-back-black.png",
   },
   {
     num:     "II",
     title:   "ONI",
     kanji:   "鬼",
     blurb:   "The demon mask is not a disguise. It is what the world made of you, worn on the outside so nothing can sneak in.",
-    hero:    "/mockups/tee-cyber-oni-clash-back-black-model4.png",
-    detail:  "/mockups/tee-cyber-oni-portrait-circle-back-black-model3.png",
+    hero:    "/mockups/namida-no-oni-mask-of-mourning/black/tee-namida-no-oni-mask-of-mourning-back-black-model4.png",
+    detail:  "/mockups/namida-no-oni-mask-of-mourning/black/tee-namida-no-oni-mask-of-mourning-back-black-model3.png",
   },
   {
     num:     "III",
     title:   "KITSUNE",
     kanji:   "狐",
     blurb:   "Nine tails. Nine lives. The fox spirit does not chase — it waits, then takes everything.",
-    hero:    "/mockups/tee-kitsune-nine-tails-back-white-model3.png",
-    detail:  "/mockups/tee-kitsune-nine-tails-back-black-model1.png",
+    hero:    "/mockups/kurokitsune-vow-keeper/black/tee-kurokitsune-vow-keeper-back-black-model3.png",
+    detail:  "/mockups/kurokitsune-vow-keeper/black/tee-kurokitsune-vow-keeper-back-black-model1.png",
   },
   {
     num:     "IV",
     title:   "TENGU",
     kanji:   "天狗",
     blurb:   "Crow warrior. The teacher who beats discipline into the disciple. Wings black as the night you do not return from.",
-    hero:    "/mockups/tee-crow-warrior-ghost-back-white-model3.png",
-    detail:  "/mockups/tee-crow-samurai-aerial-back-black-model4.png",
+    hero:    "/mockups/karasu-tengu-sentinel/white/tee-karasu-tengu-sentinel-back-white-model3.png",
+    detail:  "/mockups/karasu-tengu-sentinel/black/tee-karasu-tengu-sentinel-back-black-model4.png",
   },
   {
     num:     "V",
     title:   "RYŪ",
     kanji:   "龍",
     blurb:   "The dragon does not ask the sun for permission to rise. It coils. It waits. It burns.",
-    hero:    "/mockups/tee-dragon-red-sun-back-black-model1.png",
-    detail:  "/mockups/tee-dragon-red-sun-back-black.png",
+    hero:    "/mockups/ryujin-dragon-vow/black/tee-ryujin-dragon-vow-back-black-model1.png",
+    detail:  "/mockups/ryujin-dragon-vow/black/tee-ryujin-dragon-vow-back-black.png",
   },
   {
     num:     "VI",
     title:   "HOLLOW",
     kanji:   "空",
     blurb:   "Empty is not the same as nothing. Empty is the space where the next cut lands.",
-    hero:    "/mockups/tee-hollow-ronin-logo-front-black-model3.png",
-    detail:  "/mockups/tee-hollow-ronin-logo-front-black-lifestyle.png",
+    hero:    "/mockups/hollow-ronin/black/tee-hollow-ronin-front-black-model3.png",
+    detail:  "/mockups/hollow-ronin/black/tee-hollow-ronin-front-black.png",
   },
 ];
 
@@ -136,7 +136,7 @@ export default function LookbookPage() {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: 40px 28px;
+          padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 28px);
           background: linear-gradient(180deg, rgba(204,34,34,0.04) 0%, transparent 100%);
           border: 1px solid rgba(255,255,255,0.04);
           position: relative;
@@ -163,7 +163,7 @@ export default function LookbookPage() {
         }}
       >
         <Image
-          src="/mockups/tee-cyber-oni-clash-back-black-model3.png"
+          src="/mockups/namida-no-oni-mask-of-mourning/black/tee-namida-no-oni-mask-of-mourning-back-black-model3.png"
           alt="Hollow Ronin lookbook hero"
           fill
           priority
@@ -221,8 +221,8 @@ export default function LookbookPage() {
           </p>
           <h1 style={{
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: "clamp(80px, 14vw, 200px)",
-            letterSpacing: "0.06em",
+            fontSize: "clamp(60px, 14vw, 200px)",
+            letterSpacing: "0.04em",
             color: "#f0ede6",
             margin: "20px 0 0",
             lineHeight: 0.9,
@@ -265,7 +265,7 @@ export default function LookbookPage() {
 
       {/* ============== MANIFESTO — short editorial intro ============== */}
       <section style={{
-        padding: "140px 32px 100px",
+        padding: "clamp(64px, 12vw, 140px) 20px clamp(60px, 10vw, 100px)",
         maxWidth: 880, margin: "0 auto",
         textAlign: "center",
       }}>
@@ -301,7 +301,7 @@ export default function LookbookPage() {
               key={ch.num}
               className="lb-chapter"
               style={{
-                marginBottom: i === CHAPTERS.length - 1 ? 0 : 120,
+                marginBottom: i === CHAPTERS.length - 1 ? 0 : "clamp(60px, 10vw, 120px)",
                 animationDelay: `${i * 0.05}s`,
               }}
             >
@@ -329,7 +329,7 @@ export default function LookbookPage() {
                 {/* Hero image (big) */}
                 <div className="lb-frame" style={{
                   position: "relative",
-                  minHeight: 540,
+                  minHeight: "clamp(360px, 60vw, 540px)",
                   order: isRTL ? 2 : 1,
                 }}>
                   <Image
@@ -453,7 +453,7 @@ export default function LookbookPage() {
         borderTop: "1px solid rgba(204,34,34,0.35)",
       }}>
         <Image
-          src="/mockups/tee-crow-warrior-bloodmoon-dark-back-black-model3.png"
+          src="/mockups/karasu-tengu-sentinel/black/tee-karasu-tengu-sentinel-back-black-model3.png"
           alt="Hollow Ronin closing frame"
           fill
           sizes="100vw"

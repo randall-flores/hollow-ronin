@@ -21,12 +21,12 @@ export type ColorOption = {
 }
 
 const BLACK_ONLY: ColorOption[] = [
-  { name: 'Obsidian', slug: 'black', hex: '#0A0A0A' },
+  { name: 'Black', slug: 'black', hex: '#0A0A0A' },
 ]
 
 const BLACK_AND_BONE: ColorOption[] = [
-  { name: 'Obsidian', slug: 'black', hex: '#0A0A0A' },
-  { name: 'Bone',     slug: 'white', hex: '#F4EDE2' },
+  { name: 'Black', slug: 'black', hex: '#0A0A0A' },
+  { name: 'White', slug: 'white', hex: '#F4EDE2' },
 ]
 
 // Clan sigil — one mon per clan, shared across all clan members.

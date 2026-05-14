@@ -31,3 +31,11 @@ yarn-error.log*
 
 # typescript
 tsconfig.tsbuildinfo
+
+# local IDE / agent configs
+.claude/
+.vscode/
+.agents/
+
+# claude-code notify-signal junk (malformed filenames at repo root)
+*claude-notify-signals*

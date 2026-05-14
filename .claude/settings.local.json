@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_vercel_vercel__get_deployment_build_logs",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\randa\\\\hollow-ronin\\\\src\" -Recurse)",
+      "Bash(Select-Object FullName)",
+      "Bash(node -e \"const p = require\\('./node_modules/framer-motion/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(python3 \"C:\\\\Users\\\\randa\\\\.claude\\\\plugins\\\\cache\\\\ui-ux-pro-max-skill\\\\ui-ux-pro-max\\\\2.5.0\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"dark streetwear brutal cinematic premium luxury\" --design-system -p \"Hollow Ronin\" -f markdown)",
+      "Bash(python \"C:\\\\Users\\\\randa\\\\.claude\\\\plugins\\\\cache\\\\ui-ux-pro-max-skill\\\\ui-ux-pro-max\\\\2.5.0\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"dark streetwear brutal cinematic premium luxury\" --design-system -p \"Hollow Ronin\" -f markdown)",
+      "Bash(python \"C:\\\\Users\\\\randa\\\\.claude\\\\plugins\\\\cache\\\\ui-ux-pro-max-skill\\\\ui-ux-pro-max\\\\2.5.0\\\\src\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"dark streetwear brutal cinematic premium luxury\" --design-system -p \"Hollow Ronin\" -f markdown)",
+      "Bash(python \"C:\\\\Users\\\\randa\\\\.claude\\\\plugins\\\\cache\\\\ui-ux-pro-max-skill\\\\ui-ux-pro-max\\\\2.5.0\\\\src\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"brutalism dark mode streetwear\" --domain style -n 3)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\randa\\\\hollow-ronin\" | Where-Object { $_.Name -ne \"node_modules\" } | Select-Object Name)",
+      "Bash(mkdir -p \"/c/Users/randa/hollow-ronin/public/models\")",
+      "Bash(mv \"/c/Users/randa/hollow-ronin/oversized_t-shirt.glb\" \"/c/Users/randa/hollow-ronin/public/models/oversized_t-shirt.glb\")",
+      "mcp__plugin_vercel_vercel__list_deployments",
+      "mcp__plugin_vercel_vercel__get_runtime_logs",
+      "Bash(node *)",
+      "Bash(cp \"Cyber-Skeleton-Samurai.png\" skeleton-ronin.png)",
+      "Bash(cp \"Cyberpunk samurai hannya 1.png\" hannya-rage.png)",
+      "Bash(cp \"Cyberpunk samurai hannya 2.png\" hannya-sorrow.png)",
+      "Bash(cp \"Cyberpunk samurai hannya 3.png\" hannya-vengeance.png)",
+      "Bash(cp \"Cyberpunk samurai hannya 4.png\" hannya-silence.png)",
+      "Bash(npx vercel *)",
+      "mcp__claude_ai_Shopify__get-shop-info",
+      "mcp__claude_ai_Shopify__search_products",
+      "Bash(PORT=3458 npx next *)"
+    ]
+  }
+}

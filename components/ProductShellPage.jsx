@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { PRODUCTS, getProductsByCategory, getLeadVariants, getFamilyVariants } from '@/lib/products';
+import { cardHoverImage } from '@/lib/card-images';
 
 const COLOR_DOT = {
   Black: '#1a1a1a',
@@ -324,15 +325,20 @@ export default function ProductShellPage({ title, subtitle, category }) {
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   priority={i < 4}
                 />
-                {/* Hover reveal (front, falls back to default if absent) */}
-                <Image
-                  className="hr-mock-reveal"
-                  src={(product.images[1] ?? product.images[0]).url}
-                  alt={(product.images[1] ?? product.images[0]).alt}
-                  fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  priority={i < 4}
-                />
+                {/* Hover reveal — front mockup (chest sigil printed on shirt) */}
+                {(() => {
+                  const hover = cardHoverImage(product)
+                  return (
+                    <Image
+                      className="hr-mock-reveal"
+                      src={hover.url}
+                      alt={hover.alt}
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      priority={i < 4}
+                    />
+                  )
+                })()}
 
                 {/* Vignette */}
                 <div style={{

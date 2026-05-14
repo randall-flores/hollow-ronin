@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getProduct, type Product } from "@/lib/products";
+import { cardHoverImage } from "@/lib/card-images";
 
 const FEATURED_SLUGS = [
   "ryujin-dragon-vow",
@@ -229,13 +230,18 @@ export default function TheDrop() {
                   fill
                   sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
                 />
-                <Image
-                  className="td-reveal"
-                  src={(product.images[1] ?? product.images[0]).url}
-                  alt={(product.images[1] ?? product.images[0]).alt}
-                  fill
-                  sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
-                />
+                {(() => {
+                  const hover = cardHoverImage(product)
+                  return (
+                    <Image
+                      className="td-reveal"
+                      src={hover.url}
+                      alt={hover.alt}
+                      fill
+                      sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    />
+                  )
+                })()}
 
                 <div style={{
                   position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none",

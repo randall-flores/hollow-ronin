@@ -487,7 +487,7 @@ export default function ProductPage({
             flex: 1;
             min-width: 0;
             padding: 48px 56px 48px 52px;
-            justify-content: center;
+            justify-content: flex-start;
             height: calc(100vh - 68px);
             overflow-y: auto;
             overflow-x: hidden;

@@ -75,8 +75,7 @@ export default function ProductShellPage({ title, subtitle, category }) {
           box-shadow: 0 0 50px -8px var(--card-accent), inset 0 0 36px -10px var(--card-accent);
         }
         .hr-card-link:hover .hr-view {
-          background: var(--card-accent);
-          color: #ffffff;
+          background: #f4ede2;
         }
         .hr-card-link:hover .hr-mock-default {
           opacity: 0;
@@ -220,7 +219,7 @@ export default function ProductShellPage({ title, subtitle, category }) {
       </section>
 
       {/* Product grid */}
-      <section style={{ padding: '80px 32px 120px', maxWidth: 1440, margin: '0 auto', position: 'relative', zIndex: 2 }}>
+      <section style={{ padding: '64px 16px 120px', maxWidth: 1280, margin: '0 auto', position: 'relative', zIndex: 2 }}>
         {isEmpty ? (
           <div style={{
             padding: '120px 32px',

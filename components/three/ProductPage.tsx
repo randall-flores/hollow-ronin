@@ -616,6 +616,7 @@ export default function ProductPage({
                         onClick={() => setActiveColorSlug(c.slug)}
                         aria-pressed={selected}
                         aria-label={`Color: ${c.name}`}
+                        title={c.name}
                         style={{
                           width: 36, height: 36,
                           padding: 0,

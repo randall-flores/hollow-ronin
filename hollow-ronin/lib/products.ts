@@ -14,6 +14,21 @@ export type ProductImage = {
   alt: string
 }
 
+export type ColorOption = {
+  name: string           // display label, e.g. 'Black'
+  slug: 'black' | 'white'
+  hex:  string
+}
+
+const BLACK_ONLY: ColorOption[] = [
+  { name: 'Black', slug: 'black', hex: '#0A0A0A' },
+]
+
+const BLACK_AND_BONE: ColorOption[] = [
+  { name: 'Black', slug: 'black', hex: '#0A0A0A' },
+  { name: 'Bone',  slug: 'white', hex: '#F4EDE2' },
+]
+
 export type Product = {
   slug:          string
   name:          string
@@ -33,6 +48,7 @@ export type Product = {
   label:         string
   color:         'Black' | 'White'
   category:      Category
+  colors:        ColorOption[]
 }
 
 type ImgMod = 'm1' | 'm3' | 'm4'
@@ -84,6 +100,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_ONLY,
   },
   {
     slug:         'hone-no-chikai-bone-vow',
@@ -104,6 +121,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_ONLY,
   },
   {
     slug:         'karada-nashi-hollow-warrior',
@@ -124,6 +142,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_ONLY,
   },
   {
     slug:         'arashi-maru-stormchild',
@@ -144,6 +163,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_AND_BONE,
   },
 
   // 05 — YAMI-GUMI
@@ -166,6 +186,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_ONLY,
   },
   {
     slug:         'namida-no-oni-mask-of-mourning',
@@ -186,6 +207,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_ONLY,
   },
   {
     slug:         'saigo-no-sabaki-mask-of-reckoning',
@@ -206,6 +228,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_ONLY,
   },
   {
     slug:         'mu-no-kamen-mask-of-stillness',
@@ -226,6 +249,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_ONLY,
   },
 
   // 09 — KAGE-GUMI
@@ -248,6 +272,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_ONLY,
   },
   {
     slug:         'yurei-ghost',
@@ -268,6 +293,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_ONLY,
   },
   {
     slug:         'karasu-tengu-sentinel',
@@ -288,6 +314,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_AND_BONE,
   },
   {
     slug:         'shinigami-reaper',
@@ -308,6 +335,7 @@ export const PRODUCTS: Product[] = [
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
+    colors:       BLACK_ONLY,
   },
 ]
 

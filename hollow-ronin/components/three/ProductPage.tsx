@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
-import { PRODUCTS, type Product } from '@/lib/products'
+import { PRODUCTS, type Product, type ProductImage } from '@/lib/products'
 import { useCart } from '@/components/cart/CartProvider'
 import DropUrgency from '@/components/product/DropUrgency'
 import SocialShare from '@/components/product/SocialShare'
@@ -372,7 +372,17 @@ function Related({ items }: { items: Product[] }) {
   )
 }
 
-export default function ProductPage({ product }: { product: Product }) {
+type GalleryByColor = Record<string, ProductImage[]>
+
+export default function ProductPage({
+  product,
+  galleryByColor,
+}: {
+  product: Product
+  galleryByColor?: GalleryByColor
+}) {
+  const defaultColorSlug = product.colors[0]?.slug ?? (product.color === 'White' ? 'white' : 'black')
+  const [activeColorSlug, setActiveColorSlug] = useState<'black' | 'white'>(defaultColorSlug)
   const [size,        setSize]        = useState<Size | null>(null)
   const [qty,         setQty]         = useState(1)
   const [cartState,   setCartState]   = useState<'idle' | 'added'>('idle')
@@ -380,8 +390,13 @@ export default function ProductPage({ product }: { product: Product }) {
   const [guideOpen,   setGuideOpen]   = useState(false)
   const { add } = useCart()
 
+  const currentImages =
+    galleryByColor?.[activeColorSlug] ?? product.images
+  const scopedProduct: Product = { ...product, images: currentImages }
+
   const variants = getVariants(product)
   const related  = getRelated(product, 4)
+  const showColorPicker = product.colors.length > 1
 
   const handleAdd = () => {
     if (!size) return
@@ -390,7 +405,7 @@ export default function ProductPage({ product }: { product: Product }) {
       name:  product.name,
       size,
       price: product.price,
-      image: product.images[0].url,
+      image: currentImages[0]?.url ?? product.images[0].url,
       qty,
     })
     setCartState('added')
@@ -551,7 +566,7 @@ export default function ProductPage({ product }: { product: Product }) {
               <p style={{ margin: 0, fontSize: 9, letterSpacing: 6, color: 'rgba(255,255,255,0.13)', fontFamily: 'monospace' }}>HOLLOW RONIN</p>
               <p style={{ margin: '5px 0 0', fontSize: 9, letterSpacing: 4, color: 'rgba(204,34,34,0.65)', fontFamily: 'monospace' }}>{product.label}</p>
             </div>
-            <Gallery product={product} onZoom={(i) => setLightboxIdx(i)} />
+            <Gallery product={scopedProduct} onZoom={(i) => setLightboxIdx(i)} />
           </div>
 
           {/* Info */}
@@ -581,6 +596,42 @@ export default function ProductPage({ product }: { product: Product }) {
             <Rule />
 
             <VariantPicker product={product} variants={variants} />
+
+            {showColorPicker && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <p style={{ margin: 0, fontSize: 9, letterSpacing: 4, color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace', textTransform: 'uppercase' }}>
+                    Color
+                  </p>
+                  <p style={{ margin: 0, fontSize: 9, letterSpacing: 3, color: 'rgba(255,255,255,0.55)', fontFamily: 'monospace', textTransform: 'uppercase' }}>
+                    {product.colors.find((c) => c.slug === activeColorSlug)?.name ?? ''}
+                  </p>
+                </div>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  {product.colors.map((c) => {
+                    const selected = c.slug === activeColorSlug
+                    return (
+                      <button
+                        key={c.slug}
+                        onClick={() => setActiveColorSlug(c.slug)}
+                        aria-pressed={selected}
+                        aria-label={`Color: ${c.name}`}
+                        style={{
+                          width: 36, height: 36,
+                          padding: 0,
+                          background: c.hex,
+                          border: `1px solid ${selected ? '#cc2222' : 'rgba(255,255,255,0.15)'}`,
+                          boxShadow: selected ? '0 0 0 2px rgba(204,34,34,0.25)' : 'none',
+                          cursor: 'pointer',
+                          transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                          outline: 'none',
+                        }}
+                      />
+                    )
+                  })}
+                </div>
+              </div>
+            )}
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -736,7 +787,7 @@ export default function ProductPage({ product }: { product: Product }) {
         open={lightboxIdx !== null}
         close={() => setLightboxIdx(null)}
         index={lightboxIdx ?? 0}
-        slides={product.images.map((img) => ({ src: img.url, alt: img.alt }))}
+        slides={currentImages.map((img) => ({ src: img.url, alt: img.alt }))}
         styles={{ container: { backgroundColor: 'rgba(0, 0, 0, 0.9)' } }}
       />
     </>

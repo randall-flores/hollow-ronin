@@ -83,7 +83,7 @@ The blood-bound. Warriors whose vows outlived their houses, who bargained with d
 Their mark is the dragon coiled around the rising sun.
 Their color is the red that does not wash out.
 
-**Members:** 4 — Ryūjin, Hone no Chikai, Karada-Nashi, Arashi-Maru
+**Members:** 2 — Ryūjin, Arashi-Maru
 
 ---
 
@@ -113,7 +113,7 @@ The spirits, the foxes, the tengu, the ghosts wearing armor. Bound to vows that 
 Their mark is the kitsune and the crow wing entwined.
 Their color is the silver of a moon that does not set.
 
-**Members:** 4 — Kurokitsune, Yūrei, Karasu-Tengu, Shinigami
+**Members:** 6 — Kurokitsune, Yūrei, Karasu-Tengu, Shinigami, Hone no Chikai, Karada-Nashi
 
 ---
 
@@ -131,9 +131,7 @@ Their color is the silver of a moon that does not set.
 | # | Character | Japanese Name | English Title | Slug |
 |---|---|---|---|---|
 | 01 | Ryūjin | 龍神 | The Dragon Vow | `ryujin-dragon-vow` |
-| 02 | Hone no Chikai | 骨の誓い | The Bone Vow | `hone-no-chikai-bone-vow` |
-| 03 | Karada-Nashi | 体無し | The Hollow Warrior | `karada-nashi-hollow-warrior` |
-| 04 | Arashi-Maru | 嵐丸 | The Stormchild | `arashi-maru-stormchild` |
+| 02 | Arashi-Maru | 嵐丸 | The Stormchild | `arashi-maru-stormchild` |
 
 ### 🌑 YAMI-GUMI
 
@@ -148,6 +146,8 @@ Their color is the silver of a moon that does not set.
 
 | # | Character | Japanese Name | English Title | Slug |
 |---|---|---|---|---|
+| 03 | Hone no Chikai | 骨の誓い | The Bone Vow | `hone-no-chikai-bone-vow` |
+| 04 | Karada-Nashi | 体無し | The Hollow Warrior | `karada-nashi-hollow-warrior` |
 | 09 | Kurokitsune | 黒狐 | The Vow-Keeper | `kurokitsune-vow-keeper` |
 | 10 | Yūrei | 幽霊 | The Ghost | `yurei-ghost` |
 | 11 | Karasu-Tengu | 烏天狗 | The Sentinel | `karasu-tengu-sentinel` |

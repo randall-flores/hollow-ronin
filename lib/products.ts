@@ -24,6 +24,10 @@ const BLACK_ONLY: ColorOption[] = [
   { name: 'Black', slug: 'black', hex: '#0A0A0A' },
 ]
 
+const WHITE_ONLY: ColorOption[] = [
+  { name: 'White', slug: 'white', hex: '#F4EDE2' },
+]
+
 const BLACK_AND_BONE: ColorOption[] = [
   { name: 'Black', slug: 'black', hex: '#0A0A0A' },
   { name: 'White', slug: 'white', hex: '#F4EDE2' },
@@ -85,27 +89,52 @@ function teeImages(
 }
 
 export const PRODUCTS: Product[] = [
-  // 00 — THE NAMELESS (Hollow Ronin) — protagonist, walks between clans.
+  // 00 — THE NAMELESS — protagonist, split across two halves of the vow.
+
+  // HOLLOW (Black) — what came back through the gate.
   {
-    slug:         'hollow-ronin',
-    name:         'HOLLOW RONIN',
-    japaneseName: 'Mon no Mukō',
+    slug:         'hollow',
+    name:         'HOLLOW',
+    japaneseName: 'Hollow',
     clan:         'Protagonist',
-    title:        'Beyond the Gate',
-    subtitle:     'Mon no Mukō · The Nameless',
-    tagline:      'The torii marks the threshold. The ronin chose to walk through it alone.',
-    blurb:        'No master. No clan. No name remembered.',
-    story:        'He walked through the torii alone — the gate between the living and the forgotten, the threshold no one returns from. He crossed it with no master to mourn and no name worth speaking, and what came back was not a man, but a vow that refused to die. He walks among the thirteen to remember what the world made them forget.',
-    tag:          'The Nameless',
+    title:        'The Vow That Refused',
+    subtitle:     'Mon no Mukō · The Hollow',
+    tagline:      'What came back was not a man, but a vow that refused to die.',
+    blurb:        'Empty is not nothing. Empty is what waits.',
+    story:        'What came back was not a man, but a vow that refused to die. He walks among the thirteen to remember what the world made them forget. Empty is not the same as nothing — empty is the space the next cut lands.',
+    tag:          'The Hollow',
     price:        38,
-    designFamily: 'hollow-ronin',
-    images:       teeImages('hollow-ronin', 'black', 'HOLLOW RONIN', 'Protagonist', ['m1', 'm3', 'm4']),
+    designFamily: 'hollow',
+    images:       teeImages('hollow', 'black', 'HOLLOW', 'Protagonist', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
     color:        'Black',
     category:     'shirts',
-    colors:       BLACK_AND_BONE,
+    colors:       BLACK_ONLY,
+  },
+
+  // RONIN (White) — the one who walked through alone.
+  {
+    slug:         'ronin',
+    name:         'RONIN',
+    japaneseName: 'Rōnin',
+    clan:         'Protagonist',
+    title:        'Masterless',
+    subtitle:     'Mon no Mukō · The Ronin',
+    tagline:      'He walked through the torii alone — without flag, without lord, without name.',
+    blurb:        'No master. No banner. No mercy.',
+    story:        'He walked through the torii alone — the gate between the living and the forgotten, the threshold no one returns from. He crossed it with no master to mourn and no name worth speaking. The white is the silence before the cut.',
+    tag:          'The Ronin',
+    price:        38,
+    designFamily: 'ronin',
+    images:       teeImages('ronin', 'white', 'RONIN', 'Protagonist', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 001',
+    color:        'White',
+    category:     'shirts',
+    colors:       WHITE_ONLY,
   },
 
   // 01 — AKATSUKI-GUMI

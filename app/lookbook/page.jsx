@@ -60,8 +60,8 @@ const CHAPTERS = [
     title:   "HOLLOW",
     kanji:   "空",
     blurb:   "Empty is not the same as nothing. Empty is the space where the next cut lands.",
-    hero:    "/mockups/hollow-ronin/black/tee-hollow-ronin-front-black-model3.png",
-    detail:  "/mockups/hollow-ronin/black/tee-hollow-ronin-front-black.png",
+    hero:    "/mockups/hollow/black/tee-hollow-front-black-model3.png",
+    detail:  "/mockups/hollow/black/tee-hollow-front-black.png",
   },
 ];
 

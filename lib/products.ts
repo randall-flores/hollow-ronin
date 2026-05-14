@@ -21,13 +21,21 @@ export type ColorOption = {
 }
 
 const BLACK_ONLY: ColorOption[] = [
-  { name: 'Black', slug: 'black', hex: '#0A0A0A' },
+  { name: 'Obsidian', slug: 'black', hex: '#0A0A0A' },
 ]
 
 const BLACK_AND_BONE: ColorOption[] = [
-  { name: 'Black', slug: 'black', hex: '#0A0A0A' },
-  { name: 'Bone',  slug: 'white', hex: '#F4EDE2' },
+  { name: 'Obsidian', slug: 'black', hex: '#0A0A0A' },
+  { name: 'Bone',     slug: 'white', hex: '#F4EDE2' },
 ]
+
+// Clan sigil — one mon per clan, shared across all clan members.
+export const CLAN_SIGIL: Record<Clan, string> = {
+  Akatsuki:    '/sigils/mon-akatsuki-transparent.png',
+  Yami:        '/sigils/mon-yami-transparent.png',
+  Kage:        '/sigils/mon-kage-transparent.png',
+  Protagonist: '/sigils/mon-hollow-ronin-transparent.png',
+}
 
 export type Product = {
   slug:          string
@@ -55,19 +63,20 @@ type ImgMod = 'm1' | 'm3' | 'm4'
 
 // Gallery contract (per product, enforced by scripts/validate-products.js):
 //   [0]  back design — /mockups/tee-{slug}-back-{color}.png
-//   [1]  chest sigil — /sigils/mon-{slug}-transparent.png (per-character)
+//   [1]  clan sigil  — /sigils/mon-{clan-slug}-transparent.png (shared per clan)
 //   [2+] worn model shots — /mockups/tee-{slug}-back-{color}-model{N}.png
 function teeImages(
   slug:  string,
   color: 'black' | 'white',
   name:  string,
+  clan:  Clan,
   mods:  ImgMod[],
 ): ProductImage[] {
-  const base   = `/mockups/tee-${slug}-back-${color}`
-  const sigil  = `/sigils/mon-${slug}-transparent.png`
+  const base  = `/mockups/tee-${slug}-back-${color}`
+  const sigil = CLAN_SIGIL[clan]
   const images: ProductImage[] = [
     { url: `${base}.png`, alt: `${name} — back design` },
-    { url: sigil,         alt: `${name} — chest sigil` },
+    { url: sigil,         alt: `${name} — clan sigil` },
   ]
   if (mods.includes('m1')) images.push({ url: `${base}-model1.png`, alt: `${name} — worn, side` })
   if (mods.includes('m3')) images.push({ url: `${base}-model3.png`, alt: `${name} — worn, studio` })
@@ -94,7 +103,7 @@ export const PRODUCTS: Product[] = [
     tag:          'The Dragon Vow',
     price:        38,
     designFamily: 'ryujin-dragon-vow',
-    images:       teeImages('ryujin-dragon-vow', 'black', 'RYŪJIN', ['m1', 'm3', 'm4']),
+    images:       teeImages('ryujin-dragon-vow', 'black', 'RYŪJIN', 'Akatsuki', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -115,7 +124,7 @@ export const PRODUCTS: Product[] = [
     tag:          'The Bone Vow',
     price:        38,
     designFamily: 'hone-no-chikai-bone-vow',
-    images:       teeImages('hone-no-chikai-bone-vow', 'black', 'HONE NO CHIKAI', ['m1', 'm3', 'm4']),
+    images:       teeImages('hone-no-chikai-bone-vow', 'black', 'HONE NO CHIKAI', 'Akatsuki', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -136,7 +145,7 @@ export const PRODUCTS: Product[] = [
     tag:          'The Hollow Warrior',
     price:        38,
     designFamily: 'karada-nashi-hollow-warrior',
-    images:       teeImages('karada-nashi-hollow-warrior', 'black', 'KARADA-NASHI', ['m3', 'm4']),
+    images:       teeImages('karada-nashi-hollow-warrior', 'black', 'KARADA-NASHI', 'Akatsuki', ['m3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -157,7 +166,7 @@ export const PRODUCTS: Product[] = [
     tag:          'The Stormchild',
     price:        38,
     designFamily: 'arashi-maru-stormchild',
-    images:       teeImages('arashi-maru-stormchild', 'black', 'ARASHI-MARU', ['m1', 'm3', 'm4']),
+    images:       teeImages('arashi-maru-stormchild', 'black', 'ARASHI-MARU', 'Akatsuki', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -180,7 +189,7 @@ export const PRODUCTS: Product[] = [
     tag:          'Mask of Wrath',
     price:        38,
     designFamily: 'akuma-no-ikari-mask-of-wrath',
-    images:       teeImages('akuma-no-ikari-mask-of-wrath', 'black', 'AKUMA NO IKARI', ['m1', 'm3', 'm4']),
+    images:       teeImages('akuma-no-ikari-mask-of-wrath', 'black', 'AKUMA NO IKARI', 'Yami', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -201,7 +210,7 @@ export const PRODUCTS: Product[] = [
     tag:          'Mask of Mourning',
     price:        38,
     designFamily: 'namida-no-oni-mask-of-mourning',
-    images:       teeImages('namida-no-oni-mask-of-mourning', 'black', 'NAMIDA NO ONI', ['m1', 'm3', 'm4']),
+    images:       teeImages('namida-no-oni-mask-of-mourning', 'black', 'NAMIDA NO ONI', 'Yami', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -222,7 +231,7 @@ export const PRODUCTS: Product[] = [
     tag:          'Mask of Reckoning',
     price:        38,
     designFamily: 'saigo-no-sabaki-mask-of-reckoning',
-    images:       teeImages('saigo-no-sabaki-mask-of-reckoning', 'black', 'SAIGO NO SABAKI', ['m1', 'm3', 'm4']),
+    images:       teeImages('saigo-no-sabaki-mask-of-reckoning', 'black', 'SAIGO NO SABAKI', 'Yami', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -243,7 +252,7 @@ export const PRODUCTS: Product[] = [
     tag:          'Mask of Stillness',
     price:        38,
     designFamily: 'mu-no-kamen-mask-of-stillness',
-    images:       teeImages('mu-no-kamen-mask-of-stillness', 'black', 'MU NO KAMEN', ['m1', 'm3', 'm4']),
+    images:       teeImages('mu-no-kamen-mask-of-stillness', 'black', 'MU NO KAMEN', 'Yami', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -266,7 +275,7 @@ export const PRODUCTS: Product[] = [
     tag:          'The Vow-Keeper',
     price:        38,
     designFamily: 'kurokitsune-vow-keeper',
-    images:       teeImages('kurokitsune-vow-keeper', 'black', 'KUROKITSUNE', ['m1', 'm3', 'm4']),
+    images:       teeImages('kurokitsune-vow-keeper', 'black', 'KUROKITSUNE', 'Kage', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -287,7 +296,7 @@ export const PRODUCTS: Product[] = [
     tag:          'The Ghost',
     price:        38,
     designFamily: 'yurei-ghost',
-    images:       teeImages('yurei-ghost', 'black', 'YŪREI', ['m1', 'm3', 'm4']),
+    images:       teeImages('yurei-ghost', 'black', 'YŪREI', 'Kage', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -308,7 +317,7 @@ export const PRODUCTS: Product[] = [
     tag:          'The Sentinel',
     price:        38,
     designFamily: 'karasu-tengu-sentinel',
-    images:       teeImages('karasu-tengu-sentinel', 'black', 'KARASU-TENGU', ['m1', 'm3', 'm4']),
+    images:       teeImages('karasu-tengu-sentinel', 'black', 'KARASU-TENGU', 'Kage', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
@@ -329,7 +338,7 @@ export const PRODUCTS: Product[] = [
     tag:          'The Reaper',
     price:        38,
     designFamily: 'shinigami-reaper',
-    images:       teeImages('shinigami-reaper', 'black', 'SHINIGAMI', ['m1', 'm3', 'm4']),
+    images:       teeImages('shinigami-reaper', 'black', 'SHINIGAMI', 'Kage', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',

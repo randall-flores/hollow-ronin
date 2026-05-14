@@ -1,6 +1,6 @@
 import fs   from 'node:fs'
 import path from 'node:path'
-import type { Product, ProductImage } from './products'
+import { CLAN_SIGIL, type Product, type ProductImage } from './products'
 
 /*
  * Resolve the hover image shown on listing cards.
@@ -94,7 +94,7 @@ export function productGalleryImages(
     { url: `/mockups/tee-${slug}-back-${colorSlug}-model1.png`,  alt: `${name} — worn, back (1)`        },
     { url: `/mockups/tee-${slug}-back-${colorSlug}-model3.png`,  alt: `${name} — worn, back (studio)`   },
     { url: `/mockups/tee-${slug}-back-${colorSlug}-model4.png`,  alt: `${name} — worn, back (editorial)` },
-    { url: `/sigils/mon-${slug}-transparent.png`,                alt: `${name} — clan sigil`            },
+    { url: CLAN_SIGIL[product.clan],                             alt: `${name} — clan sigil`            },
   ]
 
   const present: ProductImage[] = []

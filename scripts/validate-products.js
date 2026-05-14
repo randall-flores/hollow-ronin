@@ -36,6 +36,13 @@ const PUBLIC_DIR    = path.join(REPO_ROOT, 'public');
 const VALID_CLANS = new Set(['Akatsuki', 'Yami', 'Kage', 'Protagonist']);
 const TEXT_FIELDS = ['name', 'japaneseName', 'clan', 'title', 'tagline', 'blurb', 'story', 'designFamily'];
 
+const CLAN_SIGIL = {
+  Akatsuki:    '/sigils/mon-akatsuki-transparent.png',
+  Yami:        '/sigils/mon-yami-transparent.png',
+  Kage:        '/sigils/mon-kage-transparent.png',
+  Protagonist: '/sigils/mon-hollow-ronin-transparent.png',
+};
+
 function loadProducts() {
   const src = fs.readFileSync(PRODUCTS_TS, 'utf8');
   const transpiled = ts.transpileModule(src, {
@@ -59,7 +66,7 @@ function requiredAssets(product) {
   return [
     `/mockups/tee-${slug}-front-${color}.png`,
     `/mockups/tee-${slug}-back-${color}.png`,
-    `/sigils/mon-${slug}-transparent.png`,
+    CLAN_SIGIL[product.clan],
   ];
 }
 

@@ -85,9 +85,28 @@ function teeImages(
 }
 
 export const PRODUCTS: Product[] = [
-  // 00 — THE NAMELESS (hollow-ronin) deferred — awaiting art assets.
-  // See HOLLOW-RONIN-LORE-BIBLE.md for the protagonist entry. When the
-  // tee mockups + sigil exist on disk, restore the product object here.
+  // 00 — THE NAMELESS (Hollow Ronin) — protagonist, walks between clans.
+  {
+    slug:         'hollow-ronin',
+    name:         'HOLLOW RONIN',
+    japaneseName: 'Mon no Mukō',
+    clan:         'Protagonist',
+    title:        'Beyond the Gate',
+    subtitle:     'Mon no Mukō · The Nameless',
+    tagline:      'The torii marks the threshold. The ronin chose to walk through it alone.',
+    blurb:        'No master. No clan. No name remembered.',
+    story:        'He walked through the torii alone — the gate between the living and the forgotten, the threshold no one returns from. He crossed it with no master to mourn and no name worth speaking, and what came back was not a man, but a vow that refused to die. He walks among the thirteen to remember what the world made them forget.',
+    tag:          'The Nameless',
+    price:        38,
+    designFamily: 'hollow-ronin',
+    images:       teeImages('hollow-ronin', 'black', 'HOLLOW RONIN', 'Protagonist', ['m1', 'm3', 'm4']),
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 001',
+    color:        'Black',
+    category:     'shirts',
+    colors:       BLACK_AND_BONE,
+  },
 
   // 01 — AKATSUKI-GUMI
   {

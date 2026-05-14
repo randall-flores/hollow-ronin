@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import ProductPage from '@/components/three/ProductPage'
-import { PRODUCTS, getProduct } from '@/lib/products'
+import { PRODUCTS, getProduct, type ProductImage } from '@/lib/products'
 import { productGalleryImages } from '@/lib/card-images'
 
 export function generateStaticParams() {
@@ -36,6 +36,19 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const { slug } = await params
   const product  = getProduct(slug)
   if (!product) notFound()
-  const galleryProduct = { ...product, images: productGalleryImages(product) }
-  return <ProductPage product={galleryProduct} />
+
+  // Pre-compute one gallery per available color variant so the client
+  // component can swap on swatch click without re-doing fs work.
+  const galleryByColor: Record<string, ProductImage[]> = {}
+  for (const c of product.colors) {
+    galleryByColor[c.slug] = productGalleryImages(product, c.slug)
+  }
+
+  const defaultSlug = product.color === 'White' ? 'white' : 'black'
+  const galleryProduct = {
+    ...product,
+    images: galleryByColor[defaultSlug] ?? productGalleryImages(product),
+  }
+
+  return <ProductPage product={galleryProduct} galleryByColor={galleryByColor} />
 }

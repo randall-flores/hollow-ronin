@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
     })
     return config
   },
+  async redirects() {
+    return [
+      {
+        source:      '/products/arashi-maru',
+        destination: '/products/arashi-maru-black',
+        permanent:   true,
+      },
+    ]
+  },
 };
 
 export default nextConfig;

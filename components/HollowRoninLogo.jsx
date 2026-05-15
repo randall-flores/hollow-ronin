@@ -7,7 +7,7 @@
         background: '#000000',
         borderRadius: '8px',
         padding: '3px',
-        border: '1px solid rgba(204,0,0,0.4)',
+        border: '1px solid rgba(201,169,97,0.45)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -37,15 +37,15 @@
         </span>
         <div style={{
           height: '1px',
-          background: 'linear-gradient(to right, #cc0000, rgba(204,0,0,0.1))',
+          background: 'linear-gradient(to right, #c9a961, rgba(201,169,97,0.1))',
           marginBottom: '1px',
         }} />
         <span style={{
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: '26px',
-          color: '#cc0000',
+          color: '#c9a961',
           letterSpacing: '0.18em',
-          textShadow: '0 0 20px rgba(204,0,0,0.9), 0 0 50px rgba(204,0,0,0.4), 0 2px 6px rgba(0,0,0,0.9)',
+          textShadow: '0 0 20px rgba(201,169,97,0.85), 0 0 50px rgba(201,169,97,0.35), 0 2px 6px rgba(0,0,0,0.9)',
           marginTop: '-1px',
         }}>
           RONIN

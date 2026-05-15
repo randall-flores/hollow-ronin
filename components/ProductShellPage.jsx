@@ -53,7 +53,7 @@ export default async function ProductShellPage({ title, subtitle, category }) {
         }
         .hr-scanline {
           position: absolute; left: 0; right: 0; height: 140px;
-          background: linear-gradient(180deg, transparent, rgba(204,34,34,0.06) 50%, transparent);
+          background: linear-gradient(180deg, transparent, rgba(201,169,97,0.05) 50%, transparent);
           animation: hr-scan 7s linear infinite;
           pointer-events: none;
           z-index: 2;
@@ -89,7 +89,7 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           display: flex;
           flex-direction: column;
           background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
-          border: 1px solid rgba(161, 24, 42, 0.20);
+          border: 1px solid rgba(244, 237, 226, 0.08);
           border-radius: 0;
           color: #f4ede2;
           text-decoration: none;
@@ -101,11 +101,11 @@ export default async function ProductShellPage({ title, subtitle, category }) {
         }
         .hr-card-link:hover {
           transform: translateY(-4px);
-          border-color: rgba(201, 169, 97, 0.6);
-          box-shadow: 0 0 24px rgba(201, 169, 97, 0.15);
+          border-color: rgba(201, 169, 97, 0.40);
+          box-shadow: 0 0 20px rgba(201, 169, 97, 0.15);
         }
         .hr-card-link:hover .hr-arrow {
-          color: #c9a961;
+          color: #a88b45;
         }
         .hr-card-link:hover .hr-mock-default { opacity: 0; }
         .hr-card-link:hover .hr-mock-reveal  { opacity: 1; }
@@ -140,47 +140,47 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           z-index: 4;
         }
 
-        /* corner brackets — 12px arms, blood hairline */
+        /* corner brackets — 10px arms, gold 50% */
         .hr-bracket {
           position: absolute;
-          width: 12px;
-          height: 12px;
+          width: 10px;
+          height: 10px;
           z-index: 3;
           pointer-events: none;
         }
-        .hr-bracket-tl { top: 10px;    left: 10px;    border-top: 1px solid #a1182a; border-left: 1px solid #a1182a; }
-        .hr-bracket-tr { top: 10px;    right: 10px;   border-top: 1px solid #a1182a; border-right: 1px solid #a1182a; }
-        .hr-bracket-bl { bottom: 10px; left: 10px;    border-bottom: 1px solid #a1182a; border-left: 1px solid #a1182a; }
-        .hr-bracket-br { bottom: 10px; right: 10px;   border-bottom: 1px solid #a1182a; border-right: 1px solid #a1182a; }
+        .hr-bracket-tl { top: 10px;    left: 10px;    border-top: 1px solid rgba(201,169,97,0.50); border-left: 1px solid rgba(201,169,97,0.50); }
+        .hr-bracket-tr { top: 10px;    right: 10px;   border-top: 1px solid rgba(201,169,97,0.50); border-right: 1px solid rgba(201,169,97,0.50); }
+        .hr-bracket-bl { bottom: 10px; left: 10px;    border-bottom: 1px solid rgba(201,169,97,0.50); border-left: 1px solid rgba(201,169,97,0.50); }
+        .hr-bracket-br { bottom: 10px; right: 10px;   border-bottom: 1px solid rgba(201,169,97,0.50); border-right: 1px solid rgba(201,169,97,0.50); }
 
         /* drop badge — top-left */
         .hr-drop-badge {
           position: absolute;
-          top: 16px; left: 16px;
-          z-index: 5;
-          font-family: 'JetBrains Mono', 'Space Mono', monospace;
-          font-size: 10px;
-          letter-spacing: 0.2em;
-          color: #a1182a;
-          border: 1px solid rgba(244, 237, 226, 0.7);
-          padding: 4px 8px;
-          text-transform: uppercase;
-          background: rgba(10, 10, 10, 0.4);
-        }
-
-        /* color chip — bottom-right of image */
-        .hr-color-chip {
-          position: absolute;
-          right: 16px; bottom: 16px;
+          top: 14px; left: 14px;
           z-index: 5;
           font-family: 'JetBrains Mono', 'Space Mono', monospace;
           font-size: 10px;
           letter-spacing: 0.2em;
           color: #f4ede2;
-          border: 1px solid rgba(244, 237, 226, 0.3);
-          padding: 4px 8px;
+          border: 1px solid rgba(244, 237, 226, 0.30);
+          padding: 3px 6px;
           text-transform: uppercase;
-          background: rgba(10, 10, 10, 0.55);
+          background: transparent;
+        }
+
+        /* color chip — bottom-right of image */
+        .hr-color-chip {
+          position: absolute;
+          right: 14px; bottom: 14px;
+          z-index: 5;
+          font-family: 'JetBrains Mono', 'Space Mono', monospace;
+          font-size: 10px;
+          letter-spacing: 0.2em;
+          color: #f4ede2;
+          border: 1px solid rgba(244, 237, 226, 0.30);
+          padding: 3px 6px;
+          text-transform: uppercase;
+          background: transparent;
         }
 
         /* INFO */
@@ -189,25 +189,25 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           flex-direction: column;
           gap: 6px;
           padding: 18px 18px 20px;
-          border-top: 1px solid rgba(161, 24, 42, 0.18);
+          border-top: 1px solid rgba(244, 237, 226, 0.05);
           position: relative;
           z-index: 2;
         }
         .hr-kanji {
           font-family: 'Noto Sans JP', sans-serif;
           font-weight: 500;
-          font-size: 14px;
-          color: #a1182a;
+          font-size: 13px;
+          color: rgba(244, 237, 226, 0.70);
           line-height: 1;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.04em;
         }
         .hr-romaji {
           font-family: 'Anton', 'Bebas Neue', sans-serif;
           font-weight: 400;
-          font-size: 20px;
+          font-size: 18px;
           line-height: 1.05;
           color: #f4ede2;
-          letter-spacing: 0.06em;
+          letter-spacing: 0.04em;
           text-transform: uppercase;
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -222,15 +222,15 @@ export default async function ProductShellPage({ title, subtitle, category }) {
         }
         .hr-price {
           font-family: 'JetBrains Mono', 'Space Mono', monospace;
-          font-size: 14px;
+          font-size: 13px;
           color: #f4ede2;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.04em;
         }
         .hr-arrow {
           font-family: 'JetBrains Mono', 'Space Mono', monospace;
-          font-size: 18px;
+          font-size: 16px;
           line-height: 1;
-          color: #a1182a;
+          color: #c9a961;
           transition: color 0.3s ease;
         }
         .hr-color-dots {
@@ -247,8 +247,8 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           minHeight:      '420px',
           paddingTop:     '120px',
           paddingBottom:  '60px',
-          background:     'radial-gradient(ellipse at 50% 30%, rgba(204,34,34,0.16) 0%, rgba(8,8,8,0) 60%), #080808',
-          borderBottom:   '1px solid rgba(204,34,34,0.18)',
+          background:     'radial-gradient(ellipse at 50% 30%, rgba(201,169,97,0.12) 0%, rgba(8,8,8,0) 60%), #080808',
+          borderBottom:   '1px solid rgba(201,169,97,0.22)',
           display:        'flex',
           flexDirection:  'column',
           alignItems:     'center',
@@ -262,7 +262,7 @@ export default async function ProductShellPage({ title, subtitle, category }) {
 
         <p style={{
           margin: '0 0 18px', fontSize: 10, letterSpacing: 8,
-          color: 'rgba(204,34,34,0.85)', fontFamily: '"Space Mono", monospace',
+          color: '#c9a961', fontFamily: '"Space Mono", monospace',
           textTransform: 'uppercase', zIndex: 3, position: 'relative',
         }}>
           ⟁ &nbsp; HOLLOW RONIN &nbsp; ⟁
@@ -278,7 +278,7 @@ export default async function ProductShellPage({ title, subtitle, category }) {
             lineHeight:    1,
             zIndex:        3,
             position:      'relative',
-            textShadow:    '0 0 40px rgba(204,34,34,0.18)',
+            textShadow:    '0 0 40px rgba(201,169,97,0.18)',
           }}
         >
           {title}
@@ -315,14 +315,14 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           marginTop: 36, display: 'flex', alignItems: 'center', gap: 14,
           zIndex: 3, position: 'relative',
         }}>
-          <div style={{ width: 40, height: 1, background: 'rgba(204,34,34,0.5)' }} />
+          <div style={{ width: 40, height: 1, background: 'rgba(201,169,97,0.55)' }} />
           <span style={{
             fontSize: 9, letterSpacing: 5, fontFamily: '"Space Mono", monospace',
             color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase',
           }}>
             {isEmpty ? 'Forthcoming · Drop 002' : `${families.length} Pieces · Limited Run`}
           </span>
-          <div style={{ width: 40, height: 1, background: 'rgba(204,34,34,0.5)' }} />
+          <div style={{ width: 40, height: 1, background: 'rgba(201,169,97,0.55)' }} />
         </div>
       </section>
 
@@ -332,15 +332,15 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           <div style={{
             maxWidth: 1280, margin: '0 auto',
             padding: '120px 32px',
-            border:  '1px dashed rgba(204,34,34,0.25)',
-            background: 'radial-gradient(ellipse at center, rgba(204,34,34,0.04) 0%, transparent 70%)',
+            border:  '1px dashed rgba(201,169,97,0.30)',
+            background: 'radial-gradient(ellipse at center, rgba(201,169,97,0.04) 0%, transparent 70%)',
             textAlign: 'center',
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24,
           }}>
             <div style={{
-              width: 56, height: 56, border: '1px solid rgba(204,34,34,0.4)',
+              width: 56, height: 56, border: '1px solid rgba(201,169,97,0.45)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: 'Georgia, serif', fontSize: 32, color: 'rgba(204,34,34,0.7)',
+              fontFamily: 'Georgia, serif', fontSize: 32, color: 'rgba(201,169,97,0.75)',
             }}>
               ⌖
             </div>
@@ -362,7 +362,7 @@ export default async function ProductShellPage({ title, subtitle, category }) {
             </p>
             <Link href="/shop/shirts" style={{
               marginTop: 12, padding: '12px 22px',
-              border: '1px solid #a1182a', color: '#a1182a',
+              border: '1px solid #c9a961', color: '#c9a961',
               fontSize: 10, letterSpacing: 5,
               fontFamily: '"Space Mono", monospace',
               textTransform: 'uppercase', textDecoration: 'none',

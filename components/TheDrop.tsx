@@ -36,8 +36,8 @@ export default async function TheDrop() {
         background: "#080808",
         padding:    "clamp(72px, 12vw, 120px) clamp(16px, 4vw, 32px) clamp(80px, 14vw, 140px)",
         overflow:   "hidden",
-        borderTop:    "1px solid rgba(204,34,34,0.18)",
-        borderBottom: "1px solid rgba(204,34,34,0.10)",
+        borderTop:    "1px solid rgba(201,169,97,0.18)",
+        borderBottom: "1px solid rgba(201,169,97,0.10)",
       }}
     >
       <style>{`
@@ -45,48 +45,37 @@ export default async function TheDrop() {
           from { opacity: 0; transform: translateY(28px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        @keyframes td-scan {
-          0%   { transform: translateY(-100%); }
-          100% { transform: translateY(100%); }
-        }
         .td-card {
           opacity: 0;
           animation: td-fade-up 0.9s ease-out forwards;
         }
         .td-link {
-          display: block;
+          display: flex;
+          flex-direction: column;
           position: relative;
-          background: var(--card-bg);
+          background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+          border: 1px solid rgba(244,237,226,0.08);
           text-decoration: none;
-          color: #ffffff;
+          color: #f4ede2;
           overflow: hidden;
           isolation: isolate;
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .td-link::after {
-          content: '';
-          position: absolute; inset: 0;
-          border: 1px solid transparent;
-          transition: border-color 0.4s ease, box-shadow 0.4s ease;
-          pointer-events: none;
-          z-index: 4;
+          transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
+                      border-color 0.3s ease,
+                      box-shadow 0.3s ease;
         }
         .td-link:hover {
-          transform: translateY(-6px);
+          transform: translateY(-3px);
+          border-color: rgba(201,169,97,0.40);
+          box-shadow: 0 0 20px rgba(201,169,97,0.15);
         }
-        .td-link:hover::after {
-          border-color: var(--card-accent);
-          box-shadow: 0 0 50px -8px var(--card-accent), inset 0 0 36px -10px var(--card-accent);
-        }
-        .td-link:hover .td-view {
-          background: var(--card-accent);
-          color: #f0ede6;
+        .td-link:hover .td-arrow {
+          color: #a88b45;
         }
         .td-link:hover .td-default { opacity: 0; }
         .td-link:hover .td-reveal  { opacity: 1; }
         .td-default,
         .td-reveal {
-          object-fit: cover;
+          object-fit: contain;
           transition: opacity 0.25s ease;
         }
         .td-default { opacity: 1; }
@@ -96,54 +85,130 @@ export default async function TheDrop() {
           .td-link:hover .td-reveal  { opacity: 0; }
         }
         .td-grid {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 1px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.06);
-        }
-        .td-grid > .td-link {
-          flex: 1 1 280px;
-          max-width: calc(25% - 1px);
-          min-width: 260px;
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 16px;
         }
         @media (max-width: 1180px) {
-          .td-grid > .td-link { max-width: calc(33.333% - 1px); }
+          .td-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         }
         @media (max-width: 860px) {
-          .td-grid > .td-link { max-width: calc(50% - 1px); min-width: 150px; }
+          .td-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
-        @media (max-width: 360px) {
-          .td-grid > .td-link { max-width: 100%; min-width: 0; }
+        @media (max-width: 480px) {
+          .td-grid { grid-template-columns: 1fr; }
         }
-        .td-scanline {
-          position: absolute; left: 0; right: 0; height: 180px;
-          background: linear-gradient(180deg, transparent, rgba(204,34,34,0.05) 50%, transparent);
-          animation: td-scan 8s linear infinite;
+
+        /* image area */
+        .td-img {
+          position: relative;
+          aspect-ratio: 1 / 1;
+          width: 100%;
+          background: linear-gradient(180deg, #181818 0%, #0c0c0c 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .td-img-inner {
+          position: relative;
+          width: 70%;
+          height: 70%;
+        }
+
+        /* gold corner brackets — 10px arms, 1px gold 50% */
+        .td-bracket {
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          z-index: 3;
           pointer-events: none;
-          z-index: 1;
         }
+        .td-bracket-tl { top: 10px;    left: 10px;    border-top: 1px solid rgba(201,169,97,0.50); border-left: 1px solid rgba(201,169,97,0.50); }
+        .td-bracket-tr { top: 10px;    right: 10px;   border-top: 1px solid rgba(201,169,97,0.50); border-right: 1px solid rgba(201,169,97,0.50); }
+        .td-bracket-bl { bottom: 10px; left: 10px;    border-bottom: 1px solid rgba(201,169,97,0.50); border-left: 1px solid rgba(201,169,97,0.50); }
+        .td-bracket-br { bottom: 10px; right: 10px;   border-bottom: 1px solid rgba(201,169,97,0.50); border-right: 1px solid rgba(201,169,97,0.50); }
+
+        .td-badge {
+          position: absolute;
+          z-index: 4;
+          font-family: 'JetBrains Mono', 'Space Mono', monospace;
+          font-size: 10px;
+          letter-spacing: 0.2em;
+          color: #f4ede2;
+          border: 1px solid rgba(244,237,226,0.30);
+          padding: 3px 6px;
+          background: transparent;
+          text-transform: uppercase;
+        }
+        .td-badge-tl { top: 14px; left: 14px; }
+        .td-badge-br { bottom: 14px; right: 14px; }
+
+        .td-info {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          padding: 16px 18px 18px;
+          border-top: 1px solid rgba(244,237,226,0.05);
+        }
+        .td-kanji {
+          font-family: 'Noto Sans JP', sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          color: rgba(244,237,226,0.7);
+          line-height: 1;
+          letter-spacing: 0.04em;
+        }
+        .td-romaji {
+          font-family: 'Anton', 'Bebas Neue', sans-serif;
+          font-size: 18px;
+          font-weight: 400;
+          color: #f4ede2;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          line-height: 1.1;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .td-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 6px;
+        }
+        .td-price {
+          font-family: 'JetBrains Mono', 'Space Mono', monospace;
+          font-size: 13px;
+          color: #f4ede2;
+          letter-spacing: 0.04em;
+        }
+        .td-arrow {
+          font-family: 'JetBrains Mono', 'Space Mono', monospace;
+          font-size: 16px;
+          line-height: 1;
+          color: #c9a961;
+          transition: color 0.3s ease;
+        }
+
         .td-cta {
           display: inline-flex; align-items: center; gap: 14px;
           padding: 16px 28px;
-          border: 1px solid #cc2222;
-          color: #cc2222;
+          border: none;
+          background: #c9a961;
+          color: #0a0a0a;
           font-family: 'Space Mono', monospace;
           font-size: 11px;
+          font-weight: 600;
           letter-spacing: 0.4em;
           text-transform: uppercase;
           text-decoration: none;
-          transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+          transition: background 0.3s ease;
         }
         .td-cta:hover {
-          background: #cc2222;
-          color: #f0ede6;
-          box-shadow: 0 0 40px -6px rgba(204,34,34,0.6);
+          background: #a88b45;
         }
       `}</style>
-
-      <div className="td-scanline" />
 
       {/* Heading block */}
       <header style={{
@@ -154,7 +219,7 @@ export default async function TheDrop() {
         <p style={{
           margin: 0, fontFamily: "'Space Mono', monospace",
           fontSize: 10, letterSpacing: 8,
-          color: "rgba(204,34,34,0.85)", textTransform: "uppercase",
+          color: "rgba(201,169,97,0.85)", textTransform: "uppercase",
         }}>
           DROP 001 &nbsp;//&nbsp; VOID COLLECTION
         </p>
@@ -166,7 +231,7 @@ export default async function TheDrop() {
           letterSpacing: "0.14em",
           lineHeight: 1,
           color: "#f0ede6",
-          textShadow: "0 0 40px rgba(204,34,34,0.16)",
+          textShadow: "0 0 40px rgba(201,169,97,0.20)",
         }}>
           THE DROP
         </h2>
@@ -174,7 +239,7 @@ export default async function TheDrop() {
         <div style={{
           display: "flex", alignItems: "center", gap: 14, marginTop: 22,
         }}>
-          <div style={{ width: 36, height: 1, background: "rgba(204,34,34,0.55)" }} />
+          <div style={{ width: 36, height: 1, background: "rgba(201,169,97,0.55)" }} />
           <span style={{
             fontFamily: "Georgia, serif", fontStyle: "italic",
             fontSize: 13, color: "rgba(255,255,255,0.42)",
@@ -182,7 +247,7 @@ export default async function TheDrop() {
           }}>
             Limited transmissions. Forged for the void.
           </span>
-          <div style={{ width: 36, height: 1, background: "rgba(204,34,34,0.55)" }} />
+          <div style={{ width: 36, height: 1, background: "rgba(201,169,97,0.55)" }} />
         </div>
       </header>
 
@@ -203,116 +268,49 @@ export default async function TheDrop() {
               name:        family.name,
               fallback,
             });
+            const colorLabel = lead.color === 'WHITE' ? 'WHITE' : 'BLACK';
             return (
               <Link
                 key={lead.handle}
                 href={`/products/${lead.handle}`}
                 prefetch={false}
                 className="td-card td-link"
-                style={{
-                  ['--card-bg' as never]:     family.bg,
-                  ['--card-accent' as never]: family.accent,
-                  animationDelay:             `${i * 0.10}s`,
-                }}
+                style={{ animationDelay: `${i * 0.08}s` }}
+                aria-label={family.name}
               >
-                <div style={{
-                  position:    "relative",
-                  aspectRatio: "1 / 1",
-                  width:       "100%",
-                  overflow:    "hidden",
-                  background:  `radial-gradient(ellipse at center 60%, ${family.accent}1a 0%, transparent 65%), ${family.bg}`,
-                }}>
-                  <span style={{
-                    position: "absolute", top: 16, left: 20, zIndex: 5,
-                    fontSize: 9, letterSpacing: 5,
-                    fontFamily: "'Space Mono', monospace",
-                    color: family.accent,
-                    textShadow: `0 0 12px ${family.accent}66`,
-                  }}>
-                    {family.label}
-                  </span>
+                <div className="td-img">
+                  <span className="td-badge td-badge-tl">{family.label}</span>
+                  <span className="td-badge td-badge-br">{colorLabel}</span>
 
-                  <span style={{
-                    position: "absolute", top: 16, right: 20, zIndex: 5,
-                    fontSize: 9, letterSpacing: 3,
-                    fontFamily: "'Space Mono', monospace",
-                    color: "rgba(255,255,255,0.4)",
-                    border: "1px solid rgba(255,255,255,0.15)",
-                    padding: "3px 8px",
-                  }}>
-                    {lead.color === 'WHITE' ? 'White' : 'Black'}
-                  </span>
+                  <span className="td-bracket td-bracket-tl" />
+                  <span className="td-bracket td-bracket-tr" />
+                  <span className="td-bracket td-bracket-bl" />
+                  <span className="td-bracket td-bracket-br" />
 
-                  <Image
-                    className="td-default"
-                    src={fallback.url}
-                    alt={fallback.alt}
-                    fill
-                    sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
-                  />
-                  <Image
-                    className="td-reveal"
-                    src={hover.url}
-                    alt={hover.alt}
-                    fill
-                    sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
-                  />
-
-                  <div style={{
-                    position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none",
-                    background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%)",
-                  }} />
+                  <div className="td-img-inner">
+                    <Image
+                      className="td-default"
+                      src={fallback.url}
+                      alt={fallback.alt}
+                      fill
+                      sizes="(min-width: 1280px) 22vw, (min-width: 860px) 33vw, 50vw"
+                    />
+                    <Image
+                      className="td-reveal"
+                      src={hover.url}
+                      alt={hover.alt}
+                      fill
+                      sizes="(min-width: 1280px) 22vw, (min-width: 860px) 33vw, 50vw"
+                    />
+                  </div>
                 </div>
 
-                <div style={{
-                  padding:        "18px 22px",
-                  display:        "flex",
-                  alignItems:     "center",
-                  justifyContent: "space-between",
-                  background:     "rgba(0,0,0,0.4)",
-                  borderTop:      "1px solid rgba(255,255,255,0.05)",
-                  position:       "relative",
-                  zIndex:         2,
-                  gap:            12,
-                }}>
-                  <div style={{ minWidth: 0 }}>
-                    <p style={{
-                      margin: 0,
-                      fontFamily: "Georgia, serif",
-                      fontSize: 15, fontWeight: 600,
-                      color: "#ffffff",
-                      marginBottom: 4,
-                      lineHeight: 1.2,
-                      display: "-webkit-box",
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                    }}>
-                      {family.name}
-                    </p>
-                    <p style={{
-                      margin: 0,
-                      fontFamily: "'Space Mono', monospace",
-                      fontSize: 10, letterSpacing: 2,
-                      color: "rgba(255,255,255,0.42)",
-                    }}>
-                      ${lead.price.toFixed(2)} {lead.currencyCode}
-                    </p>
-                  </div>
-                  <div
-                    className="td-view"
-                    style={{
-                      fontSize: 9, letterSpacing: 4,
-                      fontFamily: "'Space Mono', monospace",
-                      color: family.accent,
-                      textTransform: "uppercase",
-                      border: `1px solid ${family.accent}`,
-                      padding: "8px 12px",
-                      whiteSpace: "nowrap",
-                      transition: "background 0.3s ease, color 0.3s ease",
-                    }}
-                  >
-                    View →
+                <div className="td-info">
+                  <span className="td-kanji">{family.kanji || family.japaneseName}</span>
+                  <span className="td-romaji">{family.name}</span>
+                  <div className="td-row">
+                    <span className="td-price">${lead.price.toFixed(2)}</span>
+                    <span className="td-arrow" aria-hidden="true">→</span>
                   </div>
                 </div>
               </Link>

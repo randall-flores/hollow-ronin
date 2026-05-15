@@ -63,14 +63,14 @@ body::before {
 
 .grid-lines {
   background-image:
-    linear-gradient(to right,  rgba(192,0,30,0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(192,0,30,0.15) 1px, transparent 1px);
+    linear-gradient(to right,  rgba(201,169,97,0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(201,169,97,0.15) 1px, transparent 1px);
 }
 
 ::-webkit-scrollbar       { width: 2px; }
 ::-webkit-scrollbar-track { background: #0a0a0a; }
-::-webkit-scrollbar-thumb { background: #c0001e; }
-::selection               { background: #c0001e; color: #f0ede6; }
+::-webkit-scrollbar-thumb { background: #c9a961; }
+::selection               { background: #c9a961; color: #0a0a0a; }
 
 .btn-primary {
   font-family: 'Space Mono', monospace;
@@ -78,13 +78,14 @@ body::before {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   padding: 16px 40px;
-  background: #f0ede6;
+  background: #c9a961;
   color: #0a0a0a;
   text-decoration: none;
   transition: all 0.3s;
-  border: 1px solid #f0ede6;
+  border: 1px solid #c9a961;
+  font-weight: 600;
 }
-.btn-primary:hover { background: #c0001e; color: #f0ede6; border-color: #c0001e; }
+.btn-primary:hover { background: #a88b45; color: #0a0a0a; border-color: #a88b45; }
 
 .btn-outline {
   font-family: 'Space Mono', monospace;
@@ -92,13 +93,13 @@ body::before {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   padding: 16px 40px;
-  border: 1px solid #f0ede6;
-  color: #f0ede6;
+  border: 1px solid #c9a961;
+  color: #c9a961;
   text-decoration: none;
   transition: all 0.3s;
   background: transparent;
 }
-.btn-outline:hover { background: #f0ede6; color: #0a0a0a; }
+.btn-outline:hover { background: #c9a961; color: #0a0a0a; }
 
 /* ── Product grid — responsive ─────────────────── */
 .product-grid {
@@ -127,7 +128,7 @@ body::before {
   transition: border-color 0.3s;
   cursor: pointer;
 }
-.drop-card:hover { border-color: rgba(180,20,20,0.4); }
+.drop-card:hover { border-color: rgba(201,169,97,0.50); }
 
 .shop-card {
   background: rgba(255,255,255,0.03);
@@ -138,7 +139,7 @@ body::before {
   text-decoration: none;
   display: block;
 }
-.shop-card:hover { border-color: rgba(180,20,20,0.4); }
+.shop-card:hover { border-color: rgba(201,169,97,0.50); }
 
 .product-skeleton {
   background: rgba(255,255,255,0.03);
@@ -160,7 +161,7 @@ body::before {
   justify-content: center;
   transition: border-color 0.3s;
 }
-.lookbook-box:hover { border-color: rgba(180,20,20,0.3); }
+.lookbook-box:hover { border-color: rgba(201,169,97,0.40); }
 
 /* ── Product section padding ───────────────────── */
 @media (max-width: 767px) {

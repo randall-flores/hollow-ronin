@@ -21,7 +21,7 @@ const V = {
   fontFamily: "var(--font-bebas-hero, 'Bebas Neue', sans-serif)",
   fontSize: '20px',
   letterSpacing: '0.12em',
-  color: '#C9A84C',
+  color: '#c9a961',
   lineHeight: 1,
 };
 const L = {
@@ -30,7 +30,11 @@ const L = {
   fontWeight: 600,
   letterSpacing: '0.35em',
   textTransform: 'uppercase',
-  color: 'rgba(201,168,76,0.6)',
+  color: 'rgba(244,237,226,0.6)',
+};
+const SEP = {
+  ...V,
+  color: 'rgba(201,169,97,0.30)',
 };
 
 export default function CountdownTimer() {
@@ -70,7 +74,7 @@ export default function CountdownTimer() {
         {units.map(({ v, l }, i) => (
           <div key={l} style={{ display: 'flex', alignItems: 'flex-start', gap: '3px' }}>
             {i > 0 && (
-              <span style={{ ...V, opacity: 0.3, paddingTop: '1px' }}>/</span>
+              <span style={{ ...SEP, paddingTop: '1px' }}>/</span>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
               <span style={V}>{v}</span>

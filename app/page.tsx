@@ -35,7 +35,7 @@ export default function HomePage() {
           flexDirection: "column",
           alignItems: "center",
           gap: 18,
-          borderTop: "1px solid rgba(204,34,34,0.12)",
+          borderTop: "1px solid rgba(201,169,97,0.18)",
         }}
       >
         <p
@@ -44,7 +44,7 @@ export default function HomePage() {
             fontFamily: "'Space Mono', monospace",
             fontSize: 9,
             letterSpacing: "0.4em",
-            color: "rgba(204,34,34,0.85)",
+            color: "rgba(201,169,97,0.80)",
             textTransform: "uppercase",
           }}
         >

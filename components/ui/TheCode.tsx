@@ -19,9 +19,9 @@ export default function TheCode() {
         textAlign:     'center',
       }}
     >
-      {/* faint top + bottom rule, full bleed, soft red */}
-      <div style={{ position: 'absolute', top: 0,    left: '5%', right: '5%', height: 1, background: 'linear-gradient(90deg, transparent, rgba(204,34,34,0.22), transparent)' }} />
-      <div style={{ position: 'absolute', bottom: 0, left: '5%', right: '5%', height: 1, background: 'linear-gradient(90deg, transparent, rgba(204,34,34,0.22), transparent)' }} />
+      {/* faint top + bottom rule, full bleed, soft gold */}
+      <div style={{ position: 'absolute', top: 0,    left: '5%', right: '5%', height: 1, background: 'linear-gradient(90deg, transparent, rgba(201,169,97,0.30), transparent)' }} />
+      <div style={{ position: 'absolute', bottom: 0, left: '5%', right: '5%', height: 1, background: 'linear-gradient(90deg, transparent, rgba(201,169,97,0.30), transparent)' }} />
 
       <div style={{ maxWidth: 1080, margin: '0 auto', position: 'relative' }}>
         {/* kerned label */}
@@ -34,7 +34,7 @@ export default function TheCode() {
             fontSize:      10,
             letterSpacing: '0.8em',
             textTransform: 'uppercase',
-            color:         '#c0001e',
+            color:         '#c9a961',
             paddingLeft:   '0.8em', // optical: compensate the right-trailing tracking
           }}
         >
@@ -70,7 +70,7 @@ export default function TheCode() {
                     lineHeight:    1.45,
                     letterSpacing: '0.04em',
                     color:         isLast ? '#f0ede6' : '#e6e3dc',
-                    textShadow:    isLast ? '0 0 28px rgba(204,34,34,0.18)' : 'none',
+                    textShadow:    isLast ? '0 0 28px rgba(201,169,97,0.22)' : 'none',
                   }}
                 >
                   {line}
@@ -82,9 +82,9 @@ export default function TheCode() {
                       display:    'block',
                       width:      'clamp(60px, 8vw, 120px)',
                       height:     2,
-                      background: '#c0001e',
+                      background: '#c9a961',
                       marginTop:  6,
-                      boxShadow:  '0 0 16px rgba(204,34,34,0.45)',
+                      boxShadow:  '0 0 16px rgba(201,169,97,0.45)',
                     }}
                   />
                 )}

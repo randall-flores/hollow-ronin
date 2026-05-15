@@ -45,8 +45,8 @@ export default async function ShopPage() {
         .shop-hero {
           padding: clamp(96px, 16vw, 140px) clamp(16px, 4vw, 32px) clamp(56px, 8vw, 80px);
           text-align: center;
-          background: radial-gradient(ellipse at 50% 30%, rgba(204,34,34,0.14) 0%, #0a0a0a 65%);
-          border-bottom: 1px solid rgba(204,34,34,0.20);
+          background: radial-gradient(ellipse at 50% 30%, rgba(201,169,97,0.10) 0%, #0a0a0a 65%);
+          border-bottom: 1px solid rgba(201,169,97,0.25);
         }
         .shop-grid {
           max-width: 1280px;
@@ -55,8 +55,8 @@ export default async function ShopPage() {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
           gap: 1px;
-          background: rgba(204,34,34,0.18);
-          border: 1px solid rgba(204,34,34,0.18);
+          background: rgba(201,169,97,0.18);
+          border: 1px solid rgba(201,169,97,0.18);
         }
         .shop-cat {
           position: relative;
@@ -72,13 +72,14 @@ export default async function ShopPage() {
         }
         .shop-cat.live:hover { background: #121212; }
         .shop-cat.live:hover .shop-cat-cta { color: #c9a961; border-color: #c9a961; }
+        .shop-cat.live:hover .shop-cat-label { color: #c9a961; }
         .shop-cat.coming  { background: #080808; cursor: not-allowed; opacity: 0.55; }
         .shop-cat-kanji {
           position: absolute;
           top: 14px; right: 16px;
           font-family: serif;
           font-size: 56px;
-          color: rgba(204,34,34,0.10);
+          color: rgba(201,169,97,0.6);
           line-height: 1;
           user-select: none;
           pointer-events: none;
@@ -88,15 +89,16 @@ export default async function ShopPage() {
           font-size: 9px;
           letter-spacing: 0.3em;
           text-transform: uppercase;
-          color: rgba(204,34,34,0.85);
+          color: #c9a961;
         }
-        .shop-cat.coming .shop-cat-status { color: rgba(204,34,34,0.55); }
+        .shop-cat.coming .shop-cat-status { color: rgba(244,237,226,0.5); }
         .shop-cat-label {
           margin: 18px 0 8px;
           font-family: 'Bebas Neue', sans-serif;
           font-size: 32px;
           letter-spacing: 0.12em;
           color: #f0ede6;
+          transition: color 0.25s ease;
         }
         .shop-cat-count {
           font-family: 'Space Mono', monospace;
@@ -105,6 +107,7 @@ export default async function ShopPage() {
           color: rgba(255,255,255,0.35);
           text-transform: uppercase;
         }
+        .shop-cat.coming .shop-cat-count { color: rgba(244,237,226,0.5); }
         .shop-cat-cta {
           margin-top: 28px;
           align-self: flex-start;
@@ -118,8 +121,8 @@ export default async function ShopPage() {
           transition: color 0.25s ease, border-color 0.25s ease;
         }
         .shop-cat.coming .shop-cat-cta {
-          color: rgba(204,34,34,0.55);
-          border-color: rgba(204,34,34,0.30);
+          color: rgba(244,237,226,0.5);
+          border-color: rgba(244,237,226,0.18);
         }
       `}</style>
 
@@ -128,10 +131,11 @@ export default async function ShopPage() {
           margin: "0 0 18px",
           fontFamily: "'Space Mono', monospace",
           fontSize: 10, letterSpacing: "0.5em",
-          color: "rgba(204,34,34,0.85)",
+          color: "#c9a961",
           textTransform: "uppercase",
         }}>
-          THE ARMORY · DROP 001
+          <span style={{ color: "rgba(244,237,226,0.85)" }}>THE ARMORY · </span>
+          <span style={{ color: "#a1182a" }}>DROP 001</span>
         </p>
         <h1 style={{
           margin: 0,
@@ -140,7 +144,7 @@ export default async function ShopPage() {
           letterSpacing: "0.10em",
           lineHeight: 1,
           color: "#f0ede6",
-          textShadow: "0 0 40px rgba(204,34,34,0.18)",
+          textShadow: "0 0 40px rgba(201,169,97,0.20)",
         }}>
           SHOP
         </h1>

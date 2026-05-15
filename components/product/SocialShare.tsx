@@ -23,8 +23,8 @@ const BTN: React.CSSProperties = {
 }
 
 const HOVER_IN  = (e: React.MouseEvent<HTMLElement>) => {
-  e.currentTarget.style.borderColor = '#cc2222'
-  e.currentTarget.style.color       = '#cc2222'
+  e.currentTarget.style.borderColor = '#c9a961'
+  e.currentTarget.style.color       = '#c9a961'
 }
 const HOVER_OUT = (e: React.MouseEvent<HTMLElement>) => {
   e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'
@@ -110,7 +110,7 @@ export default function SocialShare({ url, title, image }: Props) {
           fontFamily:    "'Space Mono', monospace",
           fontSize:      9,
           letterSpacing: 3,
-          color:         '#cc2222',
+          color:         '#c9a961',
           textTransform: 'uppercase',
         }}>
           Link copied

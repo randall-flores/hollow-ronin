@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCart } from "@/components/cart/CartProvider";
 
 const NAV_LINKS = [
@@ -35,6 +36,9 @@ export default function Navbar() {
   const [shopOpen, setShopOpen] = useState(false);
   const shopTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { count: cartCount, open: openCart } = useCart();
+  const pathname = usePathname();
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -73,7 +77,7 @@ export default function Navbar() {
           background: scrolled ? "rgba(0,0,0,0.92)" : "transparent",
           backdropFilter: scrolled ? "blur(16px) saturate(180%)" : "none",
           borderBottom: scrolled
-            ? "1px solid rgba(180,20,20,0.4)"
+            ? "1px solid rgba(201,169,97,0.45)"
             : "1px solid transparent",
           transition:
             "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
@@ -122,7 +126,7 @@ export default function Navbar() {
               background: "#000000",
               borderRadius: "8px",
               padding: "3px",
-              border: "1px solid rgba(204,0,0,0.4)",
+              border: "1px solid rgba(201,169,97,0.45)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -157,18 +161,18 @@ export default function Navbar() {
               }}>
                 HOLLOW
               </span>
-              {/* Thin red separator */}
+              {/* Thin gold separator */}
               <div style={{
                 height: "1px",
-                background: "linear-gradient(to right, #cc0000, rgba(204,0,0,0.1))",
+                background: "linear-gradient(to right, #c9a961, rgba(201,169,97,0.1))",
                 marginBottom: "1px",
               }} />
               <span style={{
                 fontFamily: "'Bebas Neue', sans-serif",
                 fontSize: "30px",
-                color: "#cc0000",
+                color: "#c9a961",
                 letterSpacing: "0.18em",
-                textShadow: "0 0 20px rgba(204,0,0,0.9), 0 0 50px rgba(204,0,0,0.4), 0 2px 6px rgba(0,0,0,0.9)",
+                textShadow: "0 0 20px rgba(201,169,97,0.85), 0 0 50px rgba(201,169,97,0.35), 0 2px 6px rgba(0,0,0,0.9)",
                 marginTop: "-1px",
               }}>
                 RONIN
@@ -188,17 +192,25 @@ export default function Navbar() {
             gap: "32px",
           }}
         >
-          {NAV_LINKS.map(({ label, href }) => (
-            <Link
-              key={label}
-              href={href}
-              style={navLinkStyle}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#a8a8a8")}
-            >
-              {label}
-            </Link>
-          ))}
+          {NAV_LINKS.map(({ label, href }) => {
+            const active = isActive(href);
+            return (
+              <Link
+                key={label}
+                href={href}
+                style={{
+                  ...navLinkStyle,
+                  color: active ? "#c9a961" : "#a8a8a8",
+                  borderBottom: active ? "1px solid #c9a961" : "1px solid transparent",
+                  paddingBottom: "2px",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = active ? "#c9a961" : "#a8a8a8")}
+              >
+                {label}
+              </Link>
+            );
+          })}
 
           {/* SHOP trigger */}
           <div
@@ -206,14 +218,24 @@ export default function Navbar() {
             onMouseEnter={openShop}
             onMouseLeave={closeShop}
           >
-            <Link
-              href="/shop"
-              style={navLinkStyle}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#a8a8a8")}
-            >
-              SHOP
-            </Link>
+            {(() => {
+              const shopActive = isActive("/shop");
+              return (
+                <Link
+                  href="/shop"
+                  style={{
+                    ...navLinkStyle,
+                    color: shopActive ? "#c9a961" : "#a8a8a8",
+                    borderBottom: shopActive ? "1px solid #c9a961" : "1px solid transparent",
+                    paddingBottom: "2px",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = shopActive ? "#c9a961" : "#a8a8a8")}
+                >
+                  SHOP
+                </Link>
+              );
+            })()}
           </div>
 
           <button
@@ -312,8 +334,8 @@ export default function Navbar() {
           width: "100vw",
           background: "rgba(4,2,2,0.97)",
           backdropFilter: "blur(20px)",
-          borderTop: "1px solid rgba(180,20,20,0.3)",
-          borderBottom: "1px solid rgba(180,20,20,0.15)",
+          borderTop: "1px solid rgba(201,169,97,0.35)",
+          borderBottom: "1px solid rgba(201,169,97,0.15)",
           padding: "40px 80px",
           zIndex: 99,
           opacity: shopOpen ? 1 : 0,
@@ -330,7 +352,7 @@ export default function Navbar() {
                 fontFamily: "'Space Mono', monospace",
                 fontSize: "9px",
                 letterSpacing: "0.3em",
-                color: "rgba(180,20,20,0.8)",
+                color: "#c9a961",
                 textTransform: "uppercase",
                 marginBottom: "20px",
               }}
@@ -395,7 +417,7 @@ export default function Navbar() {
                       fontFamily: "'Space Mono', monospace",
                       fontSize: 8,
                       letterSpacing: "0.2em",
-                      color: "rgba(204,34,34,0.55)",
+                      color: "rgba(244,237,226,0.45)",
                       textTransform: "uppercase",
                     }}>
                       · forging
@@ -447,7 +469,7 @@ export default function Navbar() {
                 fontFamily: "'Space Mono', monospace",
                 fontSize: "9px",
                 letterSpacing: "0.3em",
-                color: "rgba(180,20,20,0.8)",
+                color: "#a1182a",
                 textTransform: "uppercase",
                 marginBottom: "12px",
               }}
@@ -470,7 +492,7 @@ export default function Navbar() {
                 fontFamily: "'Space Mono', monospace",
                 fontSize: "9px",
                 letterSpacing: "0.3em",
-                color: "#C9A84C",
+                color: "#c9a961",
                 textTransform: "uppercase",
                 marginBottom: "16px",
               }}
@@ -540,7 +562,7 @@ export default function Navbar() {
                 fontFamily: "'Bebas Neue', sans-serif",
                 fontSize: "clamp(28px, 6vw, 40px)",
                 letterSpacing: "0.08em",
-                color: "#C9A84C",
+                color: "#c9a961",
                 textDecoration: "none",
                 padding: "12px 0",
               }}

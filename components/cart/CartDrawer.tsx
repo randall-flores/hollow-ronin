@@ -15,7 +15,7 @@ export default function CartDrawer() {
     setCheckoutState("loading");
     setCheckoutError(null);
     try {
-      const payload = items.map((i) => ({ handle: i.slug, size: i.size, qty: i.qty }));
+      const payload = items.map((i) => ({ handle: i.handle, size: i.size, qty: i.qty }));
       const res  = await fetch("/api/checkout", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
@@ -133,7 +133,7 @@ export default function CartDrawer() {
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 20 }}>
               {items.map((item) => (
                 <li
-                  key={`${item.slug}-${item.size}`}
+                  key={`${item.handle}-${item.size}`}
                   style={{
                     display: "grid",
                     gridTemplateColumns: "84px 1fr",
@@ -188,16 +188,16 @@ export default function CartDrawer() {
 
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 8 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 4, border: "1px solid rgba(255,255,255,0.1)" }}>
-                        <QtyBtn onClick={() => setQty(item.slug, item.size, item.qty - 1)} label="−" />
+                        <QtyBtn onClick={() => setQty(item.handle, item.size, item.qty - 1)} label="−" />
                         <span style={{
                           fontFamily: "'Space Mono', monospace",
                           fontSize: 11, padding: "0 10px", color: "#f0ede6",
                         }}>{item.qty}</span>
-                        <QtyBtn onClick={() => setQty(item.slug, item.size, item.qty + 1)} label="+" />
+                        <QtyBtn onClick={() => setQty(item.handle, item.size, item.qty + 1)} label="+" />
                       </div>
 
                       <button
-                        onClick={() => remove(item.slug, item.size)}
+                        onClick={() => remove(item.handle, item.size)}
                         style={{
                           background: "none", border: "none", cursor: "pointer",
                           fontFamily: "'Space Mono', monospace",

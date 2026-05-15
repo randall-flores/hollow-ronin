@@ -5,19 +5,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
-import { PRODUCTS, type Product, type ProductImage } from '@/lib/products'
+import type { ProductImage } from '@/lib/products'
+import type { EnrichedFamily, EnrichedVariant } from '@/lib/product-merge'
 import { useCart } from '@/components/cart/CartProvider'
 import DropUrgency from '@/components/product/DropUrgency'
 import SocialShare from '@/components/product/SocialShare'
 
-const SIZES = ['S', 'M', 'L', 'XL'] as const
-type Size   = typeof SIZES[number]
-
-const SIZE_CHART: Array<[Size, number, number, number]> = [
-  ['S',  42, 28, 8.5],
-  ['M',  44, 29, 9],
-  ['L',  46, 30, 9.5],
-  ['XL', 48, 31, 10],
+const SIZE_CHART: Array<[string, number, number, number]> = [
+  ['S',   42, 28, 8.5],
+  ['M',   44, 29, 9],
+  ['L',   46, 30, 9.5],
+  ['XL',  48, 31, 10],
+  ['2XL', 50, 32, 10.5],
+  ['3XL', 52, 33, 11],
+  ['4XL', 54, 34, 11.5],
 ]
 
 const DETAILS: [string, string][] = [
@@ -28,19 +29,9 @@ const DETAILS: [string, string][] = [
   ['Origin',   'Forged on demand. Limited by design.'],
 ]
 
-const COLOR_SWATCH: Record<'Black' | 'White', string> = {
-  Black: '#1a1a1a',
-  White: '#e8e2d6',
-}
-
-function getVariants(product: Product): Product[] {
-  return PRODUCTS.filter((p) => p.subtitle === product.subtitle)
-}
-
-function getRelated(product: Product, limit = 4): Product[] {
-  return PRODUCTS
-    .filter((p) => p.subtitle !== product.subtitle && p.category === product.category)
-    .slice(0, limit)
+const COLOR_SWATCH: Record<'BLACK' | 'WHITE', string> = {
+  BLACK: '#1a1a1a',
+  WHITE: '#e8e2d6',
 }
 
 function Rule() {
@@ -53,7 +44,7 @@ function Rule() {
   )
 }
 
-function Breadcrumbs({ product }: { product: Product }) {
+function Breadcrumbs({ family }: { family: EnrichedFamily }) {
   return (
     <nav aria-label="Breadcrumb" style={{
       padding: '20px clamp(16px, 4vw, 32px) 0',
@@ -67,41 +58,42 @@ function Breadcrumbs({ product }: { product: Product }) {
       <span style={{ color: 'rgba(204,34,34,0.5)' }}>/</span>
       <Link href="/shop" style={{ color: 'inherit', textDecoration: 'none' }}>Shop</Link>
       <span style={{ color: 'rgba(204,34,34,0.5)' }}>/</span>
-      <Link href={`/shop/${product.category}`} style={{ color: 'inherit', textDecoration: 'none' }}>{product.category}</Link>
+      <Link href={`/shop/${family.category}`} style={{ color: 'inherit', textDecoration: 'none' }}>{family.category}</Link>
       <span style={{ color: 'rgba(204,34,34,0.5)' }}>/</span>
-      <span style={{ color: 'rgba(255,255,255,0.7)' }}>{product.name}</span>
+      <span style={{ color: 'rgba(255,255,255,0.7)' }}>{family.name}</span>
     </nav>
   )
 }
 
-function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number) => void }) {
-  // Track active image by URL — survives product swaps without leaking
-  // a stale index into a different image array.
-  const firstUrl = product.images[0]?.url ?? ''
+function Gallery({
+  images,
+  productKey,
+  onZoom,
+}: {
+  images:     ProductImage[]
+  productKey: string
+  onZoom:     (index: number) => void
+}) {
+  const firstUrl = images[0]?.url ?? ''
   const [activeUrl, setActiveUrl] = useState<string>(firstUrl)
 
   useEffect(() => {
-    setActiveUrl(product.images[0]?.url ?? '')
-  }, [product.slug, product.images])
+    setActiveUrl(images[0]?.url ?? '')
+  }, [productKey, images])
 
-  const safeActive =
-    product.images.find((img) => img.url === activeUrl) ?? product.images[0]
-  const activeIndex = product.images.findIndex((img) => img.url === safeActive?.url)
+  const safeActive = images.find((img) => img.url === activeUrl) ?? images[0]
+  const activeIndex = images.findIndex((img) => img.url === safeActive?.url)
 
   if (!safeActive) return null
 
   return (
     <div className="hr-gallery">
-      <div
-        role="tablist"
-        aria-label="Product images"
-        className="hr-thumbs"
-      >
-        {product.images.map((img) => {
+      <div role="tablist" aria-label="Product images" className="hr-thumbs">
+        {images.map((img) => {
           const isActive = img.url === safeActive.url
           return (
             <button
-              key={`${product.slug}::${img.url}`}
+              key={`${productKey}::${img.url}`}
               role="tab"
               aria-selected={isActive}
               aria-label={`View ${img.alt}`}
@@ -120,13 +112,7 @@ function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number
                 flexShrink: 0,
               }}
             >
-              <Image
-                src={img.url}
-                alt={img.alt}
-                fill
-                sizes="72px"
-                style={{ objectFit: 'cover' }}
-              />
+              <Image src={img.url} alt={img.alt} fill sizes="72px" style={{ objectFit: 'cover' }} />
             </button>
           )
         })}
@@ -138,7 +124,7 @@ function Gallery({ product, onZoom }: { product: Product; onZoom: (index: number
         className="hr-hero"
       >
         <Image
-          key={`${product.slug}::${safeActive.url}`}
+          key={`${productKey}::${safeActive.url}`}
           src={safeActive.url}
           alt={safeActive.alt}
           fill
@@ -252,43 +238,47 @@ function SizeGuide({ open, onClose }: { open: boolean; onClose: () => void }) {
   )
 }
 
-function VariantPicker({ product, variants }: { product: Product; variants: Product[] }) {
-  if (variants.length <= 1) return null
-  const activeIndex = variants.findIndex((v) => v.slug === product.slug)
+function ColorPicker({
+  family,
+  activeHandle,
+}: {
+  family:       EnrichedFamily
+  activeHandle: string
+}) {
+  if (family.variants.length <= 1) return null
+  const active = family.variants.find((v) => v.handle === activeHandle) ?? family.variants[0]
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <p style={{ margin: 0, fontSize: 9, letterSpacing: 4, color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace', textTransform: 'uppercase' }}>
-          Color  <span style={{ color: 'rgba(255,255,255,0.2)' }}>· {activeIndex + 1} of {variants.length}</span>
+          Color
         </p>
-        <p style={{ margin: 0, fontSize: 10, fontFamily: 'monospace', color: 'rgba(255,255,255,0.55)' }}>{product.color}</p>
+        <p style={{ margin: 0, fontSize: 9, letterSpacing: 3, color: 'rgba(255,255,255,0.55)', fontFamily: 'monospace', textTransform: 'uppercase' }}>
+          {active.color === 'WHITE' ? 'White' : 'Black'}
+        </p>
       </div>
-      <div style={{ display: 'flex', gap: 10 }}>
-        {variants.map((v) => {
-          const active = v.slug === product.slug
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+        {family.variants.map((v) => {
+          const selected = v.handle === activeHandle
+          const colorName = v.color === 'WHITE' ? 'White' : 'Black'
           return (
             <Link
-              key={v.slug}
-              href={`/products/${v.slug}`}
-              aria-label={`${v.color} variant`}
+              key={v.handle}
+              href={`/products/${v.handle}`}
+              aria-label={`Color: ${colorName}`}
+              aria-current={selected ? 'page' : undefined}
+              title={colorName}
               prefetch={false}
               style={{
-                width: 44, height: 44, padding: 4,
-                background: '#0a0a0a',
-                border: `1px solid ${active ? '#cc2222' : 'rgba(255,255,255,0.12)'}`,
-                boxShadow: active ? '0 0 0 2px rgba(204,34,34,0.18)' : 'none',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'all 0.18s ease',
-                textDecoration: 'none',
-              }}
-            >
-              <span style={{
-                width: '100%', height: '100%',
+                width: 36, height: 36, padding: 0,
                 background: COLOR_SWATCH[v.color],
-                border: v.color === 'White' ? '1px solid rgba(255,255,255,0.15)' : 'none',
-                display: 'block',
-              }} />
-            </Link>
+                border: `1px solid ${selected ? '#cc2222' : 'rgba(255,255,255,0.15)'}`,
+                boxShadow: selected ? '0 0 0 2px rgba(204,34,34,0.25)' : 'none',
+                display: 'inline-block',
+                textDecoration: 'none',
+                transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+              }}
+            />
           )
         })}
       </div>
@@ -296,7 +286,16 @@ function VariantPicker({ product, variants }: { product: Product; variants: Prod
   )
 }
 
-function Related({ items }: { items: Product[] }) {
+export type RelatedItem = {
+  handle: string
+  name:   string
+  price:  number
+  image:  ProductImage
+  bg:     string
+  accent: string
+}
+
+function Related({ items }: { items: RelatedItem[] }) {
   if (items.length === 0) return null
   return (
     <section style={{
@@ -336,8 +335,8 @@ function Related({ items }: { items: Product[] }) {
       }}>
         {items.map((p) => (
           <Link
-            key={p.slug}
-            href={`/products/${p.slug}`}
+            key={p.handle}
+            href={`/products/${p.handle}`}
             prefetch={false}
             style={{
               display: 'block', textDecoration: 'none', color: '#f0ede6',
@@ -352,8 +351,8 @@ function Related({ items }: { items: Product[] }) {
               background: `radial-gradient(ellipse at center 60%, ${p.accent}1a 0%, transparent 65%), ${p.bg}`,
             }}>
               <Image
-                src={p.images[0].url}
-                alt={p.images[0].alt}
+                src={p.image.url}
+                alt={p.image.alt}
                 fill
                 sizes="(min-width: 1024px) 25vw, 50vw"
                 style={{ objectFit: 'cover' }}
@@ -363,7 +362,7 @@ function Related({ items }: { items: Product[] }) {
               <p style={{ margin: 0, fontFamily: 'Georgia, serif', fontSize: 13, color: '#f0ede6', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {p.name}
               </p>
-              <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>${p.price}</span>
+              <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>${p.price.toFixed(2)}</span>
             </div>
           </Link>
         ))}
@@ -372,40 +371,41 @@ function Related({ items }: { items: Product[] }) {
   )
 }
 
-type GalleryByColor = Record<string, ProductImage[]>
-
 export default function ProductPage({
-  product,
-  galleryByColor,
+  family,
+  active,
+  galleryByHandle,
+  related = [],
 }: {
-  product: Product
-  galleryByColor?: GalleryByColor
+  family:          EnrichedFamily
+  active:          EnrichedVariant
+  galleryByHandle: Record<string, ProductImage[]>
+  related?:        RelatedItem[]
 }) {
-  const defaultColorSlug = product.colors[0]?.slug ?? (product.color === 'White' ? 'white' : 'black')
-  const [activeColorSlug, setActiveColorSlug] = useState<'black' | 'white'>(defaultColorSlug)
-  const [size,        setSize]        = useState<Size | null>(null)
+  const availableSizes = active.sizes.filter((s) => s.available)
+  const sizeOrder = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL']
+  const sortedSizes = [...availableSizes].sort(
+    (a, b) => sizeOrder.indexOf(a.size) - sizeOrder.indexOf(b.size),
+  )
+
+  const [size,        setSize]        = useState<string | null>(null)
   const [qty,         setQty]         = useState(1)
   const [cartState,   setCartState]   = useState<'idle' | 'added'>('idle')
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
   const [guideOpen,   setGuideOpen]   = useState(false)
   const { add } = useCart()
 
-  const currentImages =
-    galleryByColor?.[activeColorSlug] ?? product.images
-  const scopedProduct: Product = { ...product, images: currentImages }
-
-  const variants = getVariants(product)
-  const related  = getRelated(product, 4)
-  const showColorPicker = product.colors.length > 1
+  const images = galleryByHandle[active.handle] ??
+    (active.featuredImage ? [{ url: active.featuredImage.url, alt: active.featuredImage.alt }] : [])
 
   const handleAdd = () => {
     if (!size) return
     add({
-      slug:  product.slug,
-      name:  product.name,
+      handle: active.handle,
+      name:   family.name,
       size,
-      price: product.price,
-      image: currentImages[0]?.url ?? product.images[0].url,
+      price:  active.price,
+      image:  images[0]?.url ?? active.featuredImage?.url ?? '',
       qty,
     })
     setCartState('added')
@@ -559,36 +559,32 @@ export default function ProductPage({
       `}</style>
 
       <main className="hr-pdp">
-        <Breadcrumbs product={product} />
+        <Breadcrumbs family={family} />
 
         <div className="hr-pdp-grid">
           {/* Gallery */}
           <div className="hr-pdp-gallery-col">
-            <div style={{ position: 'absolute', top: 28, left: 28, zIndex: 10, pointerEvents: 'none', display: 'none' }} className="hr-pdp-corner">
-              <p style={{ margin: 0, fontSize: 9, letterSpacing: 6, color: 'rgba(255,255,255,0.13)', fontFamily: 'monospace' }}>HOLLOW RONIN</p>
-              <p style={{ margin: '5px 0 0', fontSize: 9, letterSpacing: 4, color: 'rgba(204,34,34,0.65)', fontFamily: 'monospace' }}>{product.label}</p>
-            </div>
-            <Gallery product={scopedProduct} onZoom={(i) => setLightboxIdx(i)} />
+            <Gallery images={images} productKey={active.handle} onZoom={(i) => setLightboxIdx(i)} />
           </div>
 
           {/* Info */}
           <div className="hr-pdp-info-col">
             <div>
               <p style={{ margin: '0 0 14px', fontSize: 9, letterSpacing: 5, color: '#cc2222', fontFamily: 'monospace', textTransform: 'uppercase' }}>
-                {product.label}  ·  Limited Edition
+                {family.label}  ·  Limited Edition
               </p>
               <h1 style={{ margin: '0 0 6px', fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(36px, 5.2vw, 56px)', fontWeight: 400, lineHeight: 1.02, letterSpacing: '0.03em', color: '#f0ede6', overflowWrap: 'break-word', wordBreak: 'break-word', maxWidth: '100%', paddingRight: 4 }}>
-                {product.name}
+                {family.name}
               </h1>
               <p style={{ margin: '0 0 18px', fontSize: 10, letterSpacing: 6, fontFamily: 'monospace', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>
-                {product.subtitle}
+                {family.subtitle}
               </p>
               <p style={{ margin: '0 0 18px', fontSize: 13, fontStyle: 'italic', color: 'rgba(255,255,255,0.55)', lineHeight: 1.55, maxWidth: 460 }}>
-                {product.story}
+                {family.story}
               </p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-                <span style={{ fontSize: 24, fontFamily: 'monospace', color: '#f0ede6' }}>${product.price}.00</span>
-                <span style={{ fontSize: 10, letterSpacing: 3, color: 'rgba(255,255,255,0.28)', fontFamily: 'monospace' }}>USD</span>
+                <span style={{ fontSize: 24, fontFamily: 'monospace', color: '#f0ede6' }}>${active.price.toFixed(2)}</span>
+                <span style={{ fontSize: 10, letterSpacing: 3, color: 'rgba(255,255,255,0.28)', fontFamily: 'monospace' }}>{active.currencyCode}</span>
               </div>
               <div style={{ marginTop: 14 }}>
                 <DropUrgency />
@@ -597,44 +593,7 @@ export default function ProductPage({
 
             <Rule />
 
-            <VariantPicker product={product} variants={variants} />
-
-            {showColorPicker && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <p style={{ margin: 0, fontSize: 9, letterSpacing: 4, color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace', textTransform: 'uppercase' }}>
-                    Color
-                  </p>
-                  <p style={{ margin: 0, fontSize: 9, letterSpacing: 3, color: 'rgba(255,255,255,0.55)', fontFamily: 'monospace', textTransform: 'uppercase' }}>
-                    {product.colors.find((c) => c.slug === activeColorSlug)?.name ?? ''}
-                  </p>
-                </div>
-                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  {product.colors.map((c) => {
-                    const selected = c.slug === activeColorSlug
-                    return (
-                      <button
-                        key={c.slug}
-                        onClick={() => setActiveColorSlug(c.slug)}
-                        aria-pressed={selected}
-                        aria-label={`Color: ${c.name}`}
-                        title={c.name}
-                        style={{
-                          width: 36, height: 36,
-                          padding: 0,
-                          background: c.hex,
-                          border: `1px solid ${selected ? '#cc2222' : 'rgba(255,255,255,0.15)'}`,
-                          boxShadow: selected ? '0 0 0 2px rgba(204,34,34,0.25)' : 'none',
-                          cursor: 'pointer',
-                          transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
-                          outline: 'none',
-                        }}
-                      />
-                    )
-                  })}
-                </div>
-              </div>
-            )}
+            <ColorPicker family={family} activeHandle={active.handle} />
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -653,23 +612,23 @@ export default function ProductPage({
                 </button>
               </div>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                {SIZES.map((s) => {
-                  const selected = size === s
+                {sortedSizes.map((s) => {
+                  const selected = size === s.size
                   return (
                     <button
-                      key={s}
-                      onClick={() => setSize(s)}
+                      key={s.id}
+                      onClick={() => setSize(s.size)}
                       aria-pressed={selected}
                       className="hr-size-btn"
                       style={{
-                        width: 48, height: 48, fontSize: 11, fontFamily: 'monospace', letterSpacing: 1,
+                        minWidth: 48, height: 48, padding: '0 12px', fontSize: 11, fontFamily: 'monospace', letterSpacing: 1,
                         border: `1px solid ${selected ? '#cc2222' : 'rgba(255,255,255,0.12)'}`,
                         background: selected ? 'rgba(204,34,34,0.12)' : 'transparent',
                         color: selected ? '#ffffff' : 'rgba(255,255,255,0.55)',
                         cursor: 'pointer', transition: 'all 0.18s ease', outline: 'none',
                       }}
                     >
-                      {s}
+                      {s.size}
                     </button>
                   )
                 })}
@@ -711,7 +670,7 @@ export default function ProductPage({
                 color: !size ? 'rgba(255,255,255,0.16)' : cartState === 'added' ? '#cc2222' : '#ffffff',
               }}
             >
-              {cartState === 'added' ? '✓  Added to Cart' : !size ? 'Select a Size' : `Add to Cart — $${(product.price * qty).toFixed(2)}`}
+              {cartState === 'added' ? '✓  Added to Cart' : !size ? 'Select a Size' : `Add to Cart — $${(active.price * qty).toFixed(2)}`}
             </button>
 
             {/* Trust row */}
@@ -731,9 +690,9 @@ export default function ProductPage({
             <Rule />
 
             <SocialShare
-              url={`https://hollowronin.com/products/${product.slug}`}
-              title={`${product.name} — ${product.subtitle} · HOLLOW RONIN`}
-              image={`https://hollowronin.com${product.images[0]?.url ?? ''}`}
+              url={`https://hollowronin.com/products/${active.handle}`}
+              title={`${family.name} — ${family.subtitle} · HOLLOW RONIN`}
+              image={`https://hollowronin.com${images[0]?.url ?? ''}`}
             />
 
             <Rule />
@@ -759,11 +718,11 @@ export default function ProductPage({
         <div className="hr-mobile-cta" role="region" aria-label="Add to cart">
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ margin: 0, fontFamily: 'Georgia, serif', fontSize: 13, color: '#f0ede6', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {product.name}
+              {family.name}
               {size && <span className="hr-size-pill">{size}</span>}
             </p>
             <p style={{ margin: '2px 0 0', fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>
-              ${(product.price * qty).toFixed(2)} {!size && '· pick size'}
+              ${(active.price * qty).toFixed(2)} {!size && '· pick size'}
               {size && qty > 1 ? ` · ×${qty}` : ''}
             </p>
           </div>
@@ -790,7 +749,7 @@ export default function ProductPage({
         open={lightboxIdx !== null}
         close={() => setLightboxIdx(null)}
         index={lightboxIdx ?? 0}
-        slides={currentImages.map((img) => ({ src: img.url, alt: img.alt }))}
+        slides={images.map((img) => ({ src: img.url, alt: img.alt }))}
         styles={{ container: { backgroundColor: 'rgba(0, 0, 0, 0.9)' } }}
       />
     </>

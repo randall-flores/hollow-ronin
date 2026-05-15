@@ -10,7 +10,7 @@ import {
 } from "react";
 
 export type CartItem = {
-  slug:    string;
+  handle:  string;   // Shopify product handle (source of truth for checkout)
   name:    string;
   size:    string;
   price:   number;
@@ -27,25 +27,29 @@ type CartContextValue = {
   close:    () => void;
   toggle:   () => void;
   add:      (item: Omit<CartItem, "qty"> & { qty?: number }) => void;
-  remove:   (slug: string, size: string) => void;
-  setQty:   (slug: string, size: string, qty: number) => void;
+  remove:   (handle: string, size: string) => void;
+  setQty:   (handle: string, size: string, qty: number) => void;
   clear:    () => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-const STORAGE_KEY = "hollow-ronin-cart";
+// Bump on storage shape change. Old "hollow-ronin-cart" carts stored local
+// editorial slugs instead of Shopify handles and could not be checked out.
+const STORAGE_KEY = "hollow-ronin-cart-v2";
+const LEGACY_KEY  = "hollow-ronin-cart";
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items,  setItems]  = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
-  // Hydrate from localStorage on mount
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setItems(JSON.parse(raw));
+      // Drop legacy cart — contained editorial slugs that won't check out.
+      localStorage.removeItem(LEGACY_KEY);
     } catch { /* ignore */ }
     setHydrated(true);
   }, []);
@@ -55,7 +59,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch { /* ignore */ }
   }, [items, hydrated]);
 
-  // Lock body scroll while drawer open
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -63,7 +66,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const add = useCallback((item: Omit<CartItem, "qty"> & { qty?: number }) => {
     setItems((prev) => {
-      const idx = prev.findIndex((p) => p.slug === item.slug && p.size === item.size);
+      const idx = prev.findIndex((p) => p.handle === item.handle && p.size === item.size);
       const qty = item.qty ?? 1;
       if (idx >= 0) {
         const next = [...prev];
@@ -75,14 +78,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setIsOpen(true);
   }, []);
 
-  const remove = useCallback((slug: string, size: string) => {
-    setItems((prev) => prev.filter((p) => !(p.slug === slug && p.size === size)));
+  const remove = useCallback((handle: string, size: string) => {
+    setItems((prev) => prev.filter((p) => !(p.handle === handle && p.size === size)));
   }, []);
 
-  const setQty = useCallback((slug: string, size: string, qty: number) => {
+  const setQty = useCallback((handle: string, size: string, qty: number) => {
     setItems((prev) =>
       prev
-        .map((p) => (p.slug === slug && p.size === size ? { ...p, qty } : p))
+        .map((p) => (p.handle === handle && p.size === size ? { ...p, qty } : p))
         .filter((p) => p.qty > 0)
     );
   }, []);

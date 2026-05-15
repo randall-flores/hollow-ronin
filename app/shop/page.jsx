@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getProductsByCategory } from "@/lib/products";
+import { getFamiliesByCategory } from "@/lib/product-merge";
 
 export const metadata = {
   title: "Shop · The Armory",
@@ -7,6 +7,8 @@ export const metadata = {
     "Browse the full Hollow Ronin armory — DROP 001 // Void Collection. Shirts live now. More categories forging.",
   alternates: { canonical: "/shop" },
 };
+
+export const revalidate = 3600;
 
 const CATEGORIES = [
   { slug: "shirts",         label: "SHIRTS",         kanji: "上着" },
@@ -18,11 +20,23 @@ const CATEGORIES = [
   { slug: "scarfs",         label: "SCARVES",        kanji: "襟巻" },
 ];
 
-export default function ShopPage() {
+export default async function ShopPage() {
+  const counts = await Promise.all(
+    CATEGORIES.map(async (c) => {
+      try {
+        const families = await getFamiliesByCategory(c.slug);
+        return { slug: c.slug, count: families.length };
+      } catch {
+        return { slug: c.slug, count: 0 };
+      }
+    }),
+  );
+  const countBySlug = Object.fromEntries(counts.map((x) => [x.slug, x.count]));
+
   const categories = CATEGORIES.map((c) => ({
     ...c,
-    count: getProductsByCategory(c.slug).length,
-    live:  getProductsByCategory(c.slug).length > 0,
+    count: countBySlug[c.slug] ?? 0,
+    live:  (countBySlug[c.slug] ?? 0) > 0,
   }));
 
   return (

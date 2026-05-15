@@ -1,32 +1,47 @@
 import { notFound } from 'next/navigation'
-import ProductPage from '@/components/three/ProductPage'
-import { PRODUCTS, getProduct, type ProductImage } from '@/lib/products'
+import ProductPage, { type RelatedItem } from '@/components/three/ProductPage'
+import { getAllFamilies, getAllHandles, getFamilyByHandle, type EnrichedFamily, type EnrichedVariant } from '@/lib/product-merge'
 import { productGalleryImages } from '@/lib/card-images'
+import type { ProductImage } from '@/lib/products'
 
-export function generateStaticParams() {
-  return PRODUCTS.map((p) => ({ slug: p.slug }))
+export const revalidate = 3600
+
+export async function generateStaticParams() {
+  try {
+    const handles = await getAllHandles()
+    return handles.map((slug) => ({ slug }))
+  } catch (err) {
+    console.warn('[products/[slug]] generateStaticParams: Shopify fetch failed', err)
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const product  = getProduct(slug)
-  if (!product) return { title: 'Not found' }
-  const ogImage = product.images[0]?.url
+  let resolved: { family: EnrichedFamily; active: EnrichedVariant } | null = null
+  try {
+    resolved = await getFamilyByHandle(slug)
+  } catch {
+    return { title: 'Not found' }
+  }
+  if (!resolved) return { title: 'Not found' }
+  const { family, active } = resolved
+  const ogImage = active.featuredImage?.url ?? null
   return {
-    title:       product.name,
-    description: product.blurb || product.story,
-    alternates:  { canonical: `/products/${product.slug}` },
+    title:       family.name,
+    description: family.blurb || family.story,
+    alternates:  { canonical: `/products/${active.handle}` },
     openGraph: {
       type:        'website' as const,
-      title:       `${product.name} · HOLLOW RONIN`,
-      description: product.blurb || product.story,
-      url:         `/products/${product.slug}`,
-      images:      ogImage ? [{ url: ogImage, alt: product.name }] : undefined,
+      title:       `${family.name} · HOLLOW RONIN`,
+      description: family.blurb || family.story,
+      url:         `/products/${active.handle}`,
+      images:      ogImage ? [{ url: ogImage, alt: family.name }] : undefined,
     },
     twitter: {
       card:        'summary_large_image' as const,
-      title:       `${product.name} · HOLLOW RONIN`,
-      description: product.blurb || product.story,
+      title:       `${family.name} · HOLLOW RONIN`,
+      description: family.blurb || family.story,
       images:      ogImage ? [ogImage] : undefined,
     },
   }
@@ -34,21 +49,56 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const product  = getProduct(slug)
-  if (!product) notFound()
+  const resolved = await getFamilyByHandle(slug).catch(() => null)
+  if (!resolved) notFound()
 
-  // Pre-compute one gallery per available color variant so the client
-  // component can swap on swatch click without re-doing fs work.
-  const galleryByColor: Record<string, ProductImage[]> = {}
-  for (const c of product.colors) {
-    galleryByColor[c.slug] = productGalleryImages(product, c.slug)
+  const { family, active } = resolved
+
+  const galleryByHandle: Record<string, ProductImage[]> = {}
+  for (const v of family.variants) {
+    const images = productGalleryImages({
+      imageFolder: family.imageFolder,
+      color:       v.color,
+      clan:        family.clan,
+      name:        family.name,
+    })
+    galleryByHandle[v.handle] = images.length > 0
+      ? images
+      : v.featuredImage
+        ? [{ url: v.featuredImage.url, alt: v.featuredImage.alt }]
+        : []
   }
 
-  const defaultSlug = product.color === 'White' ? 'white' : 'black'
-  const galleryProduct = {
-    ...product,
-    images: galleryByColor[defaultSlug] ?? productGalleryImages(product),
-  }
+  const allFamilies = await getAllFamilies().catch(() => [] as EnrichedFamily[])
+  const related: RelatedItem[] = allFamilies
+    .filter((f) => f.category === family.category && f.designFamily !== family.designFamily)
+    .slice(0, 4)
+    .map((f) => {
+      const folderColor = f.lead.color === 'WHITE' ? 'white' : 'black'
+      const fallback = `/mockups/${f.imageFolder}/${folderColor}/tee-${f.imageFolder}-back-${folderColor}.png`
+      const localGallery = productGalleryImages({
+        imageFolder: f.imageFolder,
+        color:       f.lead.color,
+        clan:        f.clan,
+        name:        f.name,
+      })
+      const heroImage = localGallery.find((i) => /back/.test(i.url)) ?? localGallery[0]
+      return {
+        handle: f.lead.handle,
+        name:   f.name,
+        price:  f.lead.price,
+        image:  heroImage ?? { url: fallback, alt: `${f.name} — back design` },
+        bg:     f.bg,
+        accent: f.accent,
+      }
+    })
 
-  return <ProductPage product={galleryProduct} galleryByColor={galleryByColor} />
+  return (
+    <ProductPage
+      family={family}
+      active={active}
+      galleryByHandle={galleryByHandle}
+      related={related}
+    />
+  )
 }

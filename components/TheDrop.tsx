@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getProduct, type Product } from "@/lib/products";
+import { getAllFamilies, type EnrichedFamily } from "@/lib/product-merge";
 import { cardHoverImage } from "@/lib/card-images";
 
-const FEATURED_SLUGS = [
+const FEATURED_FAMILIES = [
   "ryujin-dragon-vow",
   "akuma-no-ikari-mask-of-wrath",
   "karada-nashi-hollow-warrior",
@@ -14,10 +14,19 @@ const FEATURED_SLUGS = [
   "mu-no-kamen-mask-of-stillness",
 ];
 
-export default function TheDrop() {
-  const featured = FEATURED_SLUGS
-    .map((slug) => getProduct(slug))
-    .filter((p): p is Product => Boolean(p));
+export default async function TheDrop() {
+  let families: EnrichedFamily[] = [];
+  try {
+    families = await getAllFamilies();
+  } catch (err) {
+    console.error("[TheDrop] Shopify fetch failed:", err);
+  }
+  const byFamily = new Map(families.map((f) => [f.designFamily, f]));
+  const featured = FEATURED_FAMILIES
+    .map((df) => byFamily.get(df))
+    .filter((f): f is EnrichedFamily => Boolean(f));
+
+  if (featured.length === 0) return null;
 
   return (
     <section
@@ -183,126 +192,132 @@ export default function TheDrop() {
         maxWidth: 1440, margin: "0 auto",
       }}>
         <div className="td-grid">
-          {featured.map((product, i) => (
-            <Link
-              key={product.slug}
-              href={`/products/${product.slug}`}
-              prefetch={false}
-              className="td-card td-link"
-              style={{
-                ['--card-bg' as never]:     product.bg,
-                ['--card-accent' as never]: product.accent,
-                animationDelay:             `${i * 0.10}s`,
-              }}
-            >
-              <div style={{
-                position:    "relative",
-                aspectRatio: "1 / 1",
-                width:       "100%",
-                overflow:    "hidden",
-                background:  `radial-gradient(ellipse at center 60%, ${product.accent}1a 0%, transparent 65%), ${product.bg}`,
-              }}>
-                <span style={{
-                  position: "absolute", top: 16, left: 20, zIndex: 5,
-                  fontSize: 9, letterSpacing: 5,
-                  fontFamily: "'Space Mono', monospace",
-                  color: product.accent,
-                  textShadow: `0 0 12px ${product.accent}66`,
+          {featured.map((family, i) => {
+            const lead = family.lead;
+            const folderColor = lead.color === 'WHITE' ? 'white' : 'black';
+            const backImage = `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-back-${folderColor}.png`;
+            const fallback = { url: backImage, alt: `${family.name} — back design` };
+            const hover = cardHoverImage({
+              imageFolder: family.imageFolder,
+              color:       lead.color,
+              name:        family.name,
+              fallback,
+            });
+            return (
+              <Link
+                key={lead.handle}
+                href={`/products/${lead.handle}`}
+                prefetch={false}
+                className="td-card td-link"
+                style={{
+                  ['--card-bg' as never]:     family.bg,
+                  ['--card-accent' as never]: family.accent,
+                  animationDelay:             `${i * 0.10}s`,
+                }}
+              >
+                <div style={{
+                  position:    "relative",
+                  aspectRatio: "1 / 1",
+                  width:       "100%",
+                  overflow:    "hidden",
+                  background:  `radial-gradient(ellipse at center 60%, ${family.accent}1a 0%, transparent 65%), ${family.bg}`,
                 }}>
-                  {product.label}
-                </span>
+                  <span style={{
+                    position: "absolute", top: 16, left: 20, zIndex: 5,
+                    fontSize: 9, letterSpacing: 5,
+                    fontFamily: "'Space Mono', monospace",
+                    color: family.accent,
+                    textShadow: `0 0 12px ${family.accent}66`,
+                  }}>
+                    {family.label}
+                  </span>
 
-                <span style={{
-                  position: "absolute", top: 16, right: 20, zIndex: 5,
-                  fontSize: 9, letterSpacing: 3,
-                  fontFamily: "'Space Mono', monospace",
-                  color: "rgba(255,255,255,0.4)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  padding: "3px 8px",
-                }}>
-                  {product.color}
-                </span>
+                  <span style={{
+                    position: "absolute", top: 16, right: 20, zIndex: 5,
+                    fontSize: 9, letterSpacing: 3,
+                    fontFamily: "'Space Mono', monospace",
+                    color: "rgba(255,255,255,0.4)",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    padding: "3px 8px",
+                  }}>
+                    {lead.color === 'WHITE' ? 'White' : 'Black'}
+                  </span>
 
-                <Image
-                  className="td-default"
-                  src={product.images[0].url}
-                  alt={product.images[0].alt}
-                  fill
-                  sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
-                />
-                {(() => {
-                  const hover = cardHoverImage(product)
-                  return (
-                    <Image
-                      className="td-reveal"
-                      src={hover.url}
-                      alt={hover.alt}
-                      fill
-                      sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
-                    />
-                  )
-                })()}
+                  <Image
+                    className="td-default"
+                    src={fallback.url}
+                    alt={fallback.alt}
+                    fill
+                    sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+                  />
+                  <Image
+                    className="td-reveal"
+                    src={hover.url}
+                    alt={hover.alt}
+                    fill
+                    sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+                  />
+
+                  <div style={{
+                    position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none",
+                    background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%)",
+                  }} />
+                </div>
 
                 <div style={{
-                  position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none",
-                  background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%)",
-                }} />
-
-              </div>
-
-              <div style={{
-                padding:        "18px 22px",
-                display:        "flex",
-                alignItems:     "center",
-                justifyContent: "space-between",
-                background:     "rgba(0,0,0,0.4)",
-                borderTop:      "1px solid rgba(255,255,255,0.05)",
-                position:       "relative",
-                zIndex:         2,
-                gap:            12,
-              }}>
-                <div style={{ minWidth: 0 }}>
-                  <p style={{
-                    margin: 0,
-                    fontFamily: "Georgia, serif",
-                    fontSize: 15, fontWeight: 600,
-                    color: "#ffffff",
-                    marginBottom: 4,
-                    lineHeight: 1.2,
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}>
-                    {product.name}
-                  </p>
-                  <p style={{
-                    margin: 0,
-                    fontFamily: "'Space Mono', monospace",
-                    fontSize: 10, letterSpacing: 2,
-                    color: "rgba(255,255,255,0.42)",
-                  }}>
-                    ${product.price}.00 USD
-                  </p>
+                  padding:        "18px 22px",
+                  display:        "flex",
+                  alignItems:     "center",
+                  justifyContent: "space-between",
+                  background:     "rgba(0,0,0,0.4)",
+                  borderTop:      "1px solid rgba(255,255,255,0.05)",
+                  position:       "relative",
+                  zIndex:         2,
+                  gap:            12,
+                }}>
+                  <div style={{ minWidth: 0 }}>
+                    <p style={{
+                      margin: 0,
+                      fontFamily: "Georgia, serif",
+                      fontSize: 15, fontWeight: 600,
+                      color: "#ffffff",
+                      marginBottom: 4,
+                      lineHeight: 1.2,
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}>
+                      {family.name}
+                    </p>
+                    <p style={{
+                      margin: 0,
+                      fontFamily: "'Space Mono', monospace",
+                      fontSize: 10, letterSpacing: 2,
+                      color: "rgba(255,255,255,0.42)",
+                    }}>
+                      ${lead.price.toFixed(2)} {lead.currencyCode}
+                    </p>
+                  </div>
+                  <div
+                    className="td-view"
+                    style={{
+                      fontSize: 9, letterSpacing: 4,
+                      fontFamily: "'Space Mono', monospace",
+                      color: family.accent,
+                      textTransform: "uppercase",
+                      border: `1px solid ${family.accent}`,
+                      padding: "8px 12px",
+                      whiteSpace: "nowrap",
+                      transition: "background 0.3s ease, color 0.3s ease",
+                    }}
+                  >
+                    View →
+                  </div>
                 </div>
-                <div
-                  className="td-view"
-                  style={{
-                    fontSize: 9, letterSpacing: 4,
-                    fontFamily: "'Space Mono', monospace",
-                    color: product.accent,
-                    textTransform: "uppercase",
-                    border: `1px solid ${product.accent}`,
-                    padding: "8px 12px",
-                    whiteSpace: "nowrap",
-                    transition: "background 0.3s ease, color 0.3s ease",
-                  }}
-                >
-                  View →
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
 
         {/* CTA */}

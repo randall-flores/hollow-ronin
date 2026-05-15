@@ -1,17 +1,21 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { PRODUCTS, getProductsByCategory, getLeadVariants, getFamilyVariants } from '@/lib/products';
+import { getFamiliesByCategory } from '@/lib/product-merge';
 import { cardHoverImage } from '@/lib/card-images';
 
 const COLOR_DOT = {
-  Black: '#1a1a1a',
-  White: '#e8e2d6',
+  BLACK: '#1a1a1a',
+  WHITE: '#e8e2d6',
 };
 
-export default function ProductShellPage({ title, subtitle, category }) {
-  const allInCategory = category ? getProductsByCategory(category) : PRODUCTS;
-  const products      = getLeadVariants(allInCategory);
-  const isEmpty       = products.length === 0;
+export default async function ProductShellPage({ title, subtitle, category }) {
+  let families = [];
+  try {
+    families = await getFamiliesByCategory(category);
+  } catch (err) {
+    console.error('[ProductShellPage] Shopify fetch failed:', err);
+  }
+  const isEmpty = families.length === 0;
 
   return (
     <main style={{ minHeight: '100vh', background: '#080808', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
@@ -212,7 +216,7 @@ export default function ProductShellPage({ title, subtitle, category }) {
             fontSize: 9, letterSpacing: 5, fontFamily: '"Space Mono", monospace',
             color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase',
           }}>
-            {isEmpty ? 'Forthcoming · Drop 002' : `${products.length} Pieces · Limited Run`}
+            {isEmpty ? 'Forthcoming · Drop 002' : `${families.length} Pieces · Limited Run`}
           </span>
           <div style={{ width: 40, height: 1, background: 'rgba(204,34,34,0.5)' }} />
         </div>
@@ -264,24 +268,33 @@ export default function ProductShellPage({ title, subtitle, category }) {
           </div>
         ) : (
         <div className="hr-grid">
-          {products.map((product, i) => {
-            const variants = getFamilyVariants(product.designFamily, allInCategory);
-            const hasMultipleColors = variants.length > 1;
+          {families.map((family, i) => {
+            const lead = family.lead;
+            const hasMultipleColors = family.variants.length > 1;
+            const backImage = `/mockups/${family.imageFolder}/${lead.color === 'WHITE' ? 'white' : 'black'}/tee-${family.imageFolder}-back-${lead.color === 'WHITE' ? 'white' : 'black'}.png`;
+            const fallback = { url: backImage, alt: `${family.name} — back design` };
+            const hover = cardHoverImage({
+              imageFolder: family.imageFolder,
+              color:       lead.color,
+              name:        family.name,
+              fallback,
+            });
+
             return (
             <Link
-              key={product.slug}
-              href={`/products/${product.slug}`}
+              key={lead.handle}
+              href={`/products/${lead.handle}`}
               prefetch={false}
               className="hr-card hr-card-link"
               style={{
-                '--card-bg':     product.bg,
-                '--card-accent': product.accent,
+                '--card-bg':     family.bg,
+                '--card-accent': family.accent,
                 animationDelay:  `${i * 0.12}s`,
               }}
               aria-label={
                 hasMultipleColors
-                  ? `${product.name} · available in ${variants.length} colors`
-                  : product.name
+                  ? `${family.name} · available in ${family.variants.length} colors`
+                  : family.name
               }
             >
               {/* Visual area */}
@@ -290,17 +303,17 @@ export default function ProductShellPage({ title, subtitle, category }) {
                 aspectRatio: '1 / 1',
                 width:       '100%',
                 overflow:    'hidden',
-                background:  `radial-gradient(ellipse at center 60%, ${product.accent}1a 0%, transparent 65%), ${product.bg}`,
+                background:  `radial-gradient(ellipse at center 60%, ${family.accent}1a 0%, transparent 65%), ${family.bg}`,
               }}>
                 {/* Drop label */}
                 <span style={{
                   position: 'absolute', top: 18, left: 22, zIndex: 5,
                   fontSize: 9, letterSpacing: 5,
                   fontFamily: '"Space Mono", monospace',
-                  color: product.accent,
-                  textShadow: `0 0 12px ${product.accent}66`,
+                  color: family.accent,
+                  textShadow: `0 0 12px ${family.accent}66`,
                 }}>
-                  {product.label}
+                  {family.label}
                 </span>
 
                 {/* Color badge */}
@@ -312,39 +325,31 @@ export default function ProductShellPage({ title, subtitle, category }) {
                   border: '1px solid rgba(255,255,255,0.15)',
                   padding: '4px 10px',
                 }}>
-                  {product.color}
+                  {lead.color === 'WHITE' ? 'White' : 'Black'}
                 </span>
 
-                {/* Default image (back design — selling point) */}
                 <Image
                   className="hr-mock-default"
-                  src={product.images[0].url}
-                  alt={product.images[0].alt}
+                  src={fallback.url}
+                  alt={fallback.alt}
                   fill
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   priority={i < 4}
                 />
-                {/* Hover reveal — front mockup (chest sigil printed on shirt) */}
-                {(() => {
-                  const hover = cardHoverImage(product)
-                  return (
-                    <Image
-                      className="hr-mock-reveal"
-                      src={hover.url}
-                      alt={hover.alt}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      priority={i < 4}
-                    />
-                  )
-                })()}
+                <Image
+                  className="hr-mock-reveal"
+                  src={hover.url}
+                  alt={hover.alt}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  priority={i < 4}
+                />
 
                 {/* Vignette */}
                 <div style={{
                   position: 'absolute', inset: 0, zIndex: 3, pointerEvents: 'none',
                   background: 'radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%)',
                 }} />
-
               </div>
 
               {/* Footer */}
@@ -372,7 +377,7 @@ export default function ProductShellPage({ title, subtitle, category }) {
                     WebkitBoxOrient: 'vertical',
                     overflow:     'hidden',
                   }}>
-                    {product.name}
+                    {family.name}
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <p style={{
@@ -381,27 +386,27 @@ export default function ProductShellPage({ title, subtitle, category }) {
                       color: 'rgba(255,255,255,0.42)',
                       letterSpacing: 2,
                     }}>
-                      ${product.price}.00 USD
+                      ${lead.price.toFixed(2)} {lead.currencyCode}
                     </p>
                     {hasMultipleColors && (
                       <span
                         style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}
                         aria-hidden="true"
                       >
-                        {variants.map((v) => (
+                        {family.variants.map((v) => (
                           <span
-                            key={v.slug}
+                            key={v.handle}
                             title={v.color}
                             style={{
                               width: 8,
                               height: 8,
                               borderRadius: '50%',
                               background: COLOR_DOT[v.color],
-                              border: v.slug === product.slug
-                                ? `1px solid ${product.accent}`
+                              border: v.handle === lead.handle
+                                ? `1px solid ${family.accent}`
                                 : '1px solid rgba(255,255,255,0.18)',
-                              boxShadow: v.slug === product.slug
-                                ? `0 0 0 2px ${product.accent}33`
+                              boxShadow: v.handle === lead.handle
+                                ? `0 0 0 2px ${family.accent}33`
                                 : 'none',
                             }}
                           />
@@ -415,9 +420,9 @@ export default function ProductShellPage({ title, subtitle, category }) {
                   style={{
                     fontSize: 9, letterSpacing: 4,
                     fontFamily: '"Space Mono", monospace',
-                    color: product.accent,
+                    color: family.accent,
                     textTransform: 'uppercase',
-                    border: `1px solid ${product.accent}`,
+                    border: `1px solid ${family.accent}`,
                     padding: '9px 16px',
                     whiteSpace: 'nowrap',
                   }}

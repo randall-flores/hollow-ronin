@@ -92,13 +92,11 @@ export default function AccountPage() {
           <AuthButton
             label="Sign In"
             kind="solid"
-            onClick={() => console.log("Sign in flow not yet implemented")}
             note="Email-based access — coming with Drop 002."
           />
           <AuthButton
             label="Create Account"
             kind="outline"
-            onClick={() => console.log("Create account flow not yet implemented")}
             note="Membership opens with Shopify customer accounts in Phase 3."
           />
         </div>
@@ -126,50 +124,49 @@ export default function AccountPage() {
 }
 
 function AuthButton({
-  label, kind, onClick, note,
+  label, kind, note,
 }: {
-  label:   string;
-  kind:    "solid" | "outline";
-  onClick: () => void;
-  note:    string;
+  label: string;
+  kind:  "solid" | "outline";
+  note:  string;
 }) {
   const solid = kind === "solid";
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: 8 }}>
-      <button
-        onClick={onClick}
+      <div
+        role="status"
+        aria-disabled="true"
         style={{
-          width:        "100%",
-          padding:      "16px 24px",
-          background:   solid ? "#c9a961" : "transparent",
-          color:        solid ? "#0a0a0a" : "#c9a961",
-          border:       "1px solid #c9a961",
-          fontFamily:   "'Anton', 'Bebas Neue', sans-serif",
-          fontSize:     14,
+          width:         "100%",
+          padding:       "16px 24px",
+          background:    solid ? "#c9a961" : "transparent",
+          color:         solid ? "#0a0a0a" : "#c9a961",
+          border:        "1px solid #c9a961",
+          fontFamily:    "'Anton', 'Bebas Neue', sans-serif",
+          fontSize:      14,
           letterSpacing: 5,
           textTransform: "uppercase",
-          cursor:       "pointer",
-          transition:   "background 0.25s, color 0.25s",
-        }}
-        onMouseEnter={(e) => {
-          if (solid) {
-            (e.currentTarget as HTMLButtonElement).style.background = "#a88b45";
-          } else {
-            (e.currentTarget as HTMLButtonElement).style.background = "#c9a961";
-            (e.currentTarget as HTMLButtonElement).style.color      = "#0a0a0a";
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (solid) {
-            (e.currentTarget as HTMLButtonElement).style.background = "#c9a961";
-          } else {
-            (e.currentTarget as HTMLButtonElement).style.background = "transparent";
-            (e.currentTarget as HTMLButtonElement).style.color      = "#c9a961";
-          }
+          cursor:        "not-allowed",
+          opacity:       0.7,
+          display:       "flex",
+          alignItems:    "center",
+          justifyContent: "center",
+          gap:           12,
+          userSelect:    "none",
         }}
       >
-        {label}
-      </button>
+        <span>{label}</span>
+        <span style={{
+          fontFamily:    "'Space Mono', monospace",
+          fontSize:      9,
+          letterSpacing: 3,
+          padding:       "3px 8px",
+          border:        `1px solid ${solid ? "rgba(10,10,10,0.45)" : "rgba(201,169,97,0.55)"}`,
+          color:         solid ? "rgba(10,10,10,0.75)" : "rgba(201,169,97,0.85)",
+        }}>
+          COMING SOON
+        </span>
+      </div>
       <span style={{
         fontFamily: "Georgia, serif", fontStyle: "italic",
         fontSize: 11, color: "rgba(255,255,255,0.32)",

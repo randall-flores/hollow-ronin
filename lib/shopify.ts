@@ -16,8 +16,8 @@ async function storefront<T>(query: string, variables?: Record<string, unknown>)
       'Content-Type':                       'application/json',
       'X-Shopify-Storefront-Access-Token':  STOREFRONT,
     },
-    body:  JSON.stringify({ query, variables }),
-    cache: 'no-store',
+    body: JSON.stringify({ query, variables }),
+    next: { revalidate: 3600, tags: ['shopify-products'] },
   })
   const json = (await res.json()) as GraphQLResponse<T>
   if (json.errors?.length) throw new Error(`Shopify: ${json.errors.map(e => e.message).join('; ')}`)

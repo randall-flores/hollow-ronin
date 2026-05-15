@@ -1,3 +1,14 @@
+/*
+ * Editorial / lore content for Hollow Ronin products.
+ *
+ * Source of truth for: story, blurb, clan, accent, sigil — everything that
+ * is *not* product/commerce data (price, handle, variants — those live in
+ * Shopify and come through `lib/shopify-products.ts`).
+ *
+ * Joined to Shopify products via the `custom.design_family` metafield, which
+ * matches the keys of EDITORIAL. See `lib/product-merge.ts`.
+ */
+
 export type Category =
   | 'shirts'
   | 'hoodies'
@@ -14,24 +25,23 @@ export type ProductImage = {
   alt: string
 }
 
-export type ColorOption = {
-  name: string           // display label, e.g. 'Black'
-  slug: 'black' | 'white'
-  hex:  string
+export type Editorial = {
+  designFamily: string
+  name:         string   // display name, often uppercase
+  japaneseName: string
+  clan:         Clan
+  title:        string
+  subtitle:     string
+  tagline:      string
+  blurb:        string
+  story:        string
+  tag:          string
+  accent:       string
+  bg:           string
+  label:        string
+  category:     Category
+  imageFolder:  string   // folder name under /public/mockups/ — decoupled from Shopify handle
 }
-
-const BLACK_ONLY: ColorOption[] = [
-  { name: 'Black', slug: 'black', hex: '#0A0A0A' },
-]
-
-const WHITE_ONLY: ColorOption[] = [
-  { name: 'White', slug: 'white', hex: '#F4EDE2' },
-]
-
-const BLACK_AND_BONE: ColorOption[] = [
-  { name: 'Black', slug: 'black', hex: '#0A0A0A' },
-  { name: 'White', slug: 'white', hex: '#F4EDE2' },
-]
 
 // Clan sigil — one mon per clan, shared across all clan members.
 export const CLAN_SIGIL: Record<Clan, string> = {
@@ -41,59 +51,12 @@ export const CLAN_SIGIL: Record<Clan, string> = {
   Protagonist: '/sigils/mon-hollow-ronin-transparent.png',
 }
 
-export type Product = {
-  slug:          string
-  name:          string
-  japaneseName:  string
-  clan:          Clan
-  title:         string
-  subtitle:      string
-  tagline:       string
-  blurb:         string
-  story:         string
-  tag:           string
-  price:         number
-  designFamily:  string
-  images:        ProductImage[]
-  accent:        string
-  bg:            string
-  label:         string
-  color:         'Black' | 'White'
-  category:      Category
-  colors:        ColorOption[]
-}
-
-type ImgMod = 'm1' | 'm3' | 'm4'
-
-// Gallery contract (per product, enforced by scripts/validate-products.js):
-//   [0]  back design — /mockups/{slug}/{color}/tee-{slug}-back-{color}.png
-//   [1]  clan sigil  — /sigils/mon-{clan-slug}-transparent.png (shared per clan)
-//   [2+] worn model shots — /mockups/{slug}/{color}/tee-{slug}-back-{color}-model{N}.png
-function teeImages(
-  slug:  string,
-  color: 'black' | 'white',
-  name:  string,
-  clan:  Clan,
-  mods:  ImgMod[],
-): ProductImage[] {
-  const base  = `/mockups/${slug}/${color}/tee-${slug}-back-${color}`
-  const sigil = CLAN_SIGIL[clan]
-  const images: ProductImage[] = [
-    { url: `${base}.png`, alt: `${name} — back design` },
-    { url: sigil,         alt: `${name} — clan sigil` },
-  ]
-  if (mods.includes('m1')) images.push({ url: `${base}-model1.png`, alt: `${name} — worn, side` })
-  if (mods.includes('m3')) images.push({ url: `${base}-model3.png`, alt: `${name} — worn, studio` })
-  if (mods.includes('m4')) images.push({ url: `${base}-model4.png`, alt: `${name} — worn, editorial` })
-  return images
-}
-
-export const PRODUCTS: Product[] = [
+export const EDITORIAL: Record<string, Editorial> = {
   // 00 — THE NAMELESS — protagonist, split across two halves of the vow.
 
   // HOLLOW (Black) — what came back through the gate.
-  {
-    slug:         'hollow',
+  'hollow': {
+    designFamily: 'hollow',
     name:         'HOLLOW',
     japaneseName: 'Hollow',
     clan:         'Protagonist',
@@ -103,20 +66,16 @@ export const PRODUCTS: Product[] = [
     blurb:        'Empty is not nothing. Empty is what waits.',
     story:        'What came back was not a man, but a vow that refused to die. He walks among the thirteen to remember what the world made them forget. Empty is not the same as nothing — empty is the space the next cut lands.',
     tag:          'The Hollow',
-    price:        38,
-    designFamily: 'hollow',
-    images:       teeImages('hollow', 'black', 'HOLLOW', 'Protagonist', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'hollow',
   },
 
   // RONIN (White) — the one who walked through alone.
-  {
-    slug:         'ronin',
+  'ronin': {
+    designFamily: 'ronin',
     name:         'RONIN',
     japaneseName: 'Rōnin',
     clan:         'Protagonist',
@@ -126,20 +85,16 @@ export const PRODUCTS: Product[] = [
     blurb:        'No master. No banner. No mercy.',
     story:        'He walked through the torii alone — the gate between the living and the forgotten, the threshold no one returns from. He crossed it with no master to mourn and no name worth speaking. The white is the silence before the cut.',
     tag:          'The Ronin',
-    price:        38,
-    designFamily: 'ronin',
-    images:       teeImages('ronin', 'white', 'RONIN', 'Protagonist', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'White',
     category:     'shirts',
-    colors:       WHITE_ONLY,
+    imageFolder:  'ronin',
   },
 
   // 01 — AKATSUKI-GUMI
-  {
-    slug:         'ryujin-dragon-vow',
+  'ryujin-dragon-vow': {
+    designFamily: 'ryujin-dragon-vow',
     name:         'RYŪJIN',
     japaneseName: 'Ryūjin',
     clan:         'Akatsuki',
@@ -149,18 +104,14 @@ export const PRODUCTS: Product[] = [
     blurb:        'One body. Two vows. No master.',
     story:        'First of the Crimson Clan. His blood ran with the river kami, and when his master fell, the dragon refused to leave him. Now they share one body, two vows, and no master worth serving.',
     tag:          'The Dragon Vow',
-    price:        38,
-    designFamily: 'ryujin-dragon-vow',
-    images:       teeImages('ryujin-dragon-vow', 'black', 'RYŪJIN', 'Akatsuki', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'ryujin-dragon-vow',
   },
-  {
-    slug:         'hone-no-chikai-bone-vow',
+  'hone-no-chikai-bone-vow': {
+    designFamily: 'hone-no-chikai-bone-vow',
     name:         'HONE NO CHIKAI',
     japaneseName: 'Hone no Chikai',
     clan:         'Kage',
@@ -170,18 +121,14 @@ export const PRODUCTS: Product[] = [
     blurb:        'Died once. Stood up anyway.',
     story:        'Died at Sekigahara. Stood up anyway. The vow was louder than the silence, and the silence has been getting quieter ever since.',
     tag:          'The Bone Vow',
-    price:        38,
-    designFamily: 'hone-no-chikai-bone-vow',
-    images:       teeImages('hone-no-chikai-bone-vow', 'black', 'HONE NO CHIKAI', 'Kage', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'hone-no-chikai-bone-vow',
   },
-  {
-    slug:         'karada-nashi-hollow-warrior',
+  'karada-nashi-hollow-warrior': {
+    designFamily: 'karada-nashi-hollow-warrior',
     name:         'KARADA-NASHI',
     japaneseName: 'Karada-Nashi',
     clan:         'Kage',
@@ -191,18 +138,14 @@ export const PRODUCTS: Product[] = [
     blurb:        'Flesh forgot. Bone did not.',
     story:        'He tattooed his oath into bone so even the worms would know who he served. The flesh forgot. The bones did not.',
     tag:          'The Hollow Warrior',
-    price:        38,
-    designFamily: 'karada-nashi-hollow-warrior',
-    images:       teeImages('karada-nashi-hollow-warrior', 'black', 'KARADA-NASHI', 'Kage', ['m3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'karada-nashi-hollow-warrior',
   },
-  {
-    slug:         'arashi-maru-stormchild',
+  'arashi-maru-stormchild': {
+    designFamily: 'arashi-maru-stormchild',
     name:         'ARASHI-MARU',
     japaneseName: 'Arashi-Maru',
     clan:         'Akatsuki',
@@ -212,20 +155,16 @@ export const PRODUCTS: Product[] = [
     blurb:        'Thunder named him. Thunder never left.',
     story:        'The youngest of the Crimson Clan. They say he was born during a typhoon that drowned three villages — and that the thunder that named him has never stopped following.',
     tag:          'The Stormchild',
-    price:        38,
-    designFamily: 'arashi-maru-stormchild',
-    images:       teeImages('arashi-maru-stormchild', 'black', 'ARASHI-MARU', 'Akatsuki', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_AND_BONE,
+    imageFolder:  'arashi-maru-stormchild',
   },
 
   // 05 — YAMI-GUMI
-  {
-    slug:         'akuma-no-ikari-mask-of-wrath',
+  'akuma-no-ikari-mask-of-wrath': {
+    designFamily: 'akuma-no-ikari-mask-of-wrath',
     name:         'AKUMA NO IKARI',
     japaneseName: 'Akuma no Ikari',
     clan:         'Yami',
@@ -235,18 +174,14 @@ export const PRODUCTS: Product[] = [
     blurb:        'Rage made flesh — twice.',
     story:        'The first mask of the Hannya Court. Rage made flesh, then made flesh again. She does not sleep. She does not need to.',
     tag:          'Mask of Wrath',
-    price:        38,
-    designFamily: 'akuma-no-ikari-mask-of-wrath',
-    images:       teeImages('akuma-no-ikari-mask-of-wrath', 'black', 'AKUMA NO IKARI', 'Yami', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'akuma-no-ikari-mask-of-wrath',
   },
-  {
-    slug:         'namida-no-oni-mask-of-mourning',
+  'namida-no-oni-mask-of-mourning': {
+    designFamily: 'namida-no-oni-mask-of-mourning',
     name:         'NAMIDA NO ONI',
     japaneseName: 'Namida no Oni',
     clan:         'Yami',
@@ -256,18 +191,14 @@ export const PRODUCTS: Product[] = [
     blurb:        'Sorrow that outlasted its cause.',
     story:        'Sorrow that outlasted the one who caused it. He carries the tears of every name his clan forgot to speak.',
     tag:          'Mask of Mourning',
-    price:        38,
-    designFamily: 'namida-no-oni-mask-of-mourning',
-    images:       teeImages('namida-no-oni-mask-of-mourning', 'black', 'NAMIDA NO ONI', 'Yami', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'namida-no-oni-mask-of-mourning',
   },
-  {
-    slug:         'saigo-no-sabaki-mask-of-reckoning',
+  'saigo-no-sabaki-mask-of-reckoning': {
+    designFamily: 'saigo-no-sabaki-mask-of-reckoning',
     name:         'SAIGO NO SABAKI',
     japaneseName: 'Saigo no Sabaki',
     clan:         'Yami',
@@ -277,18 +208,14 @@ export const PRODUCTS: Product[] = [
     blurb:        'The ledger is overdue.',
     story:        'Final judgment. Keeps the ledger of debts unpaid. When the third mask arrives, the asking is over.',
     tag:          'Mask of Reckoning',
-    price:        38,
-    designFamily: 'saigo-no-sabaki-mask-of-reckoning',
-    images:       teeImages('saigo-no-sabaki-mask-of-reckoning', 'black', 'SAIGO NO SABAKI', 'Yami', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'saigo-no-sabaki-mask-of-reckoning',
   },
-  {
-    slug:         'mu-no-kamen-mask-of-stillness',
+  'mu-no-kamen-mask-of-stillness': {
+    designFamily: 'mu-no-kamen-mask-of-stillness',
     name:         'MU NO KAMEN',
     japaneseName: 'Mu no Kamen',
     clan:         'Yami',
@@ -298,20 +225,16 @@ export const PRODUCTS: Product[] = [
     blurb:        'The strike you never see.',
     story:        'The mask that does not move. The strike you never see. Of all four, fear her last — but fear her most.',
     tag:          'Mask of Stillness',
-    price:        38,
-    designFamily: 'mu-no-kamen-mask-of-stillness',
-    images:       teeImages('mu-no-kamen-mask-of-stillness', 'black', 'MU NO KAMEN', 'Yami', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'mu-no-kamen-mask-of-stillness',
   },
 
   // 09 — KAGE-GUMI
-  {
-    slug:         'kurokitsune-vow-keeper',
+  'kurokitsune-vow-keeper': {
+    designFamily: 'kurokitsune-vow-keeper',
     name:         'KUROKITSUNE',
     japaneseName: 'Kurokitsune',
     clan:         'Kage',
@@ -321,18 +244,14 @@ export const PRODUCTS: Product[] = [
     blurb:        'A thousand-year vow, finally claimed.',
     story:        'Nine-tailed fox spirit. She waited a thousand years at the shrine fires for a master who would never return. The Hollow took her vow when no one else would honor it.',
     tag:          'The Vow-Keeper',
-    price:        38,
-    designFamily: 'kurokitsune-vow-keeper',
-    images:       teeImages('kurokitsune-vow-keeper', 'black', 'KUROKITSUNE', 'Kage', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'kurokitsune-vow-keeper',
   },
-  {
-    slug:         'yurei-ghost',
+  'yurei-ghost': {
+    designFamily: 'yurei-ghost',
     name:         'YŪREI',
     japaneseName: 'Yūrei',
     clan:         'Kage',
@@ -340,20 +259,16 @@ export const PRODUCTS: Product[] = [
     subtitle:     'Kage-Gumi · The Ghost',
     tagline:      'The ghost does not haunt — it remembers, and that is worse.',
     blurb:        'Not haunting. Remembering.',
-    story:        'Crow-spirit of the second clan. Walks where the living forgot to. The dead recognize him. The living try not to.',
+    story:        'A vow that outlived its body. He walks where the living forgot to look. The dead recognize him — the living try not to.',
     tag:          'The Ghost',
-    price:        38,
-    designFamily: 'yurei-ghost',
-    images:       teeImages('yurei-ghost', 'black', 'YŪREI', 'Kage', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'yurei-ghost',
   },
-  {
-    slug:         'karasu-tengu-sentinel',
+  'karasu-tengu-sentinel': {
+    designFamily: 'karasu-tengu-sentinel',
     name:         'KARASU-TENGU',
     japaneseName: 'Karasu-Tengu',
     clan:         'Kage',
@@ -363,18 +278,14 @@ export const PRODUCTS: Product[] = [
     blurb:        'He watches when the Hollow walks alone.',
     story:        'Tengu of the crow mountain. Sentinel of those the world abandoned. When the Hollow Ronin walks alone, he is not alone — Karasu watches from above.',
     tag:          'The Sentinel',
-    price:        38,
-    designFamily: 'karasu-tengu-sentinel',
-    images:       teeImages('karasu-tengu-sentinel', 'black', 'KARASU-TENGU', 'Kage', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_AND_BONE,
+    imageFolder:  'karasu-tengu-sentinel',
   },
-  {
-    slug:         'shinigami-reaper',
+  'shinigami-reaper': {
+    designFamily: 'shinigami-reaper',
     name:         'SHINIGAMI',
     japaneseName: 'Shinigami',
     clan:         'Kage',
@@ -384,44 +295,18 @@ export const PRODUCTS: Product[] = [
     blurb:        'Death wore neon.',
     story:        'The last one. The one who collects the others when their vow is done. He does not arrive in shadow — he arrives in the only light left.',
     tag:          'The Reaper',
-    price:        38,
-    designFamily: 'shinigami-reaper',
-    images:       teeImages('shinigami-reaper', 'black', 'SHINIGAMI', 'Kage', ['m1', 'm3', 'm4']),
     accent:       '#A1182A',
     bg:           '#0A0A0A',
     label:        'DROP 001',
-    color:        'Black',
     category:     'shirts',
-    colors:       BLACK_ONLY,
+    imageFolder:  'shinigami-reaper',
   },
-]
-
-export function getProduct(slug: string): Product | undefined {
-  return PRODUCTS.find((p) => p.slug === slug)
 }
 
-export function getProductsByCategory(category: Category): Product[] {
-  return PRODUCTS.filter((p) => p.category === category)
+export function getEditorial(designFamily: string): Editorial | undefined {
+  return EDITORIAL[designFamily]
 }
 
-// Returns one product per design family — the "lead variant" for the listing
-// card. With Drop 001 = 13 unique characters, designFamily == slug, so this
-// returns every product. Kept for forward-compat with color variants.
-export function getLeadVariants(products: Product[] = PRODUCTS): Product[] {
-  const byFamily = new Map<string, Product>()
-  for (const p of products) {
-    const current = byFamily.get(p.designFamily)
-    if (!current || (current.color !== 'Black' && p.color === 'Black')) {
-      byFamily.set(p.designFamily, p)
-    }
-  }
-  return [...byFamily.values()]
-}
-
-export function getFamilyVariants(family: string, products: Product[] = PRODUCTS): Product[] {
-  return products.filter((p) => p.designFamily === family)
-}
-
-export function getProductsByClan(clan: Clan, products: Product[] = PRODUCTS): Product[] {
-  return products.filter((p) => p.clan === clan)
+export function listEditorial(): Editorial[] {
+  return Object.values(EDITORIAL)
 }

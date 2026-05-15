@@ -21,15 +21,15 @@ export default function Button({
   href,
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center font-ui tracking-widest uppercase transition-all duration-300 font-semibold cursor-pointer";
+    "inline-flex items-center justify-center font-mono tracking-widest uppercase transition-colors duration-300 font-semibold cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed";
 
   const variants = {
     primary:
-      "bg-red text-offwhite hover:bg-offwhite hover:text-black border border-red",
+      "bg-gold text-obsidian border border-gold hover:bg-gold-dim hover:border-gold-dim",
     outline:
-      "bg-transparent text-offwhite border border-offwhite hover:bg-offwhite hover:text-black",
+      "bg-transparent text-gold border border-gold hover:bg-gold hover:text-obsidian",
     ghost:
-      "bg-transparent text-gray-lt border border-gray-mid hover:border-red hover:text-red",
+      "bg-transparent text-bone/70 border border-bone/20 hover:border-gold hover:text-gold",
   };
 
   const sizes = {

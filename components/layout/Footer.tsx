@@ -39,7 +39,7 @@ const linkStyle = {
 
 export default function Footer() {
   return (
-    <footer style={{ background: "#0a0a0a", borderTop: "1px solid rgba(192,0,30,0.3)", padding: "clamp(40px, 7vw, 64px) clamp(20px, 5vw, 48px) 32px" }}>
+    <footer style={{ background: "#0a0a0a", borderTop: "1px solid rgba(201,169,97,0.3)", padding: "clamp(40px, 7vw, 64px) clamp(20px, 5vw, 48px) 32px" }}>
       <style>{`
         .hr-footer-grid {
           display: grid;
@@ -83,7 +83,7 @@ export default function Footer() {
       <div className="hr-footer-grid">
         {Object.entries(LINKS).map(([col, links]) => (
           <div key={col}>
-            <h4 style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "20px" }}>
+            <h4 style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#c9a961", marginBottom: "20px" }}>
               {col}
             </h4>
             <nav style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -121,7 +121,7 @@ export default function Footer() {
         <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "28px", color: "#f0ede6", letterSpacing: "0.1em" }}>
           HOLLOW RONIN
         </span>
-        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#6b6b6b" }}>
+        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(244,237,226,0.5)" }}>
           ©2025 HOLLOW RONIN // PROTOCOL_001 // ALL RIGHTS RESERVED
         </span>
       </div>

@@ -4,6 +4,8 @@ import { useState } from 'react';
 export default function NotifyMe() {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [hover, setHover] = useState(false);
 
   function submit(e) {
     e.preventDefault();
@@ -19,7 +21,7 @@ export default function NotifyMe() {
       }}>
         <p style={{
           fontFamily: "'Space Mono', monospace", fontSize: '8px',
-          letterSpacing: '0.15em', textTransform: 'uppercase', color: '#DC143C',
+          letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c9a961',
         }}>
           TRANSMISSION RECEIVED
         </p>
@@ -37,20 +39,31 @@ export default function NotifyMe() {
         placeholder="ENTER_EMAIL"
         value={email}
         onChange={e => setEmail(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         style={{
           flex: 1, background: 'transparent',
-          border: '1px solid rgba(240,237,230,0.15)', borderRight: 'none',
+          border: focused ? '1px solid #c9a961' : '1px solid rgba(240,237,230,0.15)',
+          borderRight: 'none',
           padding: '10px 10px', color: '#f0ede6',
           fontFamily: "'Space Mono', monospace", fontSize: '8px',
           letterSpacing: '0.1em', outline: 'none', minWidth: 0,
+          transition: 'border-color 0.2s',
         }}
       />
-      <button type="submit" style={{
-        background: '#c0001e', color: '#f0ede6', border: 'none',
-        padding: '10px 14px', fontFamily: "'Space Mono', monospace",
-        fontSize: '8px', letterSpacing: '0.15em', textTransform: 'uppercase',
-        cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
-      }}>
+      <button
+        type="submit"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        style={{
+          background: hover ? '#a88b45' : '#c9a961', color: '#0a0a0a', border: 'none',
+          padding: '10px 14px', fontFamily: "'Space Mono', monospace",
+          fontSize: '8px', letterSpacing: '0.15em', textTransform: 'uppercase',
+          cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
+          fontWeight: 600,
+          transition: 'background 0.2s',
+        }}
+      >
         NOTIFY_ME
       </button>
     </form>

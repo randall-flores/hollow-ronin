@@ -8,7 +8,7 @@ import { CartProvider } from "@/components/cart/CartProvider";
 import CartDrawer from "@/components/cart/CartDrawer";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hollowronin.com";
-const OG_IMAGE = "/mockups/tee-cyber-oni-clash-back-black-model3.png";
+const OG_IMAGE = "/og/og-default.png";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title:       "Hollow Ronin — Cyber-samurai streetwear. Drop-based. Limited by design.",
     description: "Six garments. Six ghosts. Cut once, then never again.",
     url:         SITE_URL,
-    images: [{ url: OG_IMAGE, width: 1200, height: 1200, alt: "Hollow Ronin · DROP 001" }],
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "Hollow Ronin · DROP 001" }],
   },
   twitter: {
     card:        "summary_large_image",

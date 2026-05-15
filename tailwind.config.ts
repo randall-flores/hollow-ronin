@@ -8,14 +8,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        void:    "#0a0a0a",
-        cream:   "#f0ede6",
-        red:     "#c0001e",
-        surface: "#131313",
+        void:     "#0a0a0a",
+        cream:    "#f0ede6",
+        red:      "#c0001e",
+        surface:  "#131313",
         "surface-low":  "#1c1b1b",
         "surface-high": "#2a2a2a",
         "gray-dim":     "#8e9192",
         "gray-outline": "#444748",
+        // Drop 001 cinema palette — gold is hover-only accent.
+        obsidian: "#0a0a0a",
+        bone:     "#f4ede2",
+        blood:    "#a1182a",
+        gold:     "#c9a961",
+        "gold-dim": "#a88b45",
       },
       fontFamily: {
         bebas: ["'Bebas Neue'", "sans-serif"],

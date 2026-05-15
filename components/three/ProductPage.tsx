@@ -38,7 +38,7 @@ function Rule() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
       <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
-      <div style={{ width: 4, height: 4, background: 'rgba(204,34,34,0.38)', transform: 'rotate(45deg)' }} />
+      <div style={{ width: 4, height: 4, background: 'rgba(201,169,97,0.55)', transform: 'rotate(45deg)' }} />
       <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
     </div>
   )
@@ -55,11 +55,11 @@ function Breadcrumbs({ family }: { family: EnrichedFamily }) {
       display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap',
     }}>
       <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Home</Link>
-      <span style={{ color: 'rgba(204,34,34,0.5)' }}>/</span>
+      <span style={{ color: 'rgba(244,237,226,0.35)' }}>/</span>
       <Link href="/shop" style={{ color: 'inherit', textDecoration: 'none' }}>Shop</Link>
-      <span style={{ color: 'rgba(204,34,34,0.5)' }}>/</span>
+      <span style={{ color: 'rgba(244,237,226,0.35)' }}>/</span>
       <Link href={`/shop/${family.category}`} style={{ color: 'inherit', textDecoration: 'none' }}>{family.category}</Link>
-      <span style={{ color: 'rgba(204,34,34,0.5)' }}>/</span>
+      <span style={{ color: 'rgba(244,237,226,0.35)' }}>/</span>
       <span style={{ color: 'rgba(255,255,255,0.7)' }}>{family.name}</span>
     </nav>
   )
@@ -104,8 +104,8 @@ function Gallery({
                 height:     72,
                 padding:    0,
                 background: '#0d0d0d',
-                border:     `1px solid ${isActive ? '#cc2222' : 'rgba(255,255,255,0.08)'}`,
-                boxShadow:  isActive ? '0 0 0 2px rgba(204,34,34,0.18)' : 'none',
+                border:     `1px solid ${isActive ? '#c9a961' : 'rgba(255,255,255,0.08)'}`,
+                boxShadow:  isActive ? '0 0 0 2px rgba(201,169,97,0.22)' : 'none',
                 cursor:     'pointer',
                 transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
                 outline:    'none',
@@ -177,14 +177,14 @@ function SizeGuide({ open, onClose }: { open: boolean; onClose: () => void }) {
         style={{
           maxWidth: 560, width: '100%',
           background: '#0c0c0c',
-          border: '1px solid rgba(204,34,34,0.35)',
+          border: '1px solid rgba(201,169,97,0.40)',
           padding: '32px 28px',
           color: '#f0ede6',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 22 }}>
           <div>
-            <p style={{ margin: 0, fontFamily: "'Space Mono', monospace", fontSize: 9, letterSpacing: 5, color: '#cc2222', textTransform: 'uppercase' }}>Reference</p>
+            <p style={{ margin: 0, fontFamily: "'Space Mono', monospace", fontSize: 9, letterSpacing: 5, color: '#c9a961', textTransform: 'uppercase' }}>Reference</p>
             <h3 style={{ margin: '8px 0 0', fontFamily: "'Bebas Neue', sans-serif", fontSize: 32, letterSpacing: '0.14em' }}>SIZE GUIDE</h3>
           </div>
           <button
@@ -210,9 +210,9 @@ function SizeGuide({ open, onClose }: { open: boolean; onClose: () => void }) {
           fontFamily: "'Space Mono', monospace", fontSize: 11,
         }}>
           <thead>
-            <tr style={{ background: 'rgba(204,34,34,0.08)' }}>
+            <tr style={{ background: 'rgba(201,169,97,0.08)' }}>
               {['Size', 'Chest', 'Length', 'Sleeve'].map((h) => (
-                <th key={h} style={{ textAlign: 'left', padding: '10px 12px', letterSpacing: 3, color: 'rgba(255,255,255,0.62)', textTransform: 'uppercase', borderBottom: '1px solid rgba(204,34,34,0.25)' }}>
+                <th key={h} style={{ textAlign: 'left', padding: '10px 12px', letterSpacing: 3, color: 'rgba(255,255,255,0.62)', textTransform: 'uppercase', borderBottom: '1px solid rgba(201,169,97,0.30)' }}>
                   {h}
                 </th>
               ))}
@@ -272,8 +272,8 @@ function ColorPicker({
               style={{
                 width: 36, height: 36, padding: 0,
                 background: COLOR_SWATCH[v.color],
-                border: `1px solid ${selected ? '#cc2222' : 'rgba(255,255,255,0.15)'}`,
-                boxShadow: selected ? '0 0 0 2px rgba(204,34,34,0.25)' : 'none',
+                border: `1px solid ${selected ? '#c9a961' : 'rgba(255,255,255,0.15)'}`,
+                boxShadow: selected ? '0 0 0 2px rgba(201,169,97,0.30)' : 'none',
                 display: 'inline-block',
                 textDecoration: 'none',
                 transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
@@ -305,11 +305,11 @@ function Related({ items }: { items: RelatedItem[] }) {
     }}>
       <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginBottom: 36, flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 36, height: 1, background: 'rgba(204,34,34,0.55)' }} />
-          <p style={{ margin: 0, fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: 6, color: 'rgba(204,34,34,0.85)', textTransform: 'uppercase' }}>
+          <div style={{ width: 36, height: 1, background: 'rgba(201,169,97,0.55)' }} />
+          <p style={{ margin: 0, fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: 6, color: '#c9a961', textTransform: 'uppercase' }}>
             More from the Drop
           </p>
-          <div style={{ width: 36, height: 1, background: 'rgba(204,34,34,0.55)' }} />
+          <div style={{ width: 36, height: 1, background: 'rgba(201,169,97,0.55)' }} />
         </div>
         <Link
           href="/shop"
@@ -466,8 +466,8 @@ export default function ProductPage({
           filter: brightness(0.96);
         }
         .hr-hero:hover {
-          border-color: rgba(204,34,34,0.35);
-          box-shadow: 0 0 24px -6px rgba(204,34,34,0.25);
+          border-color: rgba(201,169,97,0.45);
+          box-shadow: 0 0 24px -6px rgba(201,169,97,0.30);
         }
         .hr-hero:hover img {
           filter: brightness(1.03);
@@ -535,9 +535,9 @@ export default function ProductPage({
           font-family: 'Space Mono', monospace;
           font-size: 9px;
           letter-spacing: 2px;
-          color: #f0ede6;
-          background: rgba(204,34,34,0.18);
-          border: 1px solid rgba(204,34,34,0.5);
+          color: #0a0a0a;
+          background: rgba(201,169,97,0.90);
+          border: 1px solid #c9a961;
         }
         .hr-size-btn:focus-visible,
         .hr-qty-btn:focus-visible {
@@ -549,7 +549,7 @@ export default function ProductPage({
           left: 0; right: 0; bottom: 0;
           background: rgba(8,8,8,0.96);
           backdrop-filter: blur(12px);
-          border-top: 1px solid rgba(204,34,34,0.3);
+          border-top: 1px solid rgba(201,169,97,0.35);
           padding: 12px 16px env(safe-area-inset-bottom, 12px);
           z-index: 90;
           display: flex; gap: 10px; align-items: center;
@@ -584,7 +584,10 @@ export default function ProductPage({
                 {family.story}
               </p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-                <span style={{ fontSize: 24, fontFamily: 'monospace', color: '#f0ede6' }}>${active.price.toFixed(2)}</span>
+                <span style={{
+                  fontSize: 24, fontFamily: 'monospace', color: '#f0ede6',
+                  paddingBottom: 2, borderBottom: '1px solid #c9a961',
+                }}>${active.price.toFixed(2)}</span>
                 <span style={{ fontSize: 10, letterSpacing: 3, color: 'rgba(255,255,255,0.28)', fontFamily: 'monospace' }}>{active.currencyCode}</span>
               </div>
               <div style={{ marginTop: 14 }}>
@@ -603,7 +606,7 @@ export default function ProductPage({
                   onClick={() => setGuideOpen(true)}
                   style={{
                     background: 'none', border: 'none', cursor: 'pointer',
-                    fontSize: 9, letterSpacing: 3, color: 'rgba(204,34,34,0.85)',
+                    fontSize: 9, letterSpacing: 3, color: '#c9a961',
                     fontFamily: 'monospace', textTransform: 'uppercase',
                     textDecoration: 'underline', textUnderlineOffset: 3,
                     padding: 0,
@@ -623,9 +626,9 @@ export default function ProductPage({
                       className="hr-size-btn"
                       style={{
                         minWidth: 48, height: 48, padding: '0 12px', fontSize: 11, fontFamily: 'monospace', letterSpacing: 1,
-                        border: `1px solid ${selected ? '#cc2222' : 'rgba(255,255,255,0.12)'}`,
-                        background: selected ? 'rgba(204,34,34,0.12)' : 'transparent',
-                        color: selected ? '#ffffff' : 'rgba(255,255,255,0.55)',
+                        border: `1px solid ${selected ? '#c9a961' : 'rgba(255,255,255,0.12)'}`,
+                        background: selected ? 'rgba(201,169,97,0.10)' : 'transparent',
+                        color: selected ? '#c9a961' : 'rgba(255,255,255,0.55)',
                         cursor: 'pointer', transition: 'all 0.18s ease', outline: 'none',
                       }}
                     >
@@ -634,7 +637,7 @@ export default function ProductPage({
                   )
                 })}
               </div>
-              {!size && <p style={{ margin: 0, fontSize: 10, letterSpacing: 2, color: 'rgba(204,34,34,0.55)', fontFamily: 'monospace' }}>Select a size to continue.</p>}
+              {!size && <p style={{ margin: 0, fontSize: 10, letterSpacing: 2, color: 'rgba(244,237,226,0.50)', fontFamily: 'monospace' }}>Select a size to continue.</p>}
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -664,14 +667,14 @@ export default function ProductPage({
               aria-live="polite"
               style={{
                 height: 56, width: '100%', outline: 'none', fontFamily: 'monospace',
-                fontSize: 11, letterSpacing: 5, textTransform: 'uppercase',
+                fontSize: 11, letterSpacing: 5, textTransform: 'uppercase', fontWeight: 600,
                 cursor: size ? 'pointer' : 'not-allowed', transition: 'all 0.22s ease',
-                border: `1px solid ${!size ? 'rgba(255,255,255,0.08)' : cartState === 'added' ? 'rgba(204,34,34,0.5)' : '#cc2222'}`,
-                background: !size ? 'transparent' : cartState === 'added' ? 'rgba(204,34,34,0.1)' : '#cc2222',
-                color: !size ? 'rgba(255,255,255,0.16)' : cartState === 'added' ? '#cc2222' : '#ffffff',
+                border: `1px solid ${!size ? 'rgba(255,255,255,0.08)' : cartState === 'added' ? '#c9a961' : '#c9a961'}`,
+                background: !size ? 'transparent' : cartState === 'added' ? 'rgba(201,169,97,0.10)' : '#c9a961',
+                color: !size ? 'rgba(255,255,255,0.16)' : cartState === 'added' ? '#c9a961' : '#0a0a0a',
               }}
             >
-              {cartState === 'added' ? '✓  Added to Cart' : !size ? 'Select a Size' : `Add to Cart — $${(active.price * qty).toFixed(2)}`}
+              {cartState === 'added' ? '✓  Added to Cart' : !size ? 'Select a Size' : `Acquire — $${(active.price * qty).toFixed(2)}`}
             </button>
 
             {/* Trust row */}
@@ -682,7 +685,7 @@ export default function ProductPage({
                 ['RET',  '14-day exchange'],
               ].map(([k, v]) => (
                 <div key={k} style={{ textAlign: 'center', flex: 1 }}>
-                  <p style={{ margin: 0, fontFamily: 'monospace', fontSize: 9, letterSpacing: 4, color: '#cc2222', textTransform: 'uppercase' }}>{k}</p>
+                  <p style={{ margin: 0, fontFamily: 'monospace', fontSize: 9, letterSpacing: 4, color: '#c9a961', textTransform: 'uppercase' }}>{k}</p>
                   <p style={{ margin: '6px 0 0', fontFamily: 'Georgia, serif', fontSize: 11, color: 'rgba(255,255,255,0.55)' }}>{v}</p>
                 </div>
               ))}
@@ -733,13 +736,14 @@ export default function ProductPage({
             style={{
               height: 48, padding: '0 18px',
               fontFamily: 'monospace', fontSize: 10, letterSpacing: 4, textTransform: 'uppercase',
-              border: `1px solid ${!size ? 'rgba(255,255,255,0.12)' : '#cc2222'}`,
-              background: !size ? 'transparent' : '#cc2222',
-              color: !size ? 'rgba(255,255,255,0.3)' : '#fff',
+              border: `1px solid ${!size ? 'rgba(255,255,255,0.12)' : '#c9a961'}`,
+              background: !size ? 'transparent' : '#c9a961',
+              color: !size ? 'rgba(255,255,255,0.3)' : '#0a0a0a',
               cursor: size ? 'pointer' : 'not-allowed',
+              fontWeight: 600,
             }}
           >
-            {cartState === 'added' ? 'Added ✓' : 'Add to Cart'}
+            {cartState === 'added' ? 'Added ✓' : 'Acquire'}
           </button>
         </div>
       </main>

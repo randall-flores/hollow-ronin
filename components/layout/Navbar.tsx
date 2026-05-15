@@ -193,7 +193,7 @@ export default function Navbar() {
               key={label}
               href={href}
               style={navLinkStyle}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "#a8a8a8")}
             >
               {label}
@@ -209,7 +209,7 @@ export default function Navbar() {
             <Link
               href="/shop"
               style={navLinkStyle}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "#a8a8a8")}
             >
               SHOP
@@ -232,7 +232,7 @@ export default function Navbar() {
               lineHeight: 0,
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.color = "#fff")
+              ((e.currentTarget as HTMLButtonElement).style.color = "#c9a961")
             }
             onMouseLeave={(e) =>
               ((e.currentTarget as HTMLButtonElement).style.color = "#a8a8a8")
@@ -287,7 +287,7 @@ export default function Navbar() {
               lineHeight: 0,
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")
+              ((e.currentTarget as HTMLAnchorElement).style.color = "#c9a961")
             }
             onMouseLeave={(e) =>
               ((e.currentTarget as HTMLAnchorElement).style.color = "#a8a8a8")
@@ -364,8 +364,8 @@ export default function Navbar() {
                       borderBottom: "1px solid transparent",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.color = "#cc2222";
-                      e.currentTarget.style.borderBottomColor = "rgba(204,34,34,0.6)";
+                      e.currentTarget.style.color = "#c9a961";
+                      e.currentTarget.style.borderBottomColor = "rgba(201,169,97,0.6)";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.color = "#f0ede6";
@@ -421,7 +421,7 @@ export default function Navbar() {
                   textDecoration: "none",
                   transition: "color 0.2s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#cc2222")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
               >
                 VIEW ALL →
@@ -488,7 +488,7 @@ export default function Navbar() {
                 textDecoration: "none",
                 transition: "color 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "#a8a8a8")}
             >
               → EXPLORE DROP

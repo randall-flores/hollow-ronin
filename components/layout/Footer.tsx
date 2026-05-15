@@ -95,7 +95,7 @@ export default function Footer() {
                     target={l.href.startsWith("mailto:") ? undefined : "_blank"}
                     rel="noopener noreferrer"
                     style={linkStyle}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ede6")}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
                     onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
                   >
                     {l.label}
@@ -105,7 +105,7 @@ export default function Footer() {
                     key={l.label}
                     href={l.href}
                     style={linkStyle}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#f0ede6")}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
                     onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
                   >
                     {l.label}

@@ -70,6 +70,16 @@ export default function Footer() {
         }
       `}</style>
 
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "48px" }}>
+        <img
+          src="/logos/hollow-ronin-emblem.svg"
+          alt="Hollow Ronin"
+          width={160}
+          height={160}
+          style={{ width: "160px", height: "160px", opacity: 0.95 }}
+        />
+      </div>
+
       <div style={{ overflow: "hidden", borderBottom: "1px solid #2e2e2e", paddingBottom: "32px", marginBottom: "64px" }}>
         <div className="animate-ticker" style={{ display: "flex", whiteSpace: "nowrap", width: "max-content" }}>
           {Array.from({ length: 8 }).map((_, i) => (

@@ -1,28 +1,17 @@
-﻿export default function HollowRoninLogo() {
+export default function HollowRoninLogo() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
 
-      {/* Black container + screen blend removes the black square from logo-mask.png */}
-      <div style={{
-        background: '#000000',
-        borderRadius: '8px',
-        padding: '3px',
-        border: '1px solid rgba(201,169,97,0.45)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <img
-          src="/images/logo-mask.png"
-          alt="Hollow Ronin"
-          style={{
-            height: '38px',
-            width: 'auto',
-            display: 'block',
-            mixBlendMode: 'screen',
-          }}
-        />
-      </div>
+      <img
+        src="/logos/hollow-ronin-emblem.svg"
+        alt="Hollow Ronin"
+        style={{
+          height: '40px',
+          width:  '40px',
+          display: 'block',
+          flexShrink: 0,
+        }}
+      />
 
       {/* Wordmark */}
       <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, gap: '2px' }}>

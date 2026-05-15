@@ -24,9 +24,10 @@ const config: Config = {
         "gold-dim": "#a88b45",
       },
       fontFamily: {
-        bebas: ["'Bebas Neue'", "sans-serif"],
-        mono:  ["'Space Mono'", "monospace"],
-        body:  ["'Inter'", "sans-serif"],
+        bebas: ["var(--font-bebas)",       "Impact", "sans-serif"],
+        mono:  ["var(--font-space-mono)",  "ui-monospace", "monospace"],
+        body:  ["var(--font-inter)",       "system-ui", "sans-serif"],
+        anton: ["var(--font-anton)",       "Impact", "sans-serif"],
       },
       spacing: {
         "page": "48px",

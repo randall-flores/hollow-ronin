@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 
-const PILL = "rgba(204,34,34,0.85)";
+const PILL = "rgba(201,169,97,0.80)";
 
 export default function AccountPage() {
   return (
     <main
       style={{
         minHeight:  "calc(100vh - 68px)",
-        background: "radial-gradient(ellipse at 50% 20%, rgba(204,34,34,0.10) 0%, #0a0a0a 60%)",
+        background: "radial-gradient(ellipse at 50% 20%, rgba(201,169,97,0.10) 0%, #0a0a0a 60%)",
         color:      "#f0ede6",
         padding:    "clamp(88px, 14vw, 120px) 20px clamp(96px, 16vw, 160px)",
         position:   "relative",
@@ -23,7 +23,7 @@ export default function AccountPage() {
           position: "absolute",
           inset:    0,
           backgroundImage:
-            "radial-gradient(circle at 50% 40%, rgba(204,34,34,0.05) 0%, transparent 55%)",
+            "radial-gradient(circle at 50% 40%, rgba(201,169,97,0.05) 0%, transparent 55%)",
           pointerEvents: "none",
         }}
       />
@@ -55,7 +55,7 @@ export default function AccountPage() {
           letterSpacing: "0.14em",
           lineHeight: 1,
           color: "#f0ede6",
-          textShadow: "0 0 40px rgba(204,34,34,0.18)",
+          textShadow: "0 0 40px rgba(201,169,97,0.22)",
         }}>
           THE ORDER
         </h1>
@@ -63,16 +63,16 @@ export default function AccountPage() {
         <div style={{
           display: "flex", alignItems: "center", gap: 14, marginTop: -8,
         }}>
-          <div style={{ width: 40, height: 1, background: "rgba(204,34,34,0.5)" }} />
+          <div style={{ width: 40, height: 1, background: "rgba(201,169,97,0.30)" }} />
           <span style={{
             fontFamily: "'Space Mono', monospace",
             fontSize: 9, letterSpacing: 5,
-            color: "rgba(255,255,255,0.35)",
+            color: "rgba(201,169,97,0.80)",
             textTransform: "uppercase",
           }}>
             Members access protocols first
           </span>
-          <div style={{ width: 40, height: 1, background: "rgba(204,34,34,0.5)" }} />
+          <div style={{ width: 40, height: 1, background: "rgba(201,169,97,0.30)" }} />
         </div>
 
         <p style={{
@@ -113,7 +113,9 @@ export default function AccountPage() {
           Or{" "}
           <Link
             href="/shop"
-            style={{ color: "rgba(204,34,34,0.85)", textDecoration: "none" }}
+            style={{ color: "rgba(244,237,226,0.70)", textDecoration: "none", transition: "color 0.2s" }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#c9a961")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(244,237,226,0.70)")}
           >
             → return to the drop
           </Link>
@@ -139,32 +141,30 @@ function AuthButton({
         style={{
           width:        "100%",
           padding:      "16px 24px",
-          background:   solid ? "#cc2222" : "transparent",
-          color:        solid ? "#f0ede6" : "#cc2222",
-          border:       `1px solid ${solid ? "#cc2222" : "#cc2222"}`,
-          fontFamily:   "'Space Mono', monospace",
-          fontSize:     11,
+          background:   solid ? "#c9a961" : "transparent",
+          color:        solid ? "#0a0a0a" : "#c9a961",
+          border:       "1px solid #c9a961",
+          fontFamily:   "'Anton', 'Bebas Neue', sans-serif",
+          fontSize:     14,
           letterSpacing: 5,
           textTransform: "uppercase",
           cursor:       "pointer",
-          transition:   "background 0.25s, color 0.25s, box-shadow 0.25s",
+          transition:   "background 0.25s, color 0.25s",
         }}
         onMouseEnter={(e) => {
           if (solid) {
-            (e.currentTarget as HTMLButtonElement).style.background = "#e62a2a";
-            (e.currentTarget as HTMLButtonElement).style.boxShadow  = "0 0 28px -6px rgba(204,34,34,0.75)";
+            (e.currentTarget as HTMLButtonElement).style.background = "#a88b45";
           } else {
-            (e.currentTarget as HTMLButtonElement).style.background = "#cc2222";
-            (e.currentTarget as HTMLButtonElement).style.color      = "#f0ede6";
+            (e.currentTarget as HTMLButtonElement).style.background = "#c9a961";
+            (e.currentTarget as HTMLButtonElement).style.color      = "#0a0a0a";
           }
         }}
         onMouseLeave={(e) => {
           if (solid) {
-            (e.currentTarget as HTMLButtonElement).style.background = "#cc2222";
-            (e.currentTarget as HTMLButtonElement).style.boxShadow  = "none";
+            (e.currentTarget as HTMLButtonElement).style.background = "#c9a961";
           } else {
             (e.currentTarget as HTMLButtonElement).style.background = "transparent";
-            (e.currentTarget as HTMLButtonElement).style.color      = "#cc2222";
+            (e.currentTarget as HTMLButtonElement).style.color      = "#c9a961";
           }
         }}
       >

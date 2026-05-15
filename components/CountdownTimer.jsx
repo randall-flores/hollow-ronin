@@ -18,14 +18,14 @@ function getTime() {
 }
 
 const V = {
-  fontFamily: "var(--font-bebas-hero, 'Bebas Neue', sans-serif)",
+  fontFamily: "var(--font-bebas), 'Bebas Neue', sans-serif",
   fontSize: '20px',
   letterSpacing: '0.12em',
   color: '#c9a961',
   lineHeight: 1,
 };
 const L = {
-  fontFamily: "var(--font-rajdhani-hero, 'Rajdhani', sans-serif)",
+  fontFamily: "var(--font-space-mono), ui-monospace, monospace",
   fontSize: '8px',
   fontWeight: 600,
   letterSpacing: '0.35em',

@@ -1,8 +1,7 @@
 /* ─────────────────────────────────────────────────
    HeroSection — Cinematic Video Hero
    CSS vars:
-     --font-bebas-hero      Bebas Neue  (next/font/google)
-     --font-cormorant-hero  Cormorant Garamond (next/font/google)
+     --font-bebas  Bebas Neue (next/font/google, defined in app/layout.tsx)
    Design tokens:
      --hr-black   #08080a
      --hr-white   #f0ece4
@@ -135,7 +134,7 @@
 
 .hollow,
 .ronin {
-  font-family: var(--font-bebas-hero), 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), 'Bebas Neue', sans-serif;
   font-size: clamp(88px, 14.5vw, 168px);
   letter-spacing: 0.3em;
   color: #f0ece4;
@@ -151,7 +150,7 @@
 
 /* ── Tagline ─────────────────────────────────────── */
 .tagline {
-  font-family: var(--font-cormorant-hero), 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
   font-weight: 400;
   font-size: clamp(15px, 1.5vw, 19px);

@@ -67,7 +67,6 @@ function buildFamilies(products: ShopifyProduct[]): EnrichedFamily[] {
   for (const [designFamily, ships] of byFamily.entries()) {
     const editorial = EDITORIAL[designFamily]
     if (!editorial) {
-      console.warn(`[product-merge] Shopify products with unknown design_family="${designFamily}" — skipping`)
       continue
     }
     const variants = ships.map(toVariant)

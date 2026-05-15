@@ -16,7 +16,6 @@ import { type ColorSlug } from './shopify-products'
  */
 
 const PUBLIC_DIR = path.resolve(process.cwd(), 'public')
-const warned     = new Set<string>()
 
 function colorToFolder(c: ColorSlug): 'black' | 'white' {
   return c === 'WHITE' ? 'white' : 'black'
@@ -43,11 +42,6 @@ export function cardHoverImage(args: CardHoverArgs): { url: string; alt: string 
     /* fs unavailable — silently fall through */
   }
 
-  const warnKey = `${imageFolder}::${folder}::hover`
-  if (!warned.has(warnKey)) {
-    warned.add(warnKey)
-    console.warn(`[card-images] missing front mockup for "${imageFolder}" (${frontUrl}). Falling back.`)
-  }
   return fallback ?? { url: frontUrl, alt: name }
 }
 

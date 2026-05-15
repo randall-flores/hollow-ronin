@@ -29,8 +29,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let handles: string[] = []
   try {
     handles = await getAllHandles()
-  } catch (err) {
-    console.warn('[sitemap] Shopify fetch failed — emitting static-only sitemap:', err)
+  } catch {
+    /* Shopify fetch failed — emit static-only sitemap */
   }
 
   const productEntries: MetadataRoute.Sitemap = handles.map((handle) => ({

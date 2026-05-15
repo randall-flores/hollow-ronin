@@ -17,7 +17,6 @@ export async function POST(req: Request) {
     }
 
     if (!RESEND_API_KEY || !RESEND_AUDIENCE_ID) {
-      console.warn('[subscribe] RESEND_API_KEY or RESEND_AUDIENCE_ID missing; logging only:', email)
       return NextResponse.json({ ok: true, logged: true })
     }
 
@@ -34,10 +33,8 @@ export async function POST(req: Request) {
     )
 
     if (!res.ok) {
-      const text = await res.text()
       // Resend returns 409 if contact already exists — treat as success
       if (res.status === 409) return NextResponse.json({ ok: true, alreadyExists: true })
-      console.error('[subscribe] Resend error', res.status, text)
       return NextResponse.json({ error: 'Subscription failed' }, { status: 502 })
     }
 

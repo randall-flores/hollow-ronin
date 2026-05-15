@@ -10,8 +10,7 @@ export async function generateStaticParams() {
   try {
     const handles = await getAllHandles()
     return handles.map((slug) => ({ slug }))
-  } catch (err) {
-    console.warn('[products/[slug]] generateStaticParams: Shopify fetch failed', err)
+  } catch {
     return []
   }
 }

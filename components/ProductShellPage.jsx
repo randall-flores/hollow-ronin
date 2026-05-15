@@ -12,8 +12,8 @@ export default async function ProductShellPage({ title, subtitle, category }) {
   let families = [];
   try {
     families = await getFamiliesByCategory(category);
-  } catch (err) {
-    console.error('[ProductShellPage] Shopify fetch failed:', err);
+  } catch {
+    /* Shopify fetch failed — show empty state */
   }
   const isEmpty = families.length === 0;
 

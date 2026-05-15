@@ -18,8 +18,8 @@ export default async function TheDrop() {
   let families: EnrichedFamily[] = [];
   try {
     families = await getAllFamilies();
-  } catch (err) {
-    console.error("[TheDrop] Shopify fetch failed:", err);
+  } catch {
+    /* Shopify fetch failed — render nothing */
   }
   const byFamily = new Map(families.map((f) => [f.designFamily, f]));
   const featured = FEATURED_FAMILIES

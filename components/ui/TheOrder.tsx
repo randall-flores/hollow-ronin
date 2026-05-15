@@ -100,7 +100,7 @@ export default function TheOrder() {
               fontSize:      11,
               letterSpacing: '0.4em',
               textTransform: 'uppercase',
-              color:         '#c0001e',
+              color:         '#c9a961',
             }}
           >
             Welcome to the order.
@@ -138,27 +138,28 @@ export default function TheOrder() {
                 color:         '#f0ede6',
                 transition:    'border-color 0.2s ease',
               }}
-              onFocus={(e) => (e.currentTarget.style.borderBottomColor = '#c0001e')}
+              onFocus={(e) => (e.currentTarget.style.borderBottomColor = '#c9a961')}
               onBlur={(e)  => (e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,0.28)')}
             />
             <button
               type="submit"
               disabled={loading}
               style={{
-                background:    loading ? '#7a0212' : '#c0001e',
-                color:         '#f0ede6',
+                background:    loading ? '#7a6533' : '#c9a961',
+                color:         '#0a0a0a',
                 border:        'none',
                 padding:       '10px 22px',
                 fontFamily:    "'Space Mono', monospace",
                 fontSize:      11,
+                fontWeight:    600,
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
                 cursor:        loading ? 'wait' : 'pointer',
                 transition:    'background 0.2s ease',
                 opacity:       loading ? 0.85 : 1,
               }}
-              onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = '#e0102e' }}
-              onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = '#c0001e' }}
+              onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = '#a88b45' }}
+              onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = '#c9a961' }}
             >
               {loading ? '...' : 'Join'}
             </button>

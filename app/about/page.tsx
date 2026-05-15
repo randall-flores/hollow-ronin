@@ -29,8 +29,8 @@ export default function AboutPage() {
         style={{
           position: "relative",
           background:
-            "radial-gradient(ellipse at center top, rgba(120,10,10,0.18) 0%, #0a0a0a 65%)",
-          borderBottom: "1px solid rgba(180,20,20,0.4)",
+            "radial-gradient(ellipse at center top, rgba(201,169,97,0.14) 0%, #0a0a0a 65%)",
+          borderBottom: "1px solid rgba(201,169,97,0.30)",
           paddingTop: "clamp(96px, 14vw, 140px)", paddingBottom: "clamp(72px, 12vw, 120px)",
           overflow: "hidden",
         }}
@@ -39,7 +39,7 @@ export default function AboutPage() {
         <span style={{
           position: "absolute",
           fontFamily: "serif", fontSize: "clamp(220px, 40vw, 480px)",
-          color: "rgba(204,34,34,0.022)",
+          color: "rgba(201,169,97,0.04)",
           fontWeight: 700, lineHeight: 1,
           userSelect: "none", pointerEvents: "none",
           top: "8%", left: "50%",
@@ -59,7 +59,7 @@ export default function AboutPage() {
             margin: "0 0 24px",
             fontFamily: "'Space Mono', monospace",
             fontSize: 10, letterSpacing: "0.35em",
-            color: "rgba(204,34,34,0.85)",
+            color: "#c9a961",
             textTransform: "uppercase",
             wordBreak: "keep-all",
           }}>
@@ -72,7 +72,7 @@ export default function AboutPage() {
             color: "#f0ede6",
             letterSpacing: "0.10em",
             lineHeight: 1.05,
-            textShadow: "0 0 40px rgba(204,34,34,0.18)",
+            textShadow: "0 0 40px rgba(201,169,97,0.20)",
           }}>
             A CLOTHING HOUSE
             <br />BUILT ON A LEGEND.
@@ -127,8 +127,8 @@ export default function AboutPage() {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
           gap: 1,
-          background: "rgba(204,34,34,0.18)",
-          border: "1px solid rgba(204,34,34,0.18)",
+          background: "rgba(201,169,97,0.18)",
+          border: "1px solid rgba(201,169,97,0.18)",
           animationDelay: "0.3s",
         }}>
           {[
@@ -162,7 +162,7 @@ export default function AboutPage() {
             >
               <span style={{
                 fontFamily: "serif", fontSize: 38,
-                color: "rgba(204,34,34,0.85)",
+                color: "rgba(201,169,97,0.90)",
                 lineHeight: 1,
                 letterSpacing: "0.05em",
               }}>
@@ -180,7 +180,7 @@ export default function AboutPage() {
                 margin: 0,
                 fontFamily: "Georgia, serif", fontStyle: "italic",
                 fontSize: 14,
-                color: "rgba(204,34,34,0.75)",
+                color: "rgba(244,237,230,0.75)",
                 letterSpacing: "0.02em",
               }}>
                 {clan.title}
@@ -208,7 +208,7 @@ export default function AboutPage() {
             margin: "0 0 12px",
             fontFamily: "serif",
             fontSize: "clamp(32px, 6vw, 44px)",
-            color: "rgba(204,34,34,0.85)",
+            color: "rgba(201,169,97,0.90)",
             letterSpacing: "0.04em",
             lineHeight: 1,
           }}>
@@ -259,7 +259,7 @@ export default function AboutPage() {
           maxWidth: 740, margin: "clamp(64px, 12vw, 104px) auto 0",
           padding: "clamp(40px, 7vw, 60px) 20px 0",
           textAlign: "center",
-          borderTop: "1px solid rgba(204,34,34,0.25)",
+          borderTop: "1px solid rgba(201,169,97,0.30)",
           animationDelay: "0.6s",
         }}>
           <p style={{
@@ -295,7 +295,7 @@ export default function AboutPage() {
                 color: "#f0ede6",
                 letterSpacing: "0.05em",
                 lineHeight: 1.05,
-                textShadow: "0 0 28px rgba(204,34,34,0.18)",
+                textShadow: "0 0 28px rgba(201,169,97,0.20)",
               }}
             >
               {line}
@@ -306,16 +306,16 @@ export default function AboutPage() {
 
       {/* ============== CTA ============== */}
       <section style={{
-        borderTop: "1px solid rgba(204,34,34,0.35)",
+        borderTop: "1px solid rgba(201,169,97,0.40)",
         padding: "clamp(80px, 14vw, 120px) clamp(20px, 5vw, 32px) clamp(96px, 16vw, 140px)",
         textAlign: "center",
         background:
-          "radial-gradient(ellipse at center, rgba(120,10,10,0.15) 0%, #0a0a0a 70%)",
+          "radial-gradient(ellipse at center, rgba(201,169,97,0.10) 0%, #0a0a0a 70%)",
       }}>
         <p style={{
           fontFamily: "'Space Mono', monospace",
           fontSize: 10, letterSpacing: 6,
-          color: "rgba(204,34,34,0.85)",
+          color: "#c9a961",
           textTransform: "uppercase", margin: "0 0 24px",
         }}>
           ⟁ &nbsp; The Protocol Is Open &nbsp; ⟁
@@ -338,17 +338,18 @@ export default function AboutPage() {
         <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
           <Link href="/shop" style={{
             fontFamily: "'Bebas Neue', sans-serif", fontSize: 14,
-            letterSpacing: 6, color: "#f0ede6",
-            border: "1px solid #f0ede6", padding: "14px 30px",
+            letterSpacing: 6, color: "#0a0a0a",
+            border: "1px solid #c9a961", padding: "14px 30px",
             textDecoration: "none", textTransform: "uppercase",
-            background: "rgba(0,0,0,0.3)",
+            background: "#c9a961",
+            fontWeight: 600,
           }}>
             Enter the shop →
           </Link>
           <Link href="/lookbook" style={{
             fontFamily: "'Bebas Neue', sans-serif", fontSize: 14,
-            letterSpacing: 6, color: "rgba(204,34,34,0.95)",
-            border: "1px solid rgba(204,34,34,0.6)", padding: "14px 30px",
+            letterSpacing: 6, color: "#c9a961",
+            border: "1px solid #c9a961", padding: "14px 30px",
             textDecoration: "none", textTransform: "uppercase",
           }}>
             View lookbook →

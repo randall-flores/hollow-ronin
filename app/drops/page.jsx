@@ -13,8 +13,8 @@ export default function DropsPage() {
         style={{
           height: "280px",
           background:
-            "radial-gradient(ellipse at center, rgba(120,10,10,0.15) 0%, #0a0a0a 70%)",
-          borderBottom: "1px solid rgba(180,20,20,0.4)",
+            "radial-gradient(ellipse at center, rgba(201,169,97,0.12) 0%, #0a0a0a 70%)",
+          borderBottom: "1px solid rgba(201,169,97,0.30)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -63,7 +63,7 @@ export default function DropsPage() {
                 fontFamily: "'Space Mono', monospace",
                 fontSize: "9px",
                 letterSpacing: "0.3em",
-                color: "#C9A84C",
+                color: "#c9a961",
                 textTransform: "uppercase",
                 marginBottom: "16px",
               }}
@@ -113,7 +113,7 @@ export default function DropsPage() {
                 fontFamily: "'Space Mono', monospace",
                 fontSize: "9px",
                 letterSpacing: "0.3em",
-                color: "rgba(180,20,20,0.4)",
+                color: "rgba(244,237,226,0.50)",
                 textTransform: "uppercase",
                 marginBottom: "16px",
               }}

@@ -46,7 +46,7 @@ body {
 
 /* next/font alias — map inline font-family strings to self-hosted vars */
 [style*="Space Mono"]  { font-family: var(--font-space-mono),  ui-monospace, monospace !important; }
-[style*="Bebas Neue"]  { font-family: var(--font-bebas-neue),  Impact, sans-serif    !important; }
+[style*="Bebas Neue"]  { font-family: var(--font-bebas),  Impact, sans-serif    !important; }
 [style*="Anton"]       { font-family: var(--font-anton),       Impact, sans-serif    !important; }
 
 body::before {
@@ -60,7 +60,7 @@ body::before {
   mix-blend-mode: overlay;
 }
 
-.font-bebas        { font-family: var(--font-bebas-neue), Impact, sans-serif; }
+.font-bebas        { font-family: var(--font-bebas), Impact, sans-serif; }
 .font-mono         { font-family: var(--font-space-mono), ui-monospace, monospace; }
 .text-stroke-cream { -webkit-text-stroke: 1.5px #f0ede6; color: transparent; }
 .text-stroke-red   { -webkit-text-stroke: 1.5px #c0001e; color: transparent; }

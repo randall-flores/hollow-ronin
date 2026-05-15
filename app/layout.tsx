@@ -4,28 +4,30 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageTransition from "@/components/layout/PageTransition";
-import SlashCursor from "@/components/SlashCursor";
+import DeferredOverlays from "@/components/layout/DeferredOverlays";
 import { CartProvider } from "@/components/cart/CartProvider";
-import CartDrawer from "@/components/cart/CartDrawer";
 
 const spaceMono = Space_Mono({
   subsets: ["latin"],
   weight:  ["400", "700"],
   display: "swap",
+  preload: true,
   variable: "--font-space-mono",
 });
 
-const bebasNeue = Bebas_Neue({
+const bebas = Bebas_Neue({
   subsets: ["latin"],
   weight:  "400",
   display: "swap",
-  variable: "--font-bebas-neue",
+  preload: true,
+  variable: "--font-bebas",
 });
 
 const inter = Inter({
   subsets: ["latin"],
   weight:  ["400", "700"],
   display: "swap",
+  preload: true,
   variable: "--font-inter",
 });
 
@@ -33,6 +35,7 @@ const anton = Anton({
   subsets: ["latin"],
   weight:  "400",
   display: "swap",
+  preload: false,
   variable: "--font-anton",
 });
 
@@ -81,7 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${spaceMono.variable} ${bebasNeue.variable} ${inter.variable} ${anton.variable}`}
+      className={`${spaceMono.variable} ${bebas.variable} ${inter.variable} ${anton.variable}`}
     >
       <body>
         <CartProvider>
@@ -92,8 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </PageTransition>
             <Footer />
           </div>
-          <CartDrawer />
-          <SlashCursor />
+          <DeferredOverlays />
         </CartProvider>
       </body>
     </html>

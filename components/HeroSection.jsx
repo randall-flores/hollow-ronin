@@ -46,11 +46,11 @@ export default function HeroSection() {
 
         {/* COLLECTION LABEL */}
         <div className="flex items-center gap-3 mb-6">
-          <div style={{ width: '32px', height: '1px', backgroundColor: '#cc0000' }} />
+          <div style={{ width: '32px', height: '1px', backgroundColor: '#c9a961' }} />
           <span style={{
             fontSize: '10px',
             letterSpacing: '0.3em',
-            color: '#cc0000',
+            color: '#c9a961',
             fontFamily: "'Bebas Neue', sans-serif",
             fontWeight: 400
           }}>
@@ -65,7 +65,7 @@ export default function HeroSection() {
             fontSize: 'clamp(56px, 14vw, 180px)',
             letterSpacing: '0.06em',
             color: '#f0ece4',
-            textShadow: '0 0 120px rgba(180,0,0,0.25)',
+            textShadow: '0 0 120px rgba(201,169,97,0.28)',
             display: 'block'
           }}>
             HOLLOW
@@ -75,7 +75,7 @@ export default function HeroSection() {
             fontSize: 'clamp(56px, 14vw, 180px)',
             letterSpacing: '0.06em',
             color: '#f0ece4',
-            textShadow: '0 0 120px rgba(180,0,0,0.25)',
+            textShadow: '0 0 120px rgba(201,169,97,0.28)',
             display: 'block',
             marginLeft: '4vw'
           }}>
@@ -101,22 +101,21 @@ export default function HeroSection() {
           style={{
             width: 'fit-content',
             padding: '14px 40px',
-            border: '1px solid rgba(240,236,228,0.35)',
-            background: 'transparent',
-            color: '#f0ece4',
+            border: 'none',
+            background: '#c9a961',
+            color: '#0a0a0a',
             fontSize: '11px',
             letterSpacing: '0.25em',
             fontFamily: "'Bebas Neue', sans-serif",
+            fontWeight: 600,
             cursor: 'pointer',
-            transition: 'all 0.4s ease'
+            transition: 'background 0.3s ease'
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.border = '1px solid rgba(240,236,228,0.9)'
-            e.currentTarget.style.boxShadow = '0 0 20px rgba(180,0,0,0.2)'
+            e.currentTarget.style.background = '#a88b45'
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.border = '1px solid rgba(240,236,228,0.35)'
-            e.currentTarget.style.boxShadow = 'none'
+            e.currentTarget.style.background = '#c9a961'
           }}
         >
           ENTER THE DROP
@@ -128,13 +127,13 @@ export default function HeroSection() {
         <div style={{
           width: '1px',
           height: '50px',
-          backgroundColor: '#cc0000',
+          backgroundColor: 'rgba(244,237,226,0.40)',
           animation: 'pulse 2s ease-in-out infinite'
         }} />
         <span style={{
           fontSize: '9px',
           letterSpacing: '0.3em',
-          color: '#a09080'
+          color: 'rgba(244,237,226,0.50)'
         }}>SCROLL</span>
       </div>
 

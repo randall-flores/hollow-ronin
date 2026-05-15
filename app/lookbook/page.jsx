@@ -97,8 +97,8 @@ export default function LookbookPage() {
           transition: filter 0.6s ease;
         }
         .lb-frame:hover {
-          border-color: rgba(204,34,34,0.35);
-          box-shadow: 0 0 28px -10px rgba(204,34,34,0.4);
+          border-color: rgba(201,169,97,0.50);
+          box-shadow: 0 0 28px -10px rgba(201,169,97,0.45);
         }
         .lb-frame:hover img {
           filter: grayscale(0) brightness(0.92) contrast(1.05);
@@ -110,7 +110,7 @@ export default function LookbookPage() {
         .lb-scanline {
           position: absolute; left: 0; right: 0;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(204,34,34,0.45), transparent);
+          background: linear-gradient(90deg, transparent, rgba(201,169,97,0.45), transparent);
           animation: lb-scan 7s linear infinite;
           pointer-events: none;
           z-index: 3;
@@ -137,14 +137,14 @@ export default function LookbookPage() {
           flex-direction: column;
           justify-content: center;
           padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 28px);
-          background: linear-gradient(180deg, rgba(204,34,34,0.04) 0%, transparent 100%);
+          background: linear-gradient(180deg, rgba(201,169,97,0.04) 0%, transparent 100%);
           border: 1px solid rgba(255,255,255,0.04);
           position: relative;
         }
         .lb-corner {
           position: absolute;
           width: 14px; height: 14px;
-          border: 1px solid rgba(204,34,34,0.6);
+          border: 1px solid rgba(201,169,97,0.7);
         }
         .lb-corner.tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
         .lb-corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
@@ -159,7 +159,7 @@ export default function LookbookPage() {
           height: "100vh",
           minHeight: 640,
           overflow: "hidden",
-          borderBottom: "1px solid rgba(204,34,34,0.35)",
+          borderBottom: "1px solid rgba(201,169,97,0.40)",
         }}
       >
         <Image
@@ -191,7 +191,7 @@ export default function LookbookPage() {
         }}>
           <span style={{
             fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: 5,
-            color: "rgba(204,34,34,0.9)",
+            color: "#a1182a",
           }}>
             ⟁ &nbsp; DROP_001 // EDITORIAL_VOL_I
           </span>
@@ -214,7 +214,7 @@ export default function LookbookPage() {
         }}>
           <p style={{
             fontFamily: "'Space Mono', monospace", fontSize: 11, letterSpacing: "0.6em",
-            color: "rgba(204,34,34,0.85)", textTransform: "uppercase", margin: 0,
+            color: "#c9a961", textTransform: "uppercase", margin: 0,
             opacity: 0, animation: "lb-fade-up 1.2s ease 0.6s forwards",
           }}>
             Six fragments · One protocol
@@ -226,7 +226,7 @@ export default function LookbookPage() {
             color: "#f0ede6",
             margin: "20px 0 0",
             lineHeight: 0.9,
-            textShadow: "0 0 50px rgba(204,34,34,0.25)",
+            textShadow: "0 0 50px rgba(201,169,97,0.30)",
             opacity: 0, animation: "lb-fade-up 1.4s ease 0.8s forwards",
           }}>
             LOOKBOOK
@@ -258,7 +258,7 @@ export default function LookbookPage() {
           </span>
           <div style={{
             width: 1, height: 40,
-            background: "linear-gradient(180deg, rgba(204,34,34,0.7), transparent)",
+            background: "linear-gradient(180deg, rgba(201,169,97,0.70), transparent)",
           }} />
         </div>
       </section>
@@ -271,7 +271,7 @@ export default function LookbookPage() {
       }}>
         <p style={{
           fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: 6,
-          color: "rgba(204,34,34,0.8)", textTransform: "uppercase",
+          color: "#c9a961", textTransform: "uppercase",
           margin: "0 0 32px",
         }}>
           ▲ &nbsp; The Brief &nbsp; ▲
@@ -287,7 +287,7 @@ export default function LookbookPage() {
           cut.&rdquo;
         </p>
         <div style={{
-          width: 60, height: 1, background: "rgba(204,34,34,0.55)",
+          width: 60, height: 1, background: "rgba(201,169,97,0.55)",
           margin: "44px auto 0",
         }} />
       </section>
@@ -312,14 +312,14 @@ export default function LookbookPage() {
               }}>
                 <span style={{
                   fontFamily: "'Bebas Neue', sans-serif", fontSize: 14,
-                  letterSpacing: 6, color: "rgba(204,34,34,0.9)",
+                  letterSpacing: 6, color: "#c9a961",
                 }}>
                   CHAPTER {ch.num}
                 </span>
-                <div style={{ flex: 1, height: 1, background: "rgba(204,34,34,0.25)" }} />
+                <div style={{ flex: 1, height: 1, background: "rgba(201,169,97,0.30)" }} />
                 <span style={{
                   fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: 3,
-                  color: "rgba(240,237,230,0.35)",
+                  color: "#c9a961",
                 }}>
                   FRAME {String(i + 1).padStart(2, "0")} / 06
                 </span>
@@ -372,7 +372,7 @@ export default function LookbookPage() {
                   <div style={{ padding: "0 8px" }}>
                     <p style={{
                       fontFamily: "serif", fontSize: 48,
-                      color: "rgba(204,34,34,0.85)",
+                      color: "rgba(201,169,97,0.90)",
                       margin: "0 0 8px", lineHeight: 1,
                     }}>
                       {ch.kanji}
@@ -388,7 +388,7 @@ export default function LookbookPage() {
                       {ch.title}
                     </h2>
 
-                    <div style={{ width: 36, height: 1, background: "rgba(204,34,34,0.6)", marginBottom: 22 }} />
+                    <div style={{ width: 36, height: 1, background: "rgba(201,169,97,0.60)", marginBottom: 22 }} />
 
                     <p style={{
                       fontFamily: "Georgia, serif", fontStyle: "italic",
@@ -415,7 +415,7 @@ export default function LookbookPage() {
                       <span style={{
                         position: "absolute", top: 12, left: 14, zIndex: 4,
                         fontFamily: "'Space Mono', monospace", fontSize: 8, letterSpacing: 3,
-                        color: "rgba(204,34,34,0.85)",
+                        color: "#c9a961",
                       }}>
                         {String(i + 1).padStart(2, "0")}.B · DETAIL
                       </span>
@@ -426,8 +426,8 @@ export default function LookbookPage() {
                       style={{
                         display: "inline-flex", alignItems: "center", gap: 10,
                         fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: 5,
-                        color: "#cc2222", textTransform: "uppercase",
-                        border: "1px solid #cc2222",
+                        color: "#c9a961", textTransform: "uppercase",
+                        border: "1px solid #c9a961",
                         padding: "10px 18px",
                         textDecoration: "none",
                         transition: "background 0.25s ease, color 0.25s ease",
@@ -450,7 +450,7 @@ export default function LookbookPage() {
         height: "80vh",
         minHeight: 520,
         overflow: "hidden",
-        borderTop: "1px solid rgba(204,34,34,0.35)",
+        borderTop: "1px solid rgba(201,169,97,0.40)",
       }}>
         <Image
           src="/mockups/karasu-tengu-sentinel/black/tee-karasu-tengu-sentinel-back-black-model3.png"
@@ -471,7 +471,7 @@ export default function LookbookPage() {
         }}>
           <p style={{
             fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: 6,
-            color: "rgba(204,34,34,0.85)", margin: "0 0 24px",
+            color: "#c9a961", margin: "0 0 24px",
           }}>
             END_TRANSMISSION / 終わり
           </p>
@@ -481,7 +481,7 @@ export default function LookbookPage() {
             letterSpacing: "0.06em",
             color: "#f0ede6",
             margin: 0, lineHeight: 0.95,
-            textShadow: "0 0 40px rgba(204,34,34,0.3)",
+            textShadow: "0 0 40px rgba(201,169,97,0.30)",
           }}>
             WEAR THE LEGEND
           </h2>
@@ -497,13 +497,14 @@ export default function LookbookPage() {
             style={{
               marginTop: 36,
               fontFamily: "'Bebas Neue', sans-serif", fontSize: 16,
-              letterSpacing: 6, color: "#f0ede6",
+              letterSpacing: 6, color: "#0a0a0a",
               textDecoration: "none", textTransform: "uppercase",
-              border: "1px solid #f0ede6",
+              border: "1px solid #c9a961",
               padding: "16px 36px",
               transition: "all 0.3s ease",
-              background: "rgba(0,0,0,0.4)",
+              background: "#c9a961",
               backdropFilter: "blur(2px)",
+              fontWeight: 600,
             }}
           >
             Enter the shop &nbsp; →

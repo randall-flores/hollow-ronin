@@ -19,8 +19,8 @@ export default function PolicyPage({ eyebrow, title, intro }: Props) {
         style={{
           minHeight: 320,
           background:
-            "radial-gradient(ellipse at center, rgba(120,10,10,0.18) 0%, #0a0a0a 70%)",
-          borderBottom: "1px solid rgba(180,20,20,0.4)",
+            "radial-gradient(ellipse at center, rgba(201,169,97,0.12) 0%, #0a0a0a 70%)",
+          borderBottom: "1px solid rgba(201,169,97,0.30)",
           display:      "flex",
           flexDirection: "column",
           alignItems:    "center",
@@ -36,7 +36,7 @@ export default function PolicyPage({ eyebrow, title, intro }: Props) {
           margin: "0 0 18px",
           fontFamily: "'Space Mono', monospace",
           fontSize: 10, letterSpacing: "0.5em",
-          color: "rgba(204,34,34,0.85)",
+          color: "#c9a961",
           textTransform: "uppercase",
         }}>
           {eyebrow}
@@ -47,7 +47,7 @@ export default function PolicyPage({ eyebrow, title, intro }: Props) {
           color: "#f0ede6",
           letterSpacing: "0.14em",
           margin: 0, lineHeight: 1,
-          textShadow: "0 0 40px rgba(204,34,34,0.18)",
+          textShadow: "0 0 40px rgba(201,169,97,0.20)",
         }}>
           {title}
         </h1>
@@ -69,7 +69,7 @@ export default function PolicyPage({ eyebrow, title, intro }: Props) {
         <p style={{
           fontFamily: "'Space Mono', monospace",
           fontSize: 10, letterSpacing: 5,
-          color: "rgba(204,34,34,0.7)",
+          color: "rgba(201,169,97,0.80)",
           textTransform: "uppercase",
           marginBottom: 40,
         }}>
@@ -78,9 +78,9 @@ export default function PolicyPage({ eyebrow, title, intro }: Props) {
         <Link href="/" style={{
           fontFamily: "'Space Mono', monospace",
           fontSize: 10, letterSpacing: 5,
-          color: "#cc2222",
+          color: "#c9a961",
           textTransform: "uppercase",
-          border: "1px solid #cc2222",
+          border: "1px solid #c9a961",
           padding: "12px 24px",
           textDecoration: "none",
         }}>

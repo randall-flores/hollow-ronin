@@ -67,7 +67,7 @@ export default function CartDrawer() {
           right:         0,
           height:        "100vh",
           background:    "linear-gradient(180deg, #0a0707 0%, #0a0a0a 60%)",
-          borderLeft:    "1px solid rgba(204,34,34,0.25)",
+          borderLeft:    "1px solid rgba(201,169,97,0.30)",
           boxShadow:     "-40px 0 80px -20px rgba(0,0,0,0.8)",
           transform:     isOpen ? "translateX(0)" : "translateX(100%)",
           transition:    "transform 0.45s cubic-bezier(0.16,1,0.3,1)",
@@ -89,7 +89,7 @@ export default function CartDrawer() {
             <p style={{
               margin: 0, fontFamily: "'Space Mono', monospace",
               fontSize: 9, letterSpacing: 5,
-              color: "rgba(204,34,34,0.85)",
+              color: "rgba(201,169,97,0.80)",
               textTransform: "uppercase",
             }}>
               ⟁ &nbsp; HOLLOW RONIN
@@ -113,8 +113,8 @@ export default function CartDrawer() {
               transition: "border-color 0.2s, color 0.2s",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = "#cc2222";
-              (e.currentTarget as HTMLButtonElement).style.color       = "#cc2222";
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "#c9a961";
+              (e.currentTarget as HTMLButtonElement).style.color       = "#c9a961";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.12)";
@@ -202,12 +202,12 @@ export default function CartDrawer() {
                           background: "none", border: "none", cursor: "pointer",
                           fontFamily: "'Space Mono', monospace",
                           fontSize: 9, letterSpacing: 3,
-                          color: "rgba(255,255,255,0.4)",
+                          color: "rgba(244,237,226,0.60)",
                           textTransform: "uppercase",
                           transition: "color 0.2s",
                         }}
-                        onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "#cc2222")}
-                        onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.4)")}
+                        onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "#c9a961")}
+                        onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(244,237,226,0.60)")}
                       >
                         Remove
                       </button>
@@ -222,7 +222,7 @@ export default function CartDrawer() {
         {/* Footer */}
         {items.length > 0 && (
           <footer style={{
-            borderTop: "1px solid rgba(204,34,34,0.18)",
+            borderTop: "1px solid rgba(201,169,97,0.25)",
             padding:    "22px 28px 28px",
             background: "rgba(0,0,0,0.4)",
           }}>
@@ -268,27 +268,24 @@ export default function CartDrawer() {
               disabled={checkoutState === "loading"}
               style={{
                 width: "100%",
-                background: checkoutState === "loading" ? "#7a1414" : "#cc2222",
-                color: "#f0ede6",
+                background: checkoutState === "loading" ? "#7a6533" : "#c9a961",
+                color: "#0a0a0a",
                 border: "none",
                 padding: "16px",
-                fontFamily: "'Space Mono', monospace",
-                fontSize: 11, letterSpacing: 5,
+                fontFamily: "'Anton', 'Bebas Neue', sans-serif",
+                fontSize: 14, letterSpacing: 5,
                 textTransform: "uppercase",
                 cursor: checkoutState === "loading" ? "wait" : "pointer",
-                transition: "background 0.2s, box-shadow 0.2s",
-                boxShadow: "0 0 0 0 rgba(204,34,34,0)",
+                transition: "background 0.2s",
                 opacity: checkoutState === "loading" ? 0.7 : 1,
               }}
               onMouseEnter={(e) => {
                 if (checkoutState === "loading") return;
-                (e.currentTarget as HTMLButtonElement).style.background = "#e62a2a";
-                (e.currentTarget as HTMLButtonElement).style.boxShadow  = "0 0 28px -6px rgba(204,34,34,0.7)";
+                (e.currentTarget as HTMLButtonElement).style.background = "#a88b45";
               }}
               onMouseLeave={(e) => {
                 if (checkoutState === "loading") return;
-                (e.currentTarget as HTMLButtonElement).style.background = "#cc2222";
-                (e.currentTarget as HTMLButtonElement).style.boxShadow  = "0 0 0 0 rgba(204,34,34,0)";
+                (e.currentTarget as HTMLButtonElement).style.background = "#c9a961";
               }}
             >
               {checkoutState === "loading" ? "Forging checkout…" : "Checkout →"}
@@ -311,7 +308,7 @@ function QtyBtn({ onClick, label }: { onClick: () => void; label: string }) {
         fontFamily: "'Space Mono', monospace", fontSize: 16,
         transition: "color 0.2s",
       }}
-      onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "#cc2222")}
+      onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "#c9a961")}
       onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.6)")}
     >
       {label}
@@ -328,10 +325,10 @@ function EmptyState({ onClose }: { onClose: () => void }) {
     }}>
       <div style={{
         width: 64, height: 64,
-        border: "1px solid rgba(204,34,34,0.4)",
+        border: "1px solid rgba(201,169,97,0.45)",
         display: "flex", alignItems: "center", justifyContent: "center",
         fontFamily: "Georgia, serif",
-        fontSize: 32, color: "rgba(204,34,34,0.7)",
+        fontSize: 32, color: "rgba(201,169,97,0.75)",
       }}>
         ⌖
       </div>
@@ -349,8 +346,8 @@ function EmptyState({ onClose }: { onClose: () => void }) {
         style={{
           marginTop: 8,
           padding: "12px 22px",
-          border: "1px solid #cc2222",
-          color: "#cc2222",
+          border: "1px solid #c9a961",
+          color: "#c9a961",
           fontFamily: "'Space Mono', monospace",
           fontSize: 10, letterSpacing: 5,
           textTransform: "uppercase",
@@ -358,12 +355,12 @@ function EmptyState({ onClose }: { onClose: () => void }) {
           transition: "background 0.25s, color 0.25s",
         }}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLAnchorElement).style.background = "#cc2222";
-          (e.currentTarget as HTMLAnchorElement).style.color      = "#f0ede6";
+          (e.currentTarget as HTMLAnchorElement).style.background = "#c9a961";
+          (e.currentTarget as HTMLAnchorElement).style.color      = "#0a0a0a";
         }}
         onMouseLeave={(e) => {
           (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
-          (e.currentTarget as HTMLAnchorElement).style.color      = "#cc2222";
+          (e.currentTarget as HTMLAnchorElement).style.color      = "#c9a961";
         }}
       >
         Browse The Drop →

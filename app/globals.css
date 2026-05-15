@@ -175,3 +175,19 @@ body::before {
   .email-capture-section { grid-template-columns: 1fr !important; padding: 64px 16px !important; }
   .email-capture-right   { display: none !important; }
 }
+
+/* ── Kill browser autofill white bg on all inputs ────── */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #0a0a0a inset !important;
+  box-shadow:         0 0 0 1000px #0a0a0a inset !important;
+  -webkit-text-fill-color: #f0ede6 !important;
+  caret-color:             #f0ede6;
+  transition: background-color 9999s ease-in-out 0s;
+}
+input:autofill {
+  background: #0a0a0a !important;
+  color:      #f0ede6 !important;
+}

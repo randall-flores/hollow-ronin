@@ -71,7 +71,7 @@ export default async function ShopPage() {
           transition: background 0.3s ease;
         }
         .shop-cat.live:hover { background: #121212; }
-        .shop-cat.live:hover .shop-cat-cta { color: #cc2222; border-color: #cc2222; }
+        .shop-cat.live:hover .shop-cat-cta { color: #c9a961; border-color: #c9a961; }
         .shop-cat.coming  { background: #080808; cursor: not-allowed; opacity: 0.55; }
         .shop-cat-kanji {
           position: absolute;

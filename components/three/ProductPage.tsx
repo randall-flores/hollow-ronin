@@ -511,12 +511,13 @@ export default function ProductPage({
           }
         }
         .hr-rel-card:hover {
-          border-color: rgba(204,34,34,0.55) !important;
+          border-color: rgba(201,169,97,0.6) !important;
           transform: translateY(-4px);
+          box-shadow: 0 0 24px rgba(201,169,97,0.15);
         }
         .hr-rel-viewall:hover {
-          border-color: #cc2222 !important;
-          color: #cc2222 !important;
+          border-color: #c9a961 !important;
+          color: #c9a961 !important;
         }
         .hr-hero img {
           animation: heroFade 0.35s ease-out;
@@ -540,7 +541,7 @@ export default function ProductPage({
         }
         .hr-size-btn:focus-visible,
         .hr-qty-btn:focus-visible {
-          outline: 2px solid #cc2222;
+          outline: 2px solid #c9a961;
           outline-offset: 2px;
         }
         .hr-mobile-cta {

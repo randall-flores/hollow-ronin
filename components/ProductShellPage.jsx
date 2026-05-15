@@ -20,7 +20,6 @@ export default async function ProductShellPage({ title, subtitle, category }) {
   return (
     <main style={{ minHeight: '100vh', background: '#080808', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
 
-      {/* Inline keyframes + hover rules */}
       <style>{`
         @keyframes hr-fade-up {
           from { opacity: 0; transform: translateY(28px); }
@@ -48,81 +47,6 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           animation: hr-grain 8s steps(10) infinite;
           z-index: 1;
         }
-        .hr-card {
-          opacity: 0;
-          animation: hr-fade-up 0.8s ease-out forwards;
-        }
-        .hr-card-link {
-          display: block;
-          position: relative;
-          background: var(--card-bg);
-          text-decoration: none;
-          color: #ffffff;
-          overflow: hidden;
-          isolation: isolate;
-          perspective: 1200px;
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .hr-card-link::after {
-          content: '';
-          position: absolute; inset: 0;
-          border: 1px solid transparent;
-          transition: border-color 0.4s ease, box-shadow 0.4s ease;
-          pointer-events: none;
-          z-index: 4;
-        }
-        .hr-card-link:hover {
-          transform: translateY(-6px);
-        }
-        .hr-card-link:hover::after {
-          border-color: var(--card-accent);
-          box-shadow: 0 0 50px -8px var(--card-accent), inset 0 0 36px -10px var(--card-accent);
-        }
-        .hr-card-link:hover .hr-view {
-          background: #f4ede2;
-        }
-        .hr-card-link:hover .hr-mock-default {
-          opacity: 0;
-        }
-        .hr-card-link:hover .hr-mock-reveal {
-          opacity: 1;
-        }
-        .hr-mock-default,
-        .hr-mock-reveal {
-          object-fit: cover;
-          transition: opacity 0.2s ease;
-        }
-        @media (hover: none) {
-          .hr-card-link:hover .hr-mock-default { opacity: 1; }
-          .hr-card-link:hover .hr-mock-reveal  { opacity: 0; }
-        }
-        .hr-mock-default { opacity: 1; }
-        .hr-mock-reveal  { opacity: 0; }
-        .hr-view {
-          transition: background 0.3s ease, color 0.3s ease;
-        }
-        .hr-grid {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 1px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.06);
-        }
-        .hr-grid > .hr-card-link {
-          flex: 1 1 320px;
-          max-width: calc(25% - 1px);
-          min-width: 280px;
-        }
-        @media (max-width: 1180px) {
-          .hr-grid > .hr-card-link { max-width: calc(33.333% - 1px); }
-        }
-        @media (max-width: 860px) {
-          .hr-grid > .hr-card-link { max-width: calc(50% - 1px); min-width: 150px; }
-        }
-        @media (max-width: 360px) {
-          .hr-grid > .hr-card-link { max-width: 100%; min-width: 0; }
-        }
         @keyframes hr-scan {
           0%   { transform: translateY(-100%); }
           100% { transform: translateY(100%); }
@@ -133,6 +57,186 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           animation: hr-scan 7s linear infinite;
           pointer-events: none;
           z-index: 2;
+        }
+
+        /* GRID */
+        .hr-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 16px;
+          max-width: 1440px;
+          margin: 0 auto;
+          padding: 0 64px;
+        }
+        @media (max-width: 1023px) {
+          .hr-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        @media (max-width: 639px) {
+          .hr-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            padding: 0 20px;
+          }
+        }
+
+        /* CARD */
+        .hr-card {
+          opacity: 0;
+          animation: hr-fade-up 0.8s ease-out forwards;
+        }
+        .hr-card-link {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+          border: 1px solid rgba(161, 24, 42, 0.20);
+          border-radius: 0;
+          color: #f4ede2;
+          text-decoration: none;
+          overflow: hidden;
+          isolation: isolate;
+          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                      border-color 0.3s ease,
+                      box-shadow 0.3s ease;
+        }
+        .hr-card-link:hover {
+          transform: translateY(-4px);
+          border-color: rgba(201, 169, 97, 0.6);
+          box-shadow: 0 0 24px rgba(201, 169, 97, 0.15);
+        }
+        .hr-card-link:hover .hr-arrow {
+          color: #c9a961;
+        }
+        .hr-card-link:hover .hr-mock-default { opacity: 0; }
+        .hr-card-link:hover .hr-mock-reveal  { opacity: 1; }
+        .hr-mock-default,
+        .hr-mock-reveal {
+          object-fit: cover;
+          transition: opacity 0.25s ease;
+        }
+        .hr-mock-default { opacity: 1; }
+        .hr-mock-reveal  { opacity: 0; }
+        @media (hover: none) {
+          .hr-card-link:hover .hr-mock-default { opacity: 1; }
+          .hr-card-link:hover .hr-mock-reveal  { opacity: 0; }
+        }
+
+        /* IMAGE AREA */
+        .hr-card-img {
+          position: relative;
+          aspect-ratio: 1 / 1.18;
+          width: 100%;
+          overflow: hidden;
+          background: linear-gradient(180deg, #181818 0%, #0c0c0c 100%);
+        }
+        .hr-card-img::after {
+          /* film grain — 2% opacity */
+          content: '';
+          position: absolute; inset: 0;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23g)' opacity='0.55'/></svg>");
+          opacity: 0.02;
+          mix-blend-mode: overlay;
+          pointer-events: none;
+          z-index: 4;
+        }
+
+        /* corner brackets — 12px arms, blood hairline */
+        .hr-bracket {
+          position: absolute;
+          width: 12px;
+          height: 12px;
+          z-index: 3;
+          pointer-events: none;
+        }
+        .hr-bracket-tl { top: 10px;    left: 10px;    border-top: 1px solid #a1182a; border-left: 1px solid #a1182a; }
+        .hr-bracket-tr { top: 10px;    right: 10px;   border-top: 1px solid #a1182a; border-right: 1px solid #a1182a; }
+        .hr-bracket-bl { bottom: 10px; left: 10px;    border-bottom: 1px solid #a1182a; border-left: 1px solid #a1182a; }
+        .hr-bracket-br { bottom: 10px; right: 10px;   border-bottom: 1px solid #a1182a; border-right: 1px solid #a1182a; }
+
+        /* drop badge — top-left */
+        .hr-drop-badge {
+          position: absolute;
+          top: 16px; left: 16px;
+          z-index: 5;
+          font-family: 'JetBrains Mono', 'Space Mono', monospace;
+          font-size: 10px;
+          letter-spacing: 0.2em;
+          color: #a1182a;
+          border: 1px solid rgba(244, 237, 226, 0.7);
+          padding: 4px 8px;
+          text-transform: uppercase;
+          background: rgba(10, 10, 10, 0.4);
+        }
+
+        /* color chip — bottom-right of image */
+        .hr-color-chip {
+          position: absolute;
+          right: 16px; bottom: 16px;
+          z-index: 5;
+          font-family: 'JetBrains Mono', 'Space Mono', monospace;
+          font-size: 10px;
+          letter-spacing: 0.2em;
+          color: #f4ede2;
+          border: 1px solid rgba(244, 237, 226, 0.3);
+          padding: 4px 8px;
+          text-transform: uppercase;
+          background: rgba(10, 10, 10, 0.55);
+        }
+
+        /* INFO */
+        .hr-card-info {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          padding: 18px 18px 20px;
+          border-top: 1px solid rgba(161, 24, 42, 0.18);
+          position: relative;
+          z-index: 2;
+        }
+        .hr-kanji {
+          font-family: 'Noto Sans JP', sans-serif;
+          font-weight: 500;
+          font-size: 14px;
+          color: #a1182a;
+          line-height: 1;
+          letter-spacing: 0.05em;
+        }
+        .hr-romaji {
+          font-family: 'Anton', 'Bebas Neue', sans-serif;
+          font-weight: 400;
+          font-size: 20px;
+          line-height: 1.05;
+          color: #f4ede2;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .hr-info-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 4px;
+        }
+        .hr-price {
+          font-family: 'JetBrains Mono', 'Space Mono', monospace;
+          font-size: 14px;
+          color: #f4ede2;
+          letter-spacing: 0.05em;
+        }
+        .hr-arrow {
+          font-family: 'JetBrains Mono', 'Space Mono', monospace;
+          font-size: 18px;
+          line-height: 1;
+          color: #a1182a;
+          transition: color 0.3s ease;
+        }
+        .hr-color-dots {
+          display: inline-flex;
+          gap: 4px;
+          margin-left: 10px;
         }
       `}</style>
 
@@ -223,9 +327,10 @@ export default async function ProductShellPage({ title, subtitle, category }) {
       </section>
 
       {/* Product grid */}
-      <section style={{ padding: '64px 16px 120px', maxWidth: 1280, margin: '0 auto', position: 'relative', zIndex: 2 }}>
+      <section style={{ padding: '64px 0 120px', position: 'relative', zIndex: 2 }}>
         {isEmpty ? (
           <div style={{
+            maxWidth: 1280, margin: '0 auto',
             padding: '120px 32px',
             border:  '1px dashed rgba(204,34,34,0.25)',
             background: 'radial-gradient(ellipse at center, rgba(204,34,34,0.04) 0%, transparent 70%)',
@@ -257,12 +362,13 @@ export default async function ProductShellPage({ title, subtitle, category }) {
             </p>
             <Link href="/shop/shirts" style={{
               marginTop: 12, padding: '12px 22px',
-              border: '1px solid #cc2222', color: '#cc2222',
+              border: '1px solid #a1182a', color: '#a1182a',
               fontSize: 10, letterSpacing: 5,
               fontFamily: '"Space Mono", monospace',
               textTransform: 'uppercase', textDecoration: 'none',
-              transition: 'background 0.3s ease, color 0.3s ease',
-            }}>
+              transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
+            }}
+            className="hr-empty-cta">
               View Drop 001 — Shirts →
             </Link>
           </div>
@@ -271,7 +377,8 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           {families.map((family, i) => {
             const lead = family.lead;
             const hasMultipleColors = family.variants.length > 1;
-            const backImage = `/mockups/${family.imageFolder}/${lead.color === 'WHITE' ? 'white' : 'black'}/tee-${family.imageFolder}-back-${lead.color === 'WHITE' ? 'white' : 'black'}.png`;
+            const folderColor = lead.color === 'WHITE' ? 'white' : 'black';
+            const backImage = `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-back-${folderColor}.png`;
             const fallback = { url: backImage, alt: `${family.name} — back design` };
             const hover = cardHoverImage({
               imageFolder: family.imageFolder,
@@ -286,54 +393,22 @@ export default async function ProductShellPage({ title, subtitle, category }) {
               href={`/products/${lead.handle}`}
               prefetch={false}
               className="hr-card hr-card-link"
-              style={{
-                '--card-bg':     family.bg,
-                '--card-accent': family.accent,
-                animationDelay:  `${i * 0.12}s`,
-              }}
+              style={{ animationDelay: `${i * 0.08}s` }}
               aria-label={
                 hasMultipleColors
                   ? `${family.name} · available in ${family.variants.length} colors`
                   : family.name
               }
             >
-              {/* Visual area */}
-              <div style={{
-                position:    'relative',
-                aspectRatio: '1 / 1',
-                width:       '100%',
-                overflow:    'hidden',
-                background:  `radial-gradient(ellipse at center 60%, ${family.accent}1a 0%, transparent 65%), ${family.bg}`,
-              }}>
-                {/* Drop label */}
-                <span style={{
-                  position: 'absolute', top: 18, left: 22, zIndex: 5,
-                  fontSize: 9, letterSpacing: 5,
-                  fontFamily: '"Space Mono", monospace',
-                  color: family.accent,
-                  textShadow: `0 0 12px ${family.accent}66`,
-                }}>
-                  {family.label}
-                </span>
-
-                {/* Color badge */}
-                <span style={{
-                  position: 'absolute', top: 18, right: 22, zIndex: 5,
-                  fontSize: 9, letterSpacing: 3,
-                  fontFamily: '"Space Mono", monospace',
-                  color: 'rgba(255,255,255,0.4)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  padding: '4px 10px',
-                }}>
-                  {lead.color === 'WHITE' ? 'White' : 'Black'}
-                </span>
+              <div className="hr-card-img">
+                <span className="hr-drop-badge">{family.label}</span>
 
                 <Image
                   className="hr-mock-default"
                   src={fallback.url}
                   alt={fallback.alt}
                   fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                   priority={i < 4}
                 />
                 <Image
@@ -341,58 +416,28 @@ export default async function ProductShellPage({ title, subtitle, category }) {
                   src={hover.url}
                   alt={hover.alt}
                   fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                   priority={i < 4}
                 />
 
-                {/* Vignette */}
-                <div style={{
-                  position: 'absolute', inset: 0, zIndex: 3, pointerEvents: 'none',
-                  background: 'radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%)',
-                }} />
+                <span className="hr-bracket hr-bracket-tl" />
+                <span className="hr-bracket hr-bracket-tr" />
+                <span className="hr-bracket hr-bracket-bl" />
+                <span className="hr-bracket hr-bracket-br" />
+
+                <span className="hr-color-chip">
+                  {lead.color === 'WHITE' ? 'WHITE' : 'BLACK'}
+                </span>
               </div>
 
-              {/* Footer */}
-              <div style={{
-                padding:         '22px 26px',
-                display:         'flex',
-                alignItems:      'center',
-                justifyContent:  'space-between',
-                background:      'rgba(0,0,0,0.4)',
-                borderTop:       '1px solid rgba(255,255,255,0.05)',
-                position:        'relative',
-                zIndex:          2,
-              }}>
-                <div style={{ minWidth: 0 }}>
-                  <p style={{
-                    margin:       0,
-                    fontSize:     17,
-                    fontWeight:   600,
-                    fontFamily:   'Georgia, serif',
-                    color:        '#ffffff',
-                    marginBottom: 6,
-                    lineHeight:   1.2,
-                    display:      '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow:     'hidden',
-                  }}>
-                    {family.name}
-                  </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <p style={{
-                      margin: 0, fontSize: 11,
-                      fontFamily: '"Space Mono", monospace',
-                      color: 'rgba(255,255,255,0.42)',
-                      letterSpacing: 2,
-                    }}>
-                      ${lead.price.toFixed(2)} {lead.currencyCode}
-                    </p>
+              <div className="hr-card-info">
+                <span className="hr-kanji">{family.kanji || family.japaneseName}</span>
+                <span className="hr-romaji">{family.name}</span>
+                <div className="hr-info-row">
+                  <span className="hr-price">
+                    ${lead.price.toFixed(2)}
                     {hasMultipleColors && (
-                      <span
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}
-                        aria-hidden="true"
-                      >
+                      <span className="hr-color-dots" aria-hidden="true">
                         {family.variants.map((v) => (
                           <span
                             key={v.handle}
@@ -403,31 +448,16 @@ export default async function ProductShellPage({ title, subtitle, category }) {
                               borderRadius: '50%',
                               background: COLOR_DOT[v.color],
                               border: v.handle === lead.handle
-                                ? `1px solid ${family.accent}`
-                                : '1px solid rgba(255,255,255,0.18)',
-                              boxShadow: v.handle === lead.handle
-                                ? `0 0 0 2px ${family.accent}33`
-                                : 'none',
+                                ? '1px solid #c9a961'
+                                : '1px solid rgba(244,237,226,0.18)',
+                              display: 'inline-block',
                             }}
                           />
                         ))}
                       </span>
                     )}
-                  </div>
-                </div>
-                <div
-                  className="hr-view"
-                  style={{
-                    fontSize: 9, letterSpacing: 4,
-                    fontFamily: '"Space Mono", monospace',
-                    color: family.accent,
-                    textTransform: 'uppercase',
-                    border: `1px solid ${family.accent}`,
-                    padding: '9px 16px',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  View →
+                  </span>
+                  <span className="hr-arrow" aria-hidden="true">→</span>
                 </div>
               </div>
             </Link>

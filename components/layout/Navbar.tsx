@@ -121,29 +121,18 @@ export default function Navbar() {
               textDecoration: "none",
             }}
           >
-            {/* Logo icon — black container + screen blend removes the black square */}
-            <div style={{
-              background: "#000000",
-              borderRadius: "8px",
-              padding: "3px",
-              border: "1px solid rgba(201,169,97,0.45)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-            }}>
-              <img
-                src="/images/logo-mask.png"
-                alt=""
-                style={{
-                  width: 56,
-                  height: 56,
-                  objectFit: "contain",
-                  display: "block",
-                  mixBlendMode: "screen",
-                }}
-              />
-            </div>
+            {/* Logo icon — Hollow Ronin gold emblem */}
+            <img
+              className="hr-nav-emblem"
+              src="/logos/hollow-ronin-emblem.svg"
+              alt="Hollow Ronin"
+              style={{
+                width: 40,
+                height: 40,
+                display: "block",
+                flexShrink: 0,
+              }}
+            />
 
             {/* Wordmark */}
             <div style={{

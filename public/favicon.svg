@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <g fill="none" stroke="#C9A961" stroke-linecap="round">
+    <circle cx="256" cy="260" r="170" stroke-width="14" stroke-dasharray="280 25 380 45 200 50" stroke-dashoffset="40" transform="rotate(-15 256 260)"/>
+    <line x1="256" y1="110" x2="256" y2="160" stroke-width="10"/>
+    <line x1="238" y1="172" x2="274" y2="172" stroke-width="10"/>
+    <path d="M 100 200 Q 115 175 140 184 L 372 184 Q 397 175 412 200" stroke-width="18"/>
+    <line x1="160" y1="232" x2="352" y2="232" stroke-width="16"/>
+    <line x1="196" y1="190" x2="196" y2="360" stroke-width="14"/>
+    <line x1="316" y1="190" x2="316" y2="360" stroke-width="14"/>
+    <line x1="256" y1="180" x2="256" y2="310" stroke-width="16"/>
+    <polyline points="256,310 230,338 282,372 238,408 262,440" stroke-width="16" stroke-linejoin="miter"/>
+    <line x1="262" y1="440" x2="258" y2="475" stroke-width="10"/>
+  </g>
+  <circle cx="256" cy="105" r="14" fill="#C9A961"/>
+</svg>

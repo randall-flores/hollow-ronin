@@ -21,7 +21,7 @@ const LINKS: Record<string, FooterLink[]> = {
   ],
   SOCIAL: [
     { label: "INSTAGRAM", href: "https://instagram.com/hollow.ronin",   external: true },
-    { label: "TIKTOK",    href: "https://tiktok.com/@hollowronin",      external: true },
+    { label: "TIKTOK",    href: "https://www.tiktok.com/@hollowronin_", external: true },
     { label: "FACEBOOK",  href: "https://facebook.com/hollowronin",     external: true },
   ],
 };

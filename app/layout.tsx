@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Space_Mono, Bebas_Neue, Inter, Anton } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -6,6 +7,34 @@ import PageTransition from "@/components/layout/PageTransition";
 import SlashCursor from "@/components/SlashCursor";
 import { CartProvider } from "@/components/cart/CartProvider";
 import CartDrawer from "@/components/cart/CartDrawer";
+
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight:  ["400", "700"],
+  display: "swap",
+  variable: "--font-space-mono",
+});
+
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight:  "400",
+  display: "swap",
+  variable: "--font-bebas-neue",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight:  ["400", "700"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const anton = Anton({
+  subsets: ["latin"],
+  weight:  "400",
+  display: "swap",
+  variable: "--font-anton",
+});
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hollowronin.com";
 const OG_IMAGE = "/og/og-default.png";
@@ -50,12 +79,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@700&family=Inter:wght@400;700&family=Space+Mono:wght@400;700&family=Anton&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
-      </head>
+    <html
+      lang="en"
+      className={`${spaceMono.variable} ${bebasNeue.variable} ${inter.variable} ${anton.variable}`}
+    >
       <body>
         <CartProvider>
           <Navbar />

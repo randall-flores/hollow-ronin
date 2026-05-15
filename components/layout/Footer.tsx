@@ -28,10 +28,10 @@ const LINKS: Record<string, FooterLink[]> = {
 
 const linkStyle = {
   fontFamily: "'Space Mono', monospace",
-  fontSize: "10px",
+  fontSize: "12px",
   letterSpacing: "0.15em",
   textTransform: "uppercase" as const,
-  color: "#6b6b6b",
+  color: "#b8b8b8",
   textDecoration: "none",
   display: "block",
   transition: "color 0.3s",
@@ -83,7 +83,7 @@ export default function Footer() {
       <div style={{ overflow: "hidden", borderBottom: "1px solid #2e2e2e", paddingBottom: "32px", marginBottom: "64px" }}>
         <div className="animate-ticker" style={{ display: "flex", whiteSpace: "nowrap", width: "max-content" }}>
           {Array.from({ length: 8 }).map((_, i) => (
-            <span key={i} style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#444748", margin: "0 24px" }}>
+            <span key={i} style={{ fontFamily: "'Space Mono', monospace", fontSize: "12px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#8a8a8a", margin: "0 24px" }}>
               HOLLOW RONIN — DROP 001 — NO MASTER. NO RULES — CYBER SAMURAI ◆
             </span>
           ))}
@@ -93,9 +93,9 @@ export default function Footer() {
       <div className="hr-footer-grid">
         {Object.entries(LINKS).map(([col, links]) => (
           <div key={col}>
-            <h4 style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#c9a961", marginBottom: "20px" }}>
+            <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "12px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#c9a961", marginBottom: "20px", fontWeight: 700 }}>
               {col}
-            </h4>
+            </p>
             <nav style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               {links.map((l) =>
                 l.external ? (
@@ -106,7 +106,7 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     style={linkStyle}
                     onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#b8b8b8")}
                   >
                     {l.label}
                   </a>
@@ -116,7 +116,7 @@ export default function Footer() {
                     href={l.href}
                     style={linkStyle}
                     onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a961")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#b8b8b8")}
                   >
                     {l.label}
                   </Link>
@@ -131,7 +131,7 @@ export default function Footer() {
         <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "28px", color: "#f0ede6", letterSpacing: "0.1em" }}>
           HOLLOW RONIN
         </span>
-        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(244,237,226,0.5)" }}>
+        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(244,237,226,0.75)" }}>
           ©2025 HOLLOW RONIN // PROTOCOL_001 // ALL RIGHTS RESERVED
         </span>
       </div>

@@ -294,6 +294,8 @@ export default async function TheDrop() {
                       alt={fallback.alt}
                       fill
                       sizes="(min-width: 1280px) 22vw, (min-width: 860px) 33vw, 50vw"
+                      priority={i === 0}
+                      fetchPriority={i === 0 ? "high" : undefined}
                     />
                     <Image
                       className="td-reveal"

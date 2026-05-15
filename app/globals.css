@@ -118,7 +118,7 @@ body::before {
   .nav-desktop-links  { display: none !important; }
   .nav-hamburger      { display: flex !important; }
   .navbar             { padding: 0 24px !important; }
-  .hr-nav-emblem      { width: 32px !important; height: 32px !important; }
+  .hr-nav-emblem      { width: 48px !important; height: 48px !important; }
 }
 
 /* ── Page card hover ──────────────────────────── */

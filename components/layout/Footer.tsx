@@ -74,9 +74,9 @@ export default function Footer() {
         <img
           src="/logos/hollow-ronin-emblem.svg"
           alt="Hollow Ronin"
-          width={96}
-          height={96}
-          style={{ width: "96px", height: "96px", opacity: 0.92 }}
+          width={160}
+          height={160}
+          style={{ width: "160px", height: "160px", opacity: 0.95 }}
         />
       </div>
 

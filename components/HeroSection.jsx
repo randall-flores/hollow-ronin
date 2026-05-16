@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 export default function HeroSection() {
   return (
     <section className="relative w-full h-screen overflow-hidden" style={{ marginTop: '-68px' }}>
@@ -99,7 +101,8 @@ export default function HeroSection() {
         </p>
 
         {/* CTA BUTTON */}
-        <button
+        <Link
+          href="/shop"
           style={{
             width: 'fit-content',
             padding: '14px 40px',
@@ -111,7 +114,9 @@ export default function HeroSection() {
             fontFamily: "'Bebas Neue', sans-serif",
             fontWeight: 600,
             cursor: 'pointer',
-            transition: 'background 0.3s ease'
+            transition: 'background 0.3s ease',
+            textDecoration: 'none',
+            display: 'inline-block',
           }}
           onMouseEnter={e => {
             e.currentTarget.style.background = '#a88b45'
@@ -121,7 +126,7 @@ export default function HeroSection() {
           }}
         >
           ENTER THE DROP
-        </button>
+        </Link>
       </div>
 
       {/* SCROLL INDICATOR */}

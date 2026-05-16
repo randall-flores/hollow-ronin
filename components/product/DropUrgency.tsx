@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-const DROP_END = new Date('2026-05-17T00:00:00')
+const DROP_END = new Date(process.env.NEXT_PUBLIC_DROP_END_AT ?? '2026-05-30T00:00:00Z')
 
 function remaining() {
   const diff = Math.max(0, DROP_END.getTime() - Date.now())

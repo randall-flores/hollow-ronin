@@ -694,9 +694,9 @@ export default function ProductPage({
             <Rule />
 
             <SocialShare
-              url={`https://hollowronin.com/products/${active.handle}`}
+              url={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hollowronin.com'}/products/${active.handle}`}
               title={`${family.name} — ${family.subtitle} · HOLLOW RONIN`}
-              image={`https://hollowronin.com${images[0]?.url ?? ''}`}
+              image={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hollowronin.com'}${images[0]?.url ?? ''}`}
             />
 
             <Rule />

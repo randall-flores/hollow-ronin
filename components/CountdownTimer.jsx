@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-const TARGET = new Date('2026-05-17T00:00:00');
+const TARGET = new Date(process.env.NEXT_PUBLIC_DROP_END_AT ?? '2026-05-30T00:00:00Z');
 
 function pad(n) { return String(n).padStart(2, '0'); }
 

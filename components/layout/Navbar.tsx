@@ -35,11 +35,19 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
+  const [logoFlashing, setLogoFlashing] = useState(false);
   const shopTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const flashTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { count: cartCount, open: openCart } = useCart();
   const pathname = usePathname();
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
+
+  function fireLogoFlash() {
+    if (flashTimer.current) clearTimeout(flashTimer.current);
+    setLogoFlashing(true);
+    flashTimer.current = setTimeout(() => setLogoFlashing(false), 480);
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -115,13 +123,23 @@ export default function Navbar() {
         >
           <Link
             href="/"
+            aria-label="Hollow Ronin — Home"
+            onClick={fireLogoFlash}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") fireLogoFlash();
+            }}
+            className={`hr-logo${logoFlashing ? " is-flashing" : ""}`}
             style={{
+              position: "relative",
               display: "flex",
               alignItems: "center",
               gap: "14px",
               textDecoration: "none",
             }}
           >
+            {/* Click flash — crimson radial pulse, pointer-events disabled so it never blocks the Link */}
+            <span className="hr-logo-flash" aria-hidden="true" />
+
             {/* Logo icon — Hollow Ronin gold emblem */}
             <img
               className="hr-nav-emblem"
@@ -136,7 +154,7 @@ export default function Navbar() {
             />
 
             {/* Wordmark */}
-            <div style={{
+            <div className="hr-logo-wordmark" style={{
               display: "flex",
               flexDirection: "column",
               lineHeight: 1,

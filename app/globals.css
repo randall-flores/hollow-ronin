@@ -195,3 +195,80 @@ input:autofill {
   background: #0a0a0a !important;
   color:      #f0ede6 !important;
 }
+
+/* ── Navbar logo — idle pulse, hover glow, click flash ─────────────────── */
+@keyframes hr-logo-pulse {
+  0%, 100% { opacity: 0.88; filter: drop-shadow(0 0 0 rgba(201,169,97,0)); }
+  50%      { opacity: 1.00; filter: drop-shadow(0 0 6px rgba(201,169,97,0.25)); }
+}
+@keyframes hr-logo-flash {
+  0%   { opacity: 0.9; transform: translate(-50%, -50%) scale(0.1); }
+  100% { opacity: 0;   transform: translate(-50%, -50%) scale(8);   }
+}
+
+.hr-logo {
+  animation: hr-logo-pulse 3.2s ease-in-out infinite;
+  transform-origin: center;
+  transition:
+    transform 240ms ease-out,
+    filter    240ms ease-out,
+    letter-spacing 240ms ease-out;
+  will-change: transform, filter, opacity;
+}
+.hr-logo:hover,
+.hr-logo:focus-visible {
+  animation-play-state: paused;
+  opacity: 1;
+  transform: scale(1.03);
+  filter: drop-shadow(0 0 12px rgba(201,169,97,0.4));
+}
+.hr-logo:focus-visible {
+  outline: 1px solid rgba(201,169,97,0.7);
+  outline-offset: 6px;
+  border-radius: 2px;
+}
+.hr-logo:hover .hr-logo-wordmark,
+.hr-logo:focus-visible .hr-logo-wordmark {
+  letter-spacing: 0.02em;
+}
+
+/* After hover-out: re-arm idle pulse with a 400ms delay so the transition
+   doesn't fight the opacity keyframe immediately. */
+.hr-logo {
+  animation-delay: 400ms;
+}
+
+/* Click flash — crimson radial pulse from logo center. Absolutely positioned
+   inside the Link (which is position:relative). pointer-events:none so it
+   never blocks the navigation. Hidden until .is-flashing toggles the keyframe. */
+.hr-logo-flash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(161,24,42,0.85) 0%, rgba(161,24,42,0.3) 45%, transparent 70%);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: -1;
+}
+.hr-logo.is-flashing .hr-logo-flash {
+  animation: hr-logo-flash 460ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hr-logo {
+    animation: none;
+    opacity: 1;
+  }
+  .hr-logo:hover,
+  .hr-logo:focus-visible {
+    transform: none;
+    filter: none;
+  }
+  .hr-logo.is-flashing .hr-logo-flash {
+    animation: none;
+  }
+}

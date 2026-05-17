@@ -93,5 +93,35 @@ export function productGalleryImages(args: GalleryArgs): ProductImage[] {
       /* fs unavailable — skip */
     }
   }
+
+  // Append everything inside the per-color `extras/` folder (lifestyle/person
+  // shots). Ordered: all front views before side views, then by file name so
+  // person-1 comes before person-2. Works for any category that drops extra
+  // PNGs into /mockups/{folder}/{color}/extras/.
+  const extrasDirAbs = path.join(PUBLIC_DIR, 'mockups', imageFolder, folder, 'extras')
+  try {
+    if (fs.existsSync(extrasDirAbs)) {
+      const files = fs.readdirSync(extrasDirAbs)
+        .filter((f) => /\.png$/i.test(f))
+        .sort((a, b) => {
+          const aFront = /-front-/i.test(a) ? 0 : 1
+          const bFront = /-front-/i.test(b) ? 0 : 1
+          if (aFront !== bFront) return aFront - bFront
+          return a.localeCompare(b)
+        })
+      for (const f of files) {
+        const isFront = /-front-/i.test(f)
+        const isSide  = /-side-/i.test(f)
+        const view    = isFront ? 'worn, front' : isSide ? 'worn, side' : 'lifestyle'
+        present.push({
+          url: `/mockups/${imageFolder}/${folder}/extras/${f}`,
+          alt: `${name} — ${view}`,
+        })
+      }
+    }
+  } catch {
+    /* fs unavailable — skip */
+  }
+
   return present
 }

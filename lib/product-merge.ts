@@ -51,7 +51,11 @@ function toVariant(p: ShopifyProduct): EnrichedVariant {
   }
 }
 
-function pickLead(variants: EnrichedVariant[]): EnrichedVariant {
+function pickLead(variants: EnrichedVariant[], leadColor?: ColorSlug): EnrichedVariant {
+  if (leadColor) {
+    const override = variants.find((v) => v.color === leadColor)
+    if (override) return override
+  }
   const priority: ColorSlug[] = ['BLACK', 'PEPPER', 'ESPRESSO', 'IVORY', 'WHITE']
   for (const c of priority) {
     const found = variants.find((v) => v.color === c)
@@ -92,7 +96,7 @@ function buildFamilies(products: ShopifyProduct[]): EnrichedFamily[] {
     const variants = ships.map(toVariant)
     families.push({
       ...editorial,
-      lead:     pickLead(variants),
+      lead:     pickLead(variants, editorial.leadColor),
       variants,
     })
   }

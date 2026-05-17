@@ -1,3 +1,5 @@
+import type { ColorSlug } from './shopify-products'
+
 /*
  * Editorial / lore content for Hollow Ronin products.
  *
@@ -40,6 +42,11 @@ export type Editorial = {
   // Optional product-spec line (fabric, fit, kanji translation). Shown on the
   // PDP above `story`. When absent, the spec block is omitted.
   description?: string
+  // Optional per-design override for grid card default color. When set,
+  // `pickLead` returns the variant matching this color instead of the global
+  // BLACK→PEPPER→ESPRESSO→IVORY→WHITE priority. Used when a non-BLACK fabric
+  // reads better as the hero (e.g. Ryūjin pops on Ivory).
+  leadColor?: ColorSlug
   tag:          string
   accent:       string
   bg:           string
@@ -427,6 +434,7 @@ export const EDITORIAL: Record<string, Editorial> = {
     label:        'DROP 003',
     category:     'joggers',
     imageFolder:  'sweatpant-mon-no-muko',
+    leadColor:    'PEPPER',
   },
   'sweatpant-ryujin': {
     designFamily: 'sweatpant-ryujin',
@@ -446,6 +454,7 @@ export const EDITORIAL: Record<string, Editorial> = {
     label:        'DROP 003',
     category:     'joggers',
     imageFolder:  'sweatpant-ryujin',
+    leadColor:    'IVORY',
   },
   'sweatpant-akuma-no-ikari': {
     designFamily: 'sweatpant-akuma-no-ikari',
@@ -465,6 +474,7 @@ export const EDITORIAL: Record<string, Editorial> = {
     label:        'DROP 003',
     category:     'joggers',
     imageFolder:  'sweatpant-akuma-no-ikari',
+    leadColor:    'ESPRESSO',
   },
   'sweatpant-kurokitsune': {
     designFamily: 'sweatpant-kurokitsune',
@@ -484,6 +494,7 @@ export const EDITORIAL: Record<string, Editorial> = {
     label:        'DROP 003',
     category:     'joggers',
     imageFolder:  'sweatpant-kurokitsune',
+    leadColor:    'PEPPER',
   },
 }
 

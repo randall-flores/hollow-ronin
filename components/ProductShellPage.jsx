@@ -1,15 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { getFamiliesByCategory } from '@/lib/product-merge';
 import { cardHoverImage } from '@/lib/card-images';
-
-const COLOR_DOT = {
-  BLACK:    '#1a1a1a',
-  WHITE:    '#e8e2d6',
-  PEPPER:   '#4a4a4a',
-  ESPRESSO: '#3d2817',
-  IVORY:    '#f4ede2',
-};
+import ProductGridCard from '@/components/ProductGridCard';
 
 export default async function ProductShellPage({ title, subtitle, category }) {
   let families = [];
@@ -241,6 +233,50 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           gap: 4px;
           margin-left: 10px;
         }
+
+        /* SWATCH ROW — interactive color picker on grid card */
+        .hr-swatch-row {
+          display: flex;
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .hr-swatch {
+          /* outer = 32px touch target, transparent padding */
+          width: 32px;
+          height: 32px;
+          padding: 5px;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.2s ease;
+          /* Reset Link-inherited color/decoration */
+          color: inherit;
+          text-decoration: none;
+        }
+        .hr-swatch:focus-visible {
+          outline: 2px solid #c9a961;
+          outline-offset: 2px;
+        }
+        .hr-swatch-dot {
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          border: 2px solid #1a1a1a;
+          box-shadow: 0 0 0 1px rgba(244, 237, 226, 0.12);
+          display: block;
+          transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+        .hr-swatch:hover .hr-swatch-dot {
+          transform: scale(1.1);
+          box-shadow: 0 0 0 2px rgba(201, 169, 97, 0.85);
+        }
+        .hr-swatch.is-selected .hr-swatch-dot {
+          box-shadow: 0 0 0 2px #c9a961, 0 0 12px rgba(201, 169, 97, 0.45);
+        }
       `}</style>
 
       {/* Hero */}
@@ -378,98 +414,54 @@ export default async function ProductShellPage({ title, subtitle, category }) {
         ) : (
         <div className="hr-grid">
           {families.map((family, i) => {
-            const lead = family.lead;
-            const hasMultipleColors = family.variants.length > 1;
             const COLOR_FOLDER = { WHITE: 'white', PEPPER: 'pepper', ESPRESSO: 'espresso', IVORY: 'ivory' };
-            const folderColor = COLOR_FOLDER[lead.color] || 'black';
-            // Joggers (and any non-tee category) don't have separate back mockups —
-            // use the front shot as the default card image instead.
-            const isTeeOrHoodie = family.category === 'shirts' || family.category === 'hoodies' || family.category === 'masked-hoodies';
-            const defaultImage = isTeeOrHoodie
-              ? `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-back-${folderColor}.png`
-              : `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-front-${folderColor}.png`;
-            const fallback = { url: defaultImage, alt: isTeeOrHoodie ? `${family.name} — back design` : `${family.name} — front view` };
-            const hover = cardHoverImage({
-              imageFolder: family.imageFolder,
-              color:       lead.color,
-              name:        family.name,
-              fallback,
+            const isTeeOrHoodie =
+              family.category === 'shirts' ||
+              family.category === 'hoodies' ||
+              family.category === 'masked-hoodies';
+
+            // Precompute per-variant image URLs server-side (cardHoverImage uses fs.existsSync).
+            const colors = family.variants.map((v) => {
+              const folderColor = COLOR_FOLDER[v.color] || 'black';
+              const defaultUrl = isTeeOrHoodie
+                ? `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-back-${folderColor}.png`
+                : `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-front-${folderColor}.png`;
+              const defaultAlt = isTeeOrHoodie
+                ? `${family.name} — back design`
+                : `${family.name} — front view`;
+              const hover = cardHoverImage({
+                imageFolder: family.imageFolder,
+                color:       v.color,
+                name:        family.name,
+                fallback:    { url: defaultUrl, alt: defaultAlt },
+              });
+              return {
+                color:       v.color,
+                handle:      v.handle,
+                price:       v.price,
+                defaultUrl,
+                defaultAlt,
+                hoverUrl:    hover.url,
+                hoverAlt:    hover.alt,
+              };
             });
 
+            const initialColor = family.lead.color;
+            const familyInfo = {
+              name:         family.name,
+              kanji:        family.kanji,
+              japaneseName: family.japaneseName,
+              label:        family.label,
+            };
+
             return (
-            <Link
-              key={lead.handle}
-              href={`/products/${lead.handle}`}
-              prefetch={false}
-              className="hr-card hr-card-link"
-              style={{ animationDelay: `${i * 0.08}s` }}
-              aria-label={
-                hasMultipleColors
-                  ? `${family.name} · available in ${family.variants.length} colors`
-                  : family.name
-              }
-            >
-              <div className="hr-card-img">
-                <span className="hr-drop-badge">{family.label}</span>
-
-                <Image
-                  className="hr-mock-default"
-                  src={fallback.url}
-                  alt={fallback.alt}
-                  fill
-                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                  priority={i < 4}
-                />
-                <Image
-                  className="hr-mock-reveal"
-                  src={hover.url}
-                  alt={hover.alt}
-                  fill
-                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                  priority={i < 4}
-                />
-
-                <span className="hr-bracket hr-bracket-tl" />
-                <span className="hr-bracket hr-bracket-tr" />
-                <span className="hr-bracket hr-bracket-bl" />
-                <span className="hr-bracket hr-bracket-br" />
-
-                <span className="hr-color-chip">
-                  {lead.color}
-                </span>
-              </div>
-
-              <div className="hr-card-info">
-                <span className="hr-kanji">{family.kanji || family.japaneseName}</span>
-                <span className="hr-romaji">{family.name}</span>
-                <div className="hr-info-row">
-                  <span className="hr-price">
-                    ${lead.price.toFixed(2)}
-                    {hasMultipleColors && (
-                      <span className="hr-color-dots" aria-hidden="true">
-                        {family.variants.map((v) => (
-                          <span
-                            key={v.handle}
-                            title={v.color}
-                            style={{
-                              width: 8,
-                              height: 8,
-                              borderRadius: '50%',
-                              background: COLOR_DOT[v.color],
-                              border: v.handle === lead.handle
-                                ? '1px solid #c9a961'
-                                : '1px solid rgba(244,237,226,0.18)',
-                              display: 'inline-block',
-                            }}
-                          />
-                        ))}
-                      </span>
-                    )}
-                  </span>
-                  <span className="hr-arrow" aria-hidden="true">→</span>
-                </div>
-              </div>
-            </Link>
+              <ProductGridCard
+                key={family.designFamily}
+                family={familyInfo}
+                colors={colors}
+                initialColor={initialColor}
+                animationDelay={`${i * 0.08}s`}
+              />
             );
           })}
         </div>

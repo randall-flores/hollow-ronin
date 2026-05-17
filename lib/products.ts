@@ -427,8 +427,6 @@ export const EDITORIAL: Record<string, Editorial> = {
     label:        'DROP 003',
     category:     'joggers',
     imageFolder:  'sweatpant-mon-no-muko',
-    pendingShopify:   true,
-    placeholderPrice: 75,
   },
   'sweatpant-ryujin': {
     designFamily: 'sweatpant-ryujin',
@@ -448,8 +446,6 @@ export const EDITORIAL: Record<string, Editorial> = {
     label:        'DROP 003',
     category:     'joggers',
     imageFolder:  'sweatpant-ryujin',
-    pendingShopify:   true,
-    placeholderPrice: 75,
   },
   'sweatpant-akuma-no-ikari': {
     designFamily: 'sweatpant-akuma-no-ikari',
@@ -469,8 +465,6 @@ export const EDITORIAL: Record<string, Editorial> = {
     label:        'DROP 003',
     category:     'joggers',
     imageFolder:  'sweatpant-akuma-no-ikari',
-    pendingShopify:   true,
-    placeholderPrice: 75,
   },
   'sweatpant-kurokitsune': {
     designFamily: 'sweatpant-kurokitsune',
@@ -490,8 +484,6 @@ export const EDITORIAL: Record<string, Editorial> = {
     label:        'DROP 003',
     category:     'joggers',
     imageFolder:  'sweatpant-kurokitsune',
-    pendingShopify:   true,
-    placeholderPrice: 75,
   },
 }
 

@@ -12,7 +12,7 @@ const NAV_LINKS = [
 
 const SHOP_CATEGORIES: { label: string; href: string; live: boolean }[] = [
   { label: "SHIRTS",         href: "/shop/shirts",         live: true  },
-  { label: "HOODIES",        href: "/shop/hoodies",        live: false },
+  { label: "HOODIES",        href: "/shop/hoodies",        live: true  },
   { label: "MASKED HOODIES", href: "/shop/masked-hoodies", live: false },
   { label: "HATS",           href: "/shop/hats",           live: false },
   { label: "BEANIES",        href: "/shop/beanies",        live: false },

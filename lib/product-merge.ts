@@ -55,6 +55,20 @@ function pickLead(variants: EnrichedVariant[]): EnrichedVariant {
   return variants.find((v) => v.color === 'BLACK') ?? variants[0]
 }
 
+function synthesizePlaceholder(editorial: Editorial): EnrichedFamily {
+  const variant: EnrichedVariant = {
+    handle:        editorial.designFamily,
+    productId:     `placeholder-${editorial.designFamily}`,
+    title:         editorial.name,
+    color:         'BLACK',
+    price:         editorial.placeholderPrice ?? 0,
+    currencyCode:  'USD',
+    featuredImage: null,
+    sizes:         [],
+  }
+  return { ...editorial, lead: variant, variants: [variant] }
+}
+
 function buildFamilies(products: ShopifyProduct[]): EnrichedFamily[] {
   const byFamily = new Map<string, ShopifyProduct[]>()
   for (const p of products) {
@@ -77,11 +91,29 @@ function buildFamilies(products: ShopifyProduct[]): EnrichedFamily[] {
       variants,
     })
   }
+
+  // Synthesize placeholder families for editorial entries flagged
+  // `pendingShopify: true` that aren't represented in the live Shopify catalog
+  // (mockups + lore are ready before the Printify/Shopify sync lands).
+  for (const editorial of Object.values(EDITORIAL)) {
+    if (!editorial.pendingShopify)            continue
+    if (byFamily.has(editorial.designFamily)) continue
+    families.push(synthesizePlaceholder(editorial))
+  }
+
   return families
 }
 
 export async function getAllFamilies(): Promise<EnrichedFamily[]> {
-  const products = await getAllShopifyProducts()
+  let products: ShopifyProduct[] = []
+  try {
+    products = await getAllShopifyProducts()
+  } catch (err) {
+    // Fail-soft: missing env vars or transient API errors should not nuke the
+    // entire catalog. Placeholder-flagged editorial entries still render via
+    // buildFamilies; live Shopify families are simply absent until next fetch.
+    console.warn('[product-merge] Shopify fetch failed — falling back to placeholders only:', err)
+  }
   return buildFamilies(products)
 }
 

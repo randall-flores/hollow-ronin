@@ -42,6 +42,13 @@ export type Editorial = {
   label:        string
   category:     Category
   imageFolder:  string   // folder name under /public/mockups/ — decoupled from Shopify handle
+  // When true, lib/product-merge.ts synthesizes a placeholder variant for this
+  // family if no live Shopify product matches. Used for designs whose mockups
+  // and editorial copy are ready before the Printify/Shopify sync happens.
+  pendingShopify?: boolean
+  // Fallback retail price (USD) used by the synthesized placeholder variant
+  // until a live Shopify product exists. Ignored once Shopify provides price.
+  placeholderPrice?: number
 }
 
 // Clan sigil — one mon per clan, shared across all clan members.
@@ -315,6 +322,83 @@ export const EDITORIAL: Record<string, Editorial> = {
     label:        'DROP 001',
     category:     'shirts',
     imageFolder:  'shinigami-reaper',
+  },
+
+  // ──────────────────────────────────────────────
+  // DROP 002 — HOODIES
+  // ──────────────────────────────────────────────
+
+  'hoodie-mon-no-muko': {
+    designFamily: 'hoodie-mon-no-muko',
+    name:         'MON NO MUKŌ',
+    japaneseName: 'Mon no Mukō',
+    kanji:        '門の向こう',
+    clan:         'Protagonist',
+    title:        'Beyond the Gate',
+    subtitle:     'Beyond the Gate',
+    tagline:      'Beyond the gate. No clan claims him.',
+    blurb:        'Beyond the gate. No clan claims him.',
+    story:        'The masters fell. The mask remained. He walks where no banner flies — where the cherry blossoms have already turned to ash. The torii is broken. He does not look back.',
+    tag:          'DROP 002 / NO CLAN',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 002',
+    category:     'hoodies',
+    imageFolder:  'hoodie-mon-no-muko',
+  },
+  'hoodie-ryujin': {
+    designFamily: 'hoodie-ryujin',
+    name:         'RYŪJIN',
+    japaneseName: 'Ryūjin',
+    kanji:        '龍神',
+    clan:         'Akatsuki',
+    title:        'The Dragon Woke',
+    subtitle:     'The Dragon Woke',
+    tagline:      'The dragon woke. The court burned.',
+    blurb:        'The dragon woke. The court burned.',
+    story:        'First of the Akatsuki-Gumi. When the Crimson Order rose from the ruin, the dragon answered. Coiled in storm-cloud and ember, it remembers every name written on a master’s tomb. Blood is its tribute.',
+    tag:          'DROP 002 / AKATSUKI-GUMI',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 002',
+    category:     'hoodies',
+    imageFolder:  'hoodie-ryujin',
+  },
+  'hoodie-akuma-no-ikari': {
+    designFamily: 'hoodie-akuma-no-ikari',
+    name:         'AKUMA NO IKARI',
+    japaneseName: 'Akuma no Ikari',
+    kanji:        '悪魔の怒り',
+    clan:         'Yami',
+    title:        'Wrath of the Demon',
+    subtitle:     'Wrath of the Demon',
+    tagline:      'The court that judges in silence.',
+    blurb:        'The court that judges in silence.',
+    story:        'The Hannya rises from incense smoke. The Yami-Gumi do not speak — they sentence. Three hooded judges kneel below the mask, the verdict already written in tears of blood. Mercy is not in their grammar.',
+    tag:          'DROP 002 / YAMI-GUMI',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 002',
+    category:     'hoodies',
+    imageFolder:  'hoodie-akuma-no-ikari',
+  },
+  'hoodie-kurokitsune': {
+    designFamily: 'hoodie-kurokitsune',
+    name:         'KUROKITSUNE',
+    japaneseName: 'Kurokitsune',
+    kanji:        '黒狐',
+    clan:         'Kage',
+    title:        'Black Fox',
+    subtitle:     'Black Fox',
+    tagline:      'The fox remembers. The dead do not.',
+    blurb:        'The fox remembers. The dead do not.',
+    story:        'First of the Kage-Gumi. A kitsune skull haunts the maple grove where the last samurai fell. Ravens carry pieces of his armor into the night. The fox waits. It has waited a thousand years. It can wait one more.',
+    tag:          'DROP 002 / KAGE-GUMI',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 002',
+    category:     'hoodies',
+    imageFolder:  'hoodie-kurokitsune',
   },
 }
 

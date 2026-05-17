@@ -8,6 +8,7 @@ import 'yet-another-react-lightbox/styles.css'
 import type { ProductImage } from '@/lib/products'
 import type { ColorSlug } from '@/lib/shopify-products'
 import type { EnrichedFamily, EnrichedVariant } from '@/lib/product-merge'
+import { getCanonicalSizes } from '@/lib/sizes'
 import { useCart } from '@/components/cart/CartProvider'
 import DropUrgency from '@/components/product/DropUrgency'
 import SocialShare from '@/components/product/SocialShare'
@@ -386,11 +387,12 @@ export default function ProductPage({
   galleryByHandle: Record<string, ProductImage[]>
   related?:        RelatedItem[]
 }) {
-  const availableSizes = active.sizes.filter((s) => s.available)
-  const sizeOrder = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL']
-  const sortedSizes = [...availableSizes].sort(
-    (a, b) => sizeOrder.indexOf(a.size) - sizeOrder.indexOf(b.size),
-  )
+  const canonicalSizes = getCanonicalSizes(family.category)
+  const sizeSlots = canonicalSizes.map((label) => {
+    const variant = active.sizes.find((s) => s.size === label)
+    const available = !!variant?.available
+    return { label, variant, available }
+  })
 
   const [size,        setSize]        = useState<string | null>(null)
   const [qty,         setQty]         = useState(1)
@@ -548,6 +550,20 @@ export default function ProductPage({
           outline: 2px solid #c9a961;
           outline-offset: 2px;
         }
+        /* Out-of-stock size — diagonal strikethrough so the disabled state
+           reads as intentional inventory absence, not broken UI. Pseudo-line
+           is centered and rotated 135deg; muted cream color matches body text
+           at low opacity. */
+        .hr-size-btn.is-oos::after {
+          content: '';
+          position: absolute;
+          left: 8%; right: 8%; top: 50%;
+          height: 1px;
+          background: rgba(244, 237, 226, 0.55);
+          transform: rotate(-20deg);
+          transform-origin: center;
+          pointer-events: none;
+        }
         .hr-mobile-cta {
           position: fixed;
           left: 0; right: 0; bottom: 0;
@@ -625,23 +641,31 @@ export default function ProductPage({
                 </button>
               </div>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                {sortedSizes.map((s) => {
-                  const selected = size === s.size
+                {sizeSlots.map((slot) => {
+                  const selected = slot.available && size === slot.label
+                  const disabled = !slot.available
                   return (
                     <button
-                      key={s.id}
-                      onClick={() => setSize(s.size)}
+                      key={slot.label}
+                      type="button"
+                      onClick={() => { if (!disabled) setSize(slot.label) }}
                       aria-pressed={selected}
-                      className="hr-size-btn"
+                      aria-disabled={disabled || undefined}
+                      aria-label={disabled ? `${slot.label} — out of stock` : slot.label}
+                      title={disabled ? 'Out of stock' : undefined}
+                      className={`hr-size-btn${disabled ? ' is-oos' : ''}`}
                       style={{
                         minWidth: 48, height: 48, padding: '0 12px', fontSize: 11, fontFamily: 'monospace', letterSpacing: 1,
                         border: `1px solid ${selected ? '#c9a961' : 'rgba(255,255,255,0.12)'}`,
                         background: selected ? 'rgba(201,169,97,0.10)' : 'transparent',
                         color: selected ? '#c9a961' : 'rgba(255,255,255,0.55)',
-                        cursor: 'pointer', transition: 'all 0.18s ease', outline: 'none',
+                        cursor: disabled ? 'not-allowed' : 'pointer',
+                        opacity: disabled ? 0.35 : 1,
+                        transition: 'all 0.18s ease', outline: 'none',
+                        position: 'relative', overflow: 'hidden',
                       }}
                     >
-                      {s.size}
+                      {slot.label}
                     </button>
                   )
                 })}

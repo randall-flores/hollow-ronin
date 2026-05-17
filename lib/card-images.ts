@@ -81,7 +81,6 @@ export function productGalleryImages(args: GalleryArgs): ProductImage[] {
     { url: `${dir}/tee-${imageFolder}-back-${folder}-model1.png`,  alt: `${name} — worn, back (1)`         },
     { url: `${dir}/tee-${imageFolder}-back-${folder}-model3.png`,  alt: `${name} — worn, back (studio)`    },
     { url: `${dir}/tee-${imageFolder}-back-${folder}-model4.png`,  alt: `${name} — worn, back (editorial)` },
-    { url: CLAN_SIGIL[clan],                                       alt: `${name} — clan sigil`             },
   ]
 
   const present: ProductImage[] = []
@@ -122,6 +121,9 @@ export function productGalleryImages(args: GalleryArgs): ProductImage[] {
   } catch {
     /* fs unavailable — skip */
   }
+
+  // Clan sigil closes the gallery — symbolic tail, not the hero.
+  present.push({ url: CLAN_SIGIL[clan], alt: `${name} — clan sigil` })
 
   return present
 }

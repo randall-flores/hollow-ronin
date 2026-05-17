@@ -4,8 +4,11 @@ import { getFamiliesByCategory } from '@/lib/product-merge';
 import { cardHoverImage } from '@/lib/card-images';
 
 const COLOR_DOT = {
-  BLACK: '#1a1a1a',
-  WHITE: '#e8e2d6',
+  BLACK:    '#1a1a1a',
+  WHITE:    '#e8e2d6',
+  PEPPER:   '#4a4a4a',
+  ESPRESSO: '#3d2817',
+  IVORY:    '#f4ede2',
 };
 
 export default async function ProductShellPage({ title, subtitle, category }) {
@@ -377,9 +380,15 @@ export default async function ProductShellPage({ title, subtitle, category }) {
           {families.map((family, i) => {
             const lead = family.lead;
             const hasMultipleColors = family.variants.length > 1;
-            const folderColor = lead.color === 'WHITE' ? 'white' : 'black';
-            const backImage = `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-back-${folderColor}.png`;
-            const fallback = { url: backImage, alt: `${family.name} — back design` };
+            const COLOR_FOLDER = { WHITE: 'white', PEPPER: 'pepper', ESPRESSO: 'espresso', IVORY: 'ivory' };
+            const folderColor = COLOR_FOLDER[lead.color] || 'black';
+            // Joggers (and any non-tee category) don't have separate back mockups —
+            // use the front shot as the default card image instead.
+            const isTeeOrHoodie = family.category === 'shirts' || family.category === 'hoodies' || family.category === 'masked-hoodies';
+            const defaultImage = isTeeOrHoodie
+              ? `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-back-${folderColor}.png`
+              : `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-front-${folderColor}.png`;
+            const fallback = { url: defaultImage, alt: isTeeOrHoodie ? `${family.name} — back design` : `${family.name} — front view` };
             const hover = cardHoverImage({
               imageFolder: family.imageFolder,
               color:       lead.color,
@@ -426,7 +435,7 @@ export default async function ProductShellPage({ title, subtitle, category }) {
                 <span className="hr-bracket hr-bracket-br" />
 
                 <span className="hr-color-chip">
-                  {lead.color === 'WHITE' ? 'WHITE' : 'BLACK'}
+                  {lead.color}
                 </span>
               </div>
 

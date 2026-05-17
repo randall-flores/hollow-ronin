@@ -52,7 +52,12 @@ function toVariant(p: ShopifyProduct): EnrichedVariant {
 }
 
 function pickLead(variants: EnrichedVariant[]): EnrichedVariant {
-  return variants.find((v) => v.color === 'BLACK') ?? variants[0]
+  const priority: ColorSlug[] = ['BLACK', 'PEPPER', 'ESPRESSO', 'IVORY', 'WHITE']
+  for (const c of priority) {
+    const found = variants.find((v) => v.color === c)
+    if (found) return found
+  }
+  return variants[0]
 }
 
 function synthesizePlaceholder(editorial: Editorial): EnrichedFamily {

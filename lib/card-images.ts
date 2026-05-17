@@ -18,8 +18,16 @@ import { type ColorSlug } from './shopify-products'
 const PUBLIC_DIR = path.resolve(process.cwd(), 'public')
 const warned     = new Set<string>()
 
-function colorToFolder(c: ColorSlug): 'black' | 'white' {
-  return c === 'WHITE' ? 'white' : 'black'
+type ColorFolder = 'black' | 'white' | 'pepper' | 'espresso' | 'ivory'
+
+function colorToFolder(c: ColorSlug): ColorFolder {
+  switch (c) {
+    case 'WHITE':    return 'white'
+    case 'PEPPER':   return 'pepper'
+    case 'ESPRESSO': return 'espresso'
+    case 'IVORY':    return 'ivory'
+    default:         return 'black'
+  }
 }
 
 type CardHoverArgs = {

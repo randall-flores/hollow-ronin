@@ -12,6 +12,7 @@
 export type Category =
   | 'shirts'
   | 'hoodies'
+  | 'joggers'
   | 'hats'
   | 'beanies'
   | 'socks'
@@ -36,6 +37,9 @@ export type Editorial = {
   tagline:      string
   blurb:        string
   story:        string
+  // Optional product-spec line (fabric, fit, kanji translation). Shown on the
+  // PDP above `story`. When absent, the spec block is omitted.
+  description?: string
   tag:          string
   accent:       string
   bg:           string
@@ -399,6 +403,95 @@ export const EDITORIAL: Record<string, Editorial> = {
     label:        'DROP 002',
     category:     'hoodies',
     imageFolder:  'hoodie-kurokitsune',
+  },
+
+  // ──────────────────────────────────────────────
+  // DROP 003 — JOGGERS (4 designs × 3 colors)
+  // ──────────────────────────────────────────────
+
+  'sweatpant-mon-no-muko': {
+    designFamily: 'sweatpant-mon-no-muko',
+    name:         'MON NO MUKŌ JOGGERS',
+    japaneseName: 'Mon no Mukō',
+    kanji:        '無主',
+    clan:         'Protagonist',
+    title:        'Masterless',
+    subtitle:     'Masterless',
+    tagline:      'Beyond the gate. No clan claims him.',
+    blurb:        'Beyond the gate. No clan claims him.',
+    story:        'The masters fell. The mask remained. He walks where no banner flies — where the cherry blossoms have already turned to ash. The torii is broken. He does not look back.',
+    description:  'Cut for the one who walks alone. 6.5oz garment-dyed cotton, relaxed fit, hip-anchored 無主 — Masterless. The mark that defines him: no clan, no oath, no return. Worn smooth like a road already walked.',
+    tag:          'DROP 003 / JOGGERS — NO CLAN',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 003',
+    category:     'joggers',
+    imageFolder:  'sweatpant-mon-no-muko',
+    pendingShopify:   true,
+    placeholderPrice: 75,
+  },
+  'sweatpant-ryujin': {
+    designFamily: 'sweatpant-ryujin',
+    name:         'RYŪJIN JOGGERS',
+    japaneseName: 'Ryūjin',
+    kanji:        '紅蓮',
+    clan:         'Akatsuki',
+    title:        'Crimson Flame',
+    subtitle:     'Crimson Flame',
+    tagline:      'The dragon woke. The court burned.',
+    blurb:        'The dragon woke. The court burned.',
+    story:        'First of the Akatsuki-Gumi. When the Crimson Order rose from the ruin, the dragon answered. Coiled in storm-cloud and ember, it remembers every name written on a master’s tomb. Blood is its tribute.',
+    description:  'First flame of the Akatsuki-Gumi. 6.5oz garment-dyed cotton, relaxed fit, hip-anchored 紅蓮 — Crimson Flame. The dragon’s name carried into every step. Heavy, garment-dyed, made for the long burn.',
+    tag:          'DROP 003 / JOGGERS — AKATSUKI-GUMI',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 003',
+    category:     'joggers',
+    imageFolder:  'sweatpant-ryujin',
+    pendingShopify:   true,
+    placeholderPrice: 75,
+  },
+  'sweatpant-akuma-no-ikari': {
+    designFamily: 'sweatpant-akuma-no-ikari',
+    name:         'AKUMA NO IKARI JOGGERS',
+    japaneseName: 'Akuma no Ikari',
+    kanji:        '沈黙',
+    clan:         'Yami',
+    title:        'Silence',
+    subtitle:     'Silence',
+    tagline:      'The court that judges in silence.',
+    blurb:        'The court that judges in silence.',
+    story:        'The Hannya rises from incense smoke. The Yami-Gumi do not speak — they sentence. Three hooded judges kneel below the mask, the verdict already written in tears of blood. Mercy is not in their grammar.',
+    description:  'Issued by the silent court. 6.5oz garment-dyed cotton, relaxed fit, hip-anchored 沈黙 — Silence. The Yami-Gumi do not speak; their verdict walks beside you. A garment for the unannounced.',
+    tag:          'DROP 003 / JOGGERS — YAMI-GUMI',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 003',
+    category:     'joggers',
+    imageFolder:  'sweatpant-akuma-no-ikari',
+    pendingShopify:   true,
+    placeholderPrice: 75,
+  },
+  'sweatpant-kurokitsune': {
+    designFamily: 'sweatpant-kurokitsune',
+    name:         'KUROKITSUNE JOGGERS',
+    japaneseName: 'Kurokitsune',
+    kanji:        '残響',
+    clan:         'Kage',
+    title:        'Lingering Echo',
+    subtitle:     'Lingering Echo',
+    tagline:      'The fox remembers. The dead do not.',
+    blurb:        'The fox remembers. The dead do not.',
+    story:        'First of the Kage-Gumi. A kitsune skull haunts the maple grove where the last samurai fell. Ravens carry pieces of his armor into the night. The fox waits. It has waited a thousand years. It can wait one more.',
+    description:  'Echoes from the maple grove. 6.5oz garment-dyed cotton, relaxed fit, hip-anchored 残響 — Lingering Echo. The Kage-Gumi remember everything; what they wear remembers with them. Heavy fabric, lighter step.',
+    tag:          'DROP 003 / JOGGERS — KAGE-GUMI',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 003',
+    category:     'joggers',
+    imageFolder:  'sweatpant-kurokitsune',
+    pendingShopify:   true,
+    placeholderPrice: 75,
   },
 }
 

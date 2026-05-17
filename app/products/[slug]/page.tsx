@@ -74,8 +74,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     .filter((f) => f.category === family.category && f.designFamily !== family.designFamily)
     .slice(0, 4)
     .map((f) => {
-      const folderColor = f.lead.color === 'WHITE' ? 'white' : 'black'
-      const fallback = `/mockups/${f.imageFolder}/${folderColor}/tee-${f.imageFolder}-back-${folderColor}.png`
+      const COLOR_FOLDER: Record<string, string> = { WHITE: 'white', PEPPER: 'pepper', ESPRESSO: 'espresso', IVORY: 'ivory' }
+      const folderColor = COLOR_FOLDER[f.lead.color] ?? 'black'
+      const isTeeOrHoodie = f.category === 'shirts' || f.category === 'hoodies' || f.category === 'masked-hoodies'
+      const fallback = isTeeOrHoodie
+        ? `/mockups/${f.imageFolder}/${folderColor}/tee-${f.imageFolder}-back-${folderColor}.png`
+        : `/mockups/${f.imageFolder}/${folderColor}/tee-${f.imageFolder}-front-${folderColor}.png`
       const localGallery = productGalleryImages({
         imageFolder: f.imageFolder,
         color:       f.lead.color,

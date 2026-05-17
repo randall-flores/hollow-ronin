@@ -14,7 +14,7 @@ const STOREFRONT   =
   process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
 const API_VERSION  = '2024-10'
 
-export type ColorSlug = 'BLACK' | 'WHITE'
+export type ColorSlug = 'BLACK' | 'WHITE' | 'PEPPER' | 'ESPRESSO' | 'IVORY'
 
 export type ShopifyVariant = {
   id:        string
@@ -106,7 +106,12 @@ const PRODUCT_FIELDS = `
 `
 
 function normalizeColor(raw: string | null | undefined): ColorSlug {
-  return raw?.toUpperCase() === 'WHITE' ? 'WHITE' : 'BLACK'
+  const upper = raw?.toUpperCase()
+  if (upper === 'WHITE')    return 'WHITE'
+  if (upper === 'PEPPER')   return 'PEPPER'
+  if (upper === 'ESPRESSO') return 'ESPRESSO'
+  if (upper === 'IVORY')    return 'IVORY'
+  return 'BLACK'
 }
 
 function normalize(node: RawProductNode): ShopifyProduct | null {

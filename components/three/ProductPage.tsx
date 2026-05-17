@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 import type { ProductImage } from '@/lib/products'
+import type { ColorSlug } from '@/lib/shopify-products'
 import type { EnrichedFamily, EnrichedVariant } from '@/lib/product-merge'
 import { useCart } from '@/components/cart/CartProvider'
 import DropUrgency from '@/components/product/DropUrgency'
@@ -29,9 +30,12 @@ const DETAILS: [string, string][] = [
   ['Origin',   'Forged on demand. Limited by design.'],
 ]
 
-const COLOR_SWATCH: Record<'BLACK' | 'WHITE', string> = {
-  BLACK: '#1a1a1a',
-  WHITE: '#e8e2d6',
+const COLOR_SWATCH: Record<ColorSlug, string> = {
+  BLACK:    '#1a1a1a',
+  WHITE:    '#e8e2d6',
+  PEPPER:   '#4a4a4a',
+  ESPRESSO: '#3d2817',
+  IVORY:    '#f4ede2',
 }
 
 function Rule() {
@@ -580,6 +584,11 @@ export default function ProductPage({
               <p style={{ margin: '0 0 18px', fontSize: 10, letterSpacing: 6, fontFamily: 'monospace', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>
                 {family.subtitle}
               </p>
+              {family.description && (
+                <p style={{ margin: '0 0 14px', fontSize: 13, color: 'rgba(255,255,255,0.72)', lineHeight: 1.6, maxWidth: 460 }}>
+                  {family.description}
+                </p>
+              )}
               <p style={{ margin: '0 0 18px', fontSize: 13, fontStyle: 'italic', color: 'rgba(255,255,255,0.55)', lineHeight: 1.55, maxWidth: 460 }}>
                 {family.story}
               </p>

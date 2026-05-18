@@ -4,9 +4,22 @@
  * Source of truth for: handle, title, variant IDs, prices, availability,
  * color, and the join key `custom.design_family` metafield.
  *
+ * Color resolution: variant `selectedOptions.Color` is the canonical source.
+ * Product-level `custom.color` metafield is read only as a fallback for
+ * Drop 001/002/003-era products where the option name was inconsistent.
+ *
+ * Multi-color products (Drop 004+): one Shopify product carries multiple
+ * Color option values. `normalize()` splits these into N synthetic
+ * ShopifyProduct entries (one per color) with handles of the form
+ * `{base-handle}-{color-slug}` so the downstream `product-merge` family
+ * model — which already groups per-color shops by `designFamily` — keeps
+ * working unchanged.
+ *
  * Editorial content (story, accent, clan, etc.) lives in `lib/products.ts`
  * and is joined at `lib/product-merge.ts` via the design_family metafield.
  */
+
+import { type ColorSlug, normalizeColor, colorToHandleSlug } from './colors'
 
 const SHOP_DOMAIN  = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN
 const STOREFRONT   =
@@ -14,7 +27,7 @@ const STOREFRONT   =
   process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
 const API_VERSION  = '2024-10'
 
-export type ColorSlug = 'BLACK' | 'WHITE' | 'PEPPER' | 'ESPRESSO' | 'IVORY'
+export type { ColorSlug }
 
 export type ShopifyVariant = {
   id:        string
@@ -92,7 +105,7 @@ const PRODUCT_FIELDS = `
   priceRange { minVariantPrice { amount currencyCode } }
   designFamily: metafield(namespace: "custom", key: "design_family") { value }
   color:        metafield(namespace: "custom", key: "color")         { value }
-  variants(first: 50) {
+  variants(first: 100) {
     edges {
       node {
         id
@@ -105,66 +118,103 @@ const PRODUCT_FIELDS = `
   }
 `
 
-function normalizeColor(raw: string | null | undefined): ColorSlug {
-  const upper = raw?.toUpperCase()
-  if (upper === 'WHITE')    return 'WHITE'
-  if (upper === 'PEPPER')   return 'PEPPER'
-  if (upper === 'ESPRESSO') return 'ESPRESSO'
-  if (upper === 'IVORY')    return 'IVORY'
-  return 'BLACK'
+type ExpandedVariant = {
+  id:        string
+  size:      string
+  color:     ColorSlug
+  available: boolean
+  price:     number
 }
 
-function normalize(node: RawProductNode): ShopifyProduct | null {
-  if (!node.designFamily?.value) return null
-  const variants: ShopifyVariant[] = node.variants.edges.map(({ node: v }) => {
-    const sizeOpt = v.selectedOptions.find((o) => o.name.toLowerCase() === 'size')
-    const size    = sizeOpt?.value ?? v.title.split('/').pop()?.trim() ?? v.title
+function expandVariants(node: RawProductNode): ExpandedVariant[] {
+  return node.variants.edges.map(({ node: v }) => {
+    const colorOpt = v.selectedOptions.find((o) => o.name.toLowerCase() === 'color')
+    const sizeOpt  = v.selectedOptions.find((o) => o.name.toLowerCase() === 'size')
+    const color    = colorOpt
+      ? normalizeColor(colorOpt.value)
+      : normalizeColor(node.color?.value)
+    const size = (sizeOpt?.value ?? v.title.split('/').pop()?.trim() ?? v.title).trim().toUpperCase()
     return {
       id:        v.id,
-      size:      size.trim().toUpperCase(),
+      size,
+      color,
       available: v.availableForSale,
       price:     Number(v.price.amount),
     }
   })
-  return {
-    handle:        node.handle,
-    productId:     node.id,
-    title:         node.title,
-    designFamily:  node.designFamily.value,
-    color:         normalizeColor(node.color?.value),
-    price:         Number(node.priceRange.minVariantPrice.amount),
-    currencyCode:  node.priceRange.minVariantPrice.currencyCode,
-    featuredImage: node.featuredImage
-      ? { url: node.featuredImage.url, alt: node.featuredImage.altText ?? node.title }
-      : null,
-    variants,
+}
+
+function normalize(node: RawProductNode): ShopifyProduct[] {
+  if (!node.designFamily?.value) return []
+
+  const expanded = expandVariants(node)
+  if (expanded.length === 0) return []
+
+  const baseHandle  = node.handle
+  const baseTitle   = node.title
+  const designFam   = node.designFamily.value
+  const currency    = node.priceRange.minVariantPrice.currencyCode
+  const fallbackPx  = Number(node.priceRange.minVariantPrice.amount)
+  const featuredImg = node.featuredImage
+    ? { url: node.featuredImage.url, alt: node.featuredImage.altText ?? node.title }
+    : null
+
+  // Group variants by their color.
+  const byColor = new Map<ColorSlug, ExpandedVariant[]>()
+  for (const v of expanded) {
+    const list = byColor.get(v.color) ?? []
+    list.push(v)
+    byColor.set(v.color, list)
   }
+
+  // Single-color product (Drop 001/002/003 pattern) — keep the original
+  // Shopify handle so existing PDP URLs and sitemap entries stay stable.
+  if (byColor.size === 1) {
+    const [color, sizes] = byColor.entries().next().value as [ColorSlug, ExpandedVariant[]]
+    return [{
+      handle:        baseHandle,
+      productId:     node.id,
+      title:         baseTitle,
+      designFamily:  designFam,
+      color,
+      price:         Math.min(...sizes.map((s) => s.price)) || fallbackPx,
+      currencyCode:  currency,
+      featuredImage: featuredImg,
+      variants:      sizes.map(({ id, size, available, price }) => ({ id, size, available, price })),
+    }]
+  }
+
+  // Multi-color product (Drop 004+) — emit one synthetic ShopifyProduct
+  // per color so `product-merge.ts:buildFamilies` (which groups by
+  // designFamily into a family with multiple per-color variants) keeps
+  // working without code change. Synthetic handles are app-local routes
+  // only; cart/checkout still uses the real variant IDs from Shopify.
+  const result: ShopifyProduct[] = []
+  for (const [color, sizes] of byColor.entries()) {
+    result.push({
+      handle:        `${baseHandle}-${colorToHandleSlug(color)}`,
+      productId:     node.id,
+      title:         baseTitle,
+      designFamily:  designFam,
+      color,
+      price:         Math.min(...sizes.map((s) => s.price)) || fallbackPx,
+      currencyCode:  currency,
+      featuredImage: featuredImg,
+      variants:      sizes.map(({ id, size, available, price }) => ({ id, size, available, price })),
+    })
+  }
+  return result
 }
 
 export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
   const query = `
     query AllProducts {
-      products(first: 50, sortKey: CREATED_AT, reverse: true) {
+      products(first: 100, sortKey: CREATED_AT, reverse: true) {
         edges { node { ${PRODUCT_FIELDS} } }
       }
     }
   `
   type Resp = { products: { edges: Array<{ node: RawProductNode }> } }
   const data = await storefront<Resp>(query)
-  return data.products.edges
-    .map(({ node }) => normalize(node))
-    .filter((p): p is ShopifyProduct => p !== null)
-}
-
-export async function getShopifyProductByHandle(
-  handle: string,
-): Promise<ShopifyProduct | null> {
-  const query = `
-    query ProductByHandle($handle: String!) {
-      product(handle: $handle) { ${PRODUCT_FIELDS} }
-    }
-  `
-  type Resp = { product: RawProductNode | null }
-  const data = await storefront<Resp>(query, { handle })
-  return data.product ? normalize(data.product) : null
+  return data.products.edges.flatMap(({ node }) => normalize(node))
 }

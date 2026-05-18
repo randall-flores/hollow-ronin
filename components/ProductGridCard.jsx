@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { SWATCH_HEX } from '@/lib/colors';
 
 /*
  * Interactive product grid card.
@@ -16,14 +17,6 @@ import Image from 'next/image';
  *
  * Decorative dots become real buttons with proper aria + 32px touch target.
  */
-
-const SWATCH_HEX = {
-  BLACK:    '#1a1a1a',
-  WHITE:    '#e8e2d6',
-  PEPPER:   '#4a4a4a',
-  ESPRESSO: '#3d2817',
-  IVORY:    '#f4ede2',
-};
 
 export default function ProductGridCard({ family, colors, initialColor, animationDelay }) {
   const [selected, setSelected] = useState(initialColor);

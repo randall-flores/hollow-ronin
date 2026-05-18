@@ -1,4 +1,4 @@
-import type { ColorSlug } from './shopify-products'
+import type { ColorSlug } from './colors'
 
 /*
  * Editorial / lore content for Hollow Ronin products.
@@ -13,6 +13,7 @@ import type { ColorSlug } from './shopify-products'
 
 export type Category =
   | 'shirts'
+  | 'tees'
   | 'hoodies'
   | 'joggers'
   | 'hats'
@@ -20,6 +21,7 @@ export type Category =
   | 'socks'
   | 'scarfs'
   | 'masked-hoodies'
+  | 'outerwear'
 
 export type Clan = 'Akatsuki' | 'Yami' | 'Kage' | 'Protagonist'
 
@@ -495,6 +497,115 @@ export const EDITORIAL: Record<string, Editorial> = {
     category:     'joggers',
     imageFolder:  'sweatpant-kurokitsune',
     leadColor:    'PEPPER',
+  },
+
+  // ──────────────────────────────────────────────
+  // DROP 004 — WEATHERED EXILE (Mineral Wash tees + Hyōhaku no Hane anorak)
+  // ──────────────────────────────────────────────
+
+  'mon-no-muko': {
+    designFamily: 'mon-no-muko',
+    name:         'MON NO MUKŌ',
+    japaneseName: 'Mon no Mukō',
+    kanji:        '門の向こう',
+    clan:         'Protagonist',
+    title:        'Beyond the Gate',
+    subtitle:     'Beyond the Gate',
+    tagline:      'He answers to no master.',
+    blurb:        'He answers to no master.',
+    story:        'Walks through the broken torii without flag or lord. The mineral wash carries the dust of every road he has refused to leave.',
+    description:  '100% cotton, 6.5oz Colortone 1300 mineral wash. Garment-dyed, hand-feel softened, oversized fit. Back print: 門の向こう — Beyond the Gate.',
+    tag:          'DROP 004 / NO CLAN',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 004',
+    category:     'tees',
+    imageFolder:  'mon-no-muko',
+    leadColor:    'MINERAL-PURPLE',
+  },
+
+  'hone-no-chikai': {
+    designFamily: 'hone-no-chikai',
+    name:         'HONE NO CHIKAI',
+    japaneseName: 'Hone no Chikai',
+    kanji:        '骨の誓い',
+    clan:         'Akatsuki',
+    title:        'Bone Oath',
+    subtitle:     'Bone Oath',
+    tagline:      'Bound by crimson. Sworn in bone.',
+    blurb:        'Bound by crimson. Sworn in bone.',
+    story:        'A vow that outlived the flesh that swore it. Carried by the Crimson Clan in mineral wash — softened by weather, hardened by oath.',
+    description:  '100% cotton, 6.5oz Colortone 1300 mineral wash. Garment-dyed, oversized fit. Back print: 骨の誓い — Bone Oath.',
+    tag:          'DROP 004 / AKATSUKI-GUMI',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 004',
+    category:     'tees',
+    imageFolder:  'hone-no-chikai',
+    leadColor:    'MINERAL-NAVY',
+  },
+
+  'mu-no-kamen': {
+    designFamily: 'mu-no-kamen',
+    name:         'MU NO KAMEN',
+    japaneseName: 'Mu no Kamen',
+    kanji:        '無の仮面',
+    clan:         'Yami',
+    title:        'Mask of Nothing',
+    subtitle:     'Mask of Nothing',
+    tagline:      'Behind the mask, only void.',
+    blurb:        'Behind the mask, only void.',
+    story:        'The fourth mask does not move. The fourth mask does not speak. Behind the fourth mask, the void wears your shape.',
+    description:  '100% cotton, 6.5oz Colortone 1300 mineral wash. Garment-dyed, oversized fit. Back print: 無の仮面 — Mask of Nothing.',
+    tag:          'DROP 004 / YAMI-GUMI',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 004',
+    category:     'tees',
+    imageFolder:  'mu-no-kamen',
+    leadColor:    'MINERAL-PURPLE',
+  },
+
+  'karasu-tengu': {
+    designFamily: 'karasu-tengu',
+    name:         'KARASU-TENGU',
+    japaneseName: 'Karasu-Tengu',
+    kanji:        '烏天狗',
+    clan:         'Kage',
+    title:        'Crow Tengu',
+    subtitle:     'Crow Tengu',
+    tagline:      'Messenger of the masked dead.',
+    blurb:        'Messenger of the masked dead.',
+    story:        'The crow flies between the gate and the grave. He carries the names the living refused to speak. The mineral wash is the colour of fog on the mountain at first light.',
+    description:  '100% cotton, 6.5oz Colortone 1300 mineral wash. Garment-dyed, oversized fit. Back print: 烏天狗 — Crow Tengu.',
+    tag:          'DROP 004 / KAGE-GUMI',
+    accent:       '#A1182A',
+    bg:           '#0A0A0A',
+    label:        'DROP 004',
+    category:     'tees',
+    imageFolder:  'karasu-tengu',
+    leadColor:    'MINERAL-GREY',
+  },
+
+  'hyohaku-no-hane': {
+    designFamily: 'hyohaku-no-hane',
+    name:         'HYŌHAKU NO HANE',
+    japaneseName: 'Hyōhaku no Hane',
+    kanji:        '漂泊の羽',
+    clan:         'Protagonist',
+    title:        "Drifter's Wing",
+    subtitle:     "Drifter's Wing",
+    tagline:      'For the road that has no end.',
+    blurb:        'For the road that has no end.',
+    story:        'A packable shell for the long walk. The gold torii embroidered at the chest is the mark of the Mon no Mukō — the gate he passed through alone.',
+    description:  'Champion 1720TU packable anorak. Embroidered gold torii at front-left chest. Made for the road that has no end.',
+    tag:          'CORE / OUTERWEAR',
+    accent:       '#c9a961',
+    bg:           '#0A0A0A',
+    label:        'CORE',
+    category:     'outerwear',
+    imageFolder:  'hyohaku-no-hane',
+    leadColor:    'BLACK',
   },
 }
 

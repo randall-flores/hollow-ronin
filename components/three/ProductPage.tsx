@@ -6,7 +6,8 @@ import Link from 'next/link'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 import type { ProductImage } from '@/lib/products'
-import type { ColorSlug } from '@/lib/shopify-products'
+import type { ColorSlug } from '@/lib/colors'
+import { SWATCH_HEX, colorLabel } from '@/lib/colors'
 import type { EnrichedFamily, EnrichedVariant } from '@/lib/product-merge'
 import { getCanonicalSizes } from '@/lib/sizes'
 import { useCart } from '@/components/cart/CartProvider'
@@ -31,13 +32,6 @@ const DETAILS: [string, string][] = [
   ['Origin',   'Forged on demand. Limited by design.'],
 ]
 
-const COLOR_SWATCH: Record<ColorSlug, string> = {
-  BLACK:    '#1a1a1a',
-  WHITE:    '#e8e2d6',
-  PEPPER:   '#4a4a4a',
-  ESPRESSO: '#3d2817',
-  IVORY:    '#f4ede2',
-}
 
 function Rule() {
   return (
@@ -259,13 +253,13 @@ function ColorPicker({
           Color
         </p>
         <p style={{ margin: 0, fontSize: 9, letterSpacing: 3, color: 'rgba(255,255,255,0.55)', fontFamily: 'monospace', textTransform: 'uppercase' }}>
-          {active.color === 'WHITE' ? 'White' : 'Black'}
+          {colorLabel(active.color)}
         </p>
       </div>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         {family.variants.map((v) => {
           const selected = v.handle === activeHandle
-          const colorName = v.color === 'WHITE' ? 'White' : 'Black'
+          const colorName = colorLabel(v.color)
           return (
             <Link
               key={v.handle}
@@ -276,7 +270,7 @@ function ColorPicker({
               prefetch={false}
               style={{
                 width: 36, height: 36, padding: 0,
-                background: COLOR_SWATCH[v.color],
+                background: SWATCH_HEX[v.color],
                 border: `1px solid ${selected ? '#c9a961' : 'rgba(255,255,255,0.15)'}`,
                 boxShadow: selected ? '0 0 0 2px rgba(201,169,97,0.30)' : 'none',
                 display: 'inline-block',

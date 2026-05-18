@@ -17,9 +17,11 @@ export const APPAREL_SIZES = ['S', 'M', 'L', 'XL', '2XL'] as const
 
 const SIZES_BY_CATEGORY: Partial<Record<Category, readonly string[]>> = {
   shirts:           APPAREL_SIZES,
+  tees:             APPAREL_SIZES,
   hoodies:          APPAREL_SIZES,
   'masked-hoodies': APPAREL_SIZES,
   joggers:          APPAREL_SIZES,
+  outerwear:        APPAREL_SIZES,
 }
 
 export function getCanonicalSizes(category: Category): readonly string[] {

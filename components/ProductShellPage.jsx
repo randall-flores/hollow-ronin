@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getFamiliesByCategory } from '@/lib/product-merge';
 import { cardHoverImage } from '@/lib/card-images';
+import { colorToFolder } from '@/lib/colors';
 import ProductGridCard from '@/components/ProductGridCard';
 
 export default async function ProductShellPage({ title, subtitle, category }) {
@@ -414,19 +415,19 @@ export default async function ProductShellPage({ title, subtitle, category }) {
         ) : (
         <div className="hr-grid">
           {families.map((family, i) => {
-            const COLOR_FOLDER = { WHITE: 'white', PEPPER: 'pepper', ESPRESSO: 'espresso', IVORY: 'ivory' };
-            const isTeeOrHoodie =
+            const isBackHero =
               family.category === 'shirts' ||
+              family.category === 'tees' ||
               family.category === 'hoodies' ||
               family.category === 'masked-hoodies';
 
             // Precompute per-variant image URLs server-side (cardHoverImage uses fs.existsSync).
             const colors = family.variants.map((v) => {
-              const folderColor = COLOR_FOLDER[v.color] || 'black';
-              const defaultUrl = isTeeOrHoodie
+              const folderColor = colorToFolder(v.color);
+              const defaultUrl = isBackHero
                 ? `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-back-${folderColor}.png`
                 : `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-front-${folderColor}.png`;
-              const defaultAlt = isTeeOrHoodie
+              const defaultAlt = isBackHero
                 ? `${family.name} — back design`
                 : `${family.name} — front view`;
               const hover = cardHoverImage({
@@ -435,14 +436,18 @@ export default async function ProductShellPage({ title, subtitle, category }) {
                 name:        family.name,
                 fallback:    { url: defaultUrl, alt: defaultAlt },
               });
+              const inStockSizes = v.sizes.filter((s) => s.available).length;
               return {
-                color:       v.color,
-                handle:      v.handle,
-                price:       v.price,
+                color:        v.color,
+                handle:       v.handle,
+                price:        v.price,
+                available:    inStockSizes > 0,
+                inStockSizes,
+                totalSizes:   v.sizes.length,
                 defaultUrl,
                 defaultAlt,
-                hoverUrl:    hover.url,
-                hoverAlt:    hover.alt,
+                hoverUrl:     hover.url,
+                hoverAlt:     hover.alt,
               };
             });
 

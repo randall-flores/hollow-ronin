@@ -1,7 +1,7 @@
 import fs   from 'node:fs'
 import path from 'node:path'
 import { CLAN_SIGIL, type Clan, type ProductImage } from './products'
-import { type ColorSlug } from './shopify-products'
+import { type ColorSlug, colorToFolder } from './colors'
 
 /*
  * Image resolvers — pull mockup files from /public/mockups/{imageFolder}/{color}/...
@@ -17,18 +17,6 @@ import { type ColorSlug } from './shopify-products'
 
 const PUBLIC_DIR = path.resolve(process.cwd(), 'public')
 const warned     = new Set<string>()
-
-type ColorFolder = 'black' | 'white' | 'pepper' | 'espresso' | 'ivory'
-
-function colorToFolder(c: ColorSlug): ColorFolder {
-  switch (c) {
-    case 'WHITE':    return 'white'
-    case 'PEPPER':   return 'pepper'
-    case 'ESPRESSO': return 'espresso'
-    case 'IVORY':    return 'ivory'
-    default:         return 'black'
-  }
-}
 
 type CardHoverArgs = {
   imageFolder: string

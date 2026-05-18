@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { SWATCH_HEX } from '@/lib/colors';
 
 /*
  * Interactive product grid card.
@@ -17,16 +18,15 @@ import Image from 'next/image';
  * Decorative dots become real buttons with proper aria + 32px touch target.
  */
 
-const SWATCH_HEX = {
-  BLACK:    '#1a1a1a',
-  WHITE:    '#e8e2d6',
-  PEPPER:   '#4a4a4a',
-  ESPRESSO: '#3d2817',
-  IVORY:    '#f4ede2',
-};
-
 export default function ProductGridCard({ family, colors, initialColor, animationDelay }) {
-  const [selected, setSelected] = useState(initialColor);
+  // Prefer an in-stock initial color; fall back to whatever was passed if all are OOS.
+  const findInitial = () => {
+    const wanted = colors.find((c) => c.color === initialColor);
+    if (wanted?.available !== false) return wanted?.color ?? colors[0]?.color;
+    const firstInStock = colors.find((c) => c.available !== false);
+    return firstInStock?.color ?? colors[0]?.color;
+  };
+  const [selected, setSelected] = useState(findInitial);
   const active = colors.find((c) => c.color === selected) ?? colors[0];
   const hasMultiple = colors.length > 1;
 
@@ -87,6 +87,7 @@ export default function ProductGridCard({ family, colors, initialColor, animatio
           >
             {colors.map((c) => {
               const isSel = c.color === selected;
+              const disabled = c.available === false;
               return (
                 <button
                   key={c.color}
@@ -94,11 +95,18 @@ export default function ProductGridCard({ family, colors, initialColor, animatio
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
+                    if (disabled) return;
                     setSelected(c.color);
                   }}
-                  className={`hr-swatch${isSel ? ' is-selected' : ''}`}
-                  aria-label={`Show ${c.color.toLowerCase()} variant`}
+                  className={`hr-swatch${isSel ? ' is-selected' : ''}${disabled ? ' is-oos' : ''}`}
+                  aria-label={
+                    disabled
+                      ? `${c.color.toLowerCase()} — sold out`
+                      : `Show ${c.color.toLowerCase()} variant`
+                  }
+                  aria-disabled={disabled || undefined}
                   aria-pressed={isSel}
+                  title={disabled ? 'Sold out' : undefined}
                 >
                   <span
                     className="hr-swatch-dot"

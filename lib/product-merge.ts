@@ -4,18 +4,17 @@
  * Public API:
  *   - getAllFamilies()                — every design family with all color variants
  *   - getFamiliesByCategory(category) — filtered subset
- *   - getFamilyByHandle(handle)       — find the family that contains the given Shopify handle, plus active variant
- *   - getProductByHandle(handle)      — single Shopify product
+ *   - getFamilyByHandle(handle)       — find the family that contains the given handle, plus active variant
+ *   - getAllHandles()                 — every variant handle (including synthetic per-color handles)
  *
  * "Family" = one editorial entry. May have 1 or more Shopify products (color variants).
  */
 
 import {
   getAllShopifyProducts,
-  getShopifyProductByHandle,
   type ShopifyProduct,
-  type ColorSlug,
 } from './shopify-products'
+import { type ColorSlug } from './colors'
 import {
   EDITORIAL,
   type Editorial,
@@ -56,7 +55,17 @@ function pickLead(variants: EnrichedVariant[], leadColor?: ColorSlug): EnrichedV
     const override = variants.find((v) => v.color === leadColor)
     if (override) return override
   }
-  const priority: ColorSlug[] = ['BLACK', 'PEPPER', 'ESPRESSO', 'IVORY', 'WHITE']
+  const priority: ColorSlug[] = [
+    'BLACK',
+    'MINERAL-BLACK',
+    'PEPPER',
+    'MINERAL-NAVY',
+    'MINERAL-GREY',
+    'ESPRESSO',
+    'MINERAL-PURPLE',
+    'IVORY',
+    'WHITE',
+  ]
   for (const c of priority) {
     const found = variants.find((v) => v.color === c)
     if (found) return found
@@ -142,11 +151,10 @@ export async function getFamilyByHandle(
   return null
 }
 
-export async function getProductByHandle(handle: string): Promise<ShopifyProduct | null> {
-  return getShopifyProductByHandle(handle)
-}
-
 export async function getAllHandles(): Promise<string[]> {
-  const products = await getAllShopifyProducts()
-  return products.map((p) => p.handle)
+  // Pull from families so synthetic per-color handles (Drop 004+) are included.
+  // Placeholder-only families have a synthetic handle that points nowhere on
+  // Shopify; that's fine — the PDP route returns the synthesized variant.
+  const families = await getAllFamilies()
+  return families.flatMap((f) => f.variants.map((v) => v.handle))
 }

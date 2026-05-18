@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { getFamiliesByCategory } from '@/lib/product-merge';
 import { cardHoverImage } from '@/lib/card-images';
-import { colorToFolder } from '@/lib/colors';
 import ProductGridCard from '@/components/ProductGridCard';
 
 export default async function ProductShellPage({ title, subtitle, category }) {
@@ -278,24 +277,6 @@ export default async function ProductShellPage({ title, subtitle, category }) {
         .hr-swatch.is-selected .hr-swatch-dot {
           box-shadow: 0 0 0 2px #c9a961, 0 0 12px rgba(201, 169, 97, 0.45);
         }
-
-        /* OOS swatch — strikethrough + muted, no pointer interaction */
-        .hr-swatch-dot { position: relative; }
-        .hr-swatch.is-oos { cursor: not-allowed; opacity: 0.45; }
-        .hr-swatch.is-oos:hover .hr-swatch-dot {
-          transform: none;
-          box-shadow: 0 0 0 1px rgba(244, 237, 226, 0.12);
-        }
-        .hr-swatch.is-oos .hr-swatch-dot::after {
-          content: '';
-          position: absolute;
-          left: -4px; right: -4px; top: 50%;
-          height: 1px;
-          background: rgba(244, 237, 226, 0.85);
-          transform: rotate(-20deg);
-          transform-origin: center;
-          pointer-events: none;
-        }
       `}</style>
 
       {/* Hero */}
@@ -433,19 +414,19 @@ export default async function ProductShellPage({ title, subtitle, category }) {
         ) : (
         <div className="hr-grid">
           {families.map((family, i) => {
-            const isBackHero =
+            const COLOR_FOLDER = { WHITE: 'white', PEPPER: 'pepper', ESPRESSO: 'espresso', IVORY: 'ivory' };
+            const isTeeOrHoodie =
               family.category === 'shirts' ||
-              family.category === 'tees' ||
               family.category === 'hoodies' ||
               family.category === 'masked-hoodies';
 
             // Precompute per-variant image URLs server-side (cardHoverImage uses fs.existsSync).
             const colors = family.variants.map((v) => {
-              const folderColor = colorToFolder(v.color);
-              const defaultUrl = isBackHero
+              const folderColor = COLOR_FOLDER[v.color] || 'black';
+              const defaultUrl = isTeeOrHoodie
                 ? `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-back-${folderColor}.png`
                 : `/mockups/${family.imageFolder}/${folderColor}/tee-${family.imageFolder}-front-${folderColor}.png`;
-              const defaultAlt = isBackHero
+              const defaultAlt = isTeeOrHoodie
                 ? `${family.name} — back design`
                 : `${family.name} — front view`;
               const hover = cardHoverImage({
@@ -454,18 +435,14 @@ export default async function ProductShellPage({ title, subtitle, category }) {
                 name:        family.name,
                 fallback:    { url: defaultUrl, alt: defaultAlt },
               });
-              const inStockSizes = v.sizes.filter((s) => s.available).length;
               return {
-                color:        v.color,
-                handle:       v.handle,
-                price:        v.price,
-                available:    inStockSizes > 0,
-                inStockSizes,
-                totalSizes:   v.sizes.length,
+                color:       v.color,
+                handle:      v.handle,
+                price:       v.price,
                 defaultUrl,
                 defaultAlt,
-                hoverUrl:     hover.url,
-                hoverAlt:     hover.alt,
+                hoverUrl:    hover.url,
+                hoverAlt:    hover.alt,
               };
             });
 

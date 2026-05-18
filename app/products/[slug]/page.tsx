@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation'
 import ProductPage, { type RelatedItem } from '@/components/three/ProductPage'
 import { getAllFamilies, getAllHandles, getFamilyByHandle, type EnrichedFamily, type EnrichedVariant } from '@/lib/product-merge'
 import { productGalleryImages } from '@/lib/card-images'
-import { colorToFolder } from '@/lib/colors'
 import type { ProductImage } from '@/lib/products'
 
 export const revalidate = 3600
@@ -75,9 +74,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     .filter((f) => f.category === family.category && f.designFamily !== family.designFamily)
     .slice(0, 4)
     .map((f) => {
-      const folderColor = colorToFolder(f.lead.color)
-      const isBackHero = f.category === 'shirts' || f.category === 'tees' || f.category === 'hoodies' || f.category === 'masked-hoodies'
-      const fallback = isBackHero
+      const COLOR_FOLDER: Record<string, string> = { WHITE: 'white', PEPPER: 'pepper', ESPRESSO: 'espresso', IVORY: 'ivory' }
+      const folderColor = COLOR_FOLDER[f.lead.color] ?? 'black'
+      const isTeeOrHoodie = f.category === 'shirts' || f.category === 'hoodies' || f.category === 'masked-hoodies'
+      const fallback = isTeeOrHoodie
         ? `/mockups/${f.imageFolder}/${folderColor}/tee-${f.imageFolder}-back-${folderColor}.png`
         : `/mockups/${f.imageFolder}/${folderColor}/tee-${f.imageFolder}-front-${folderColor}.png`
       const localGallery = productGalleryImages({

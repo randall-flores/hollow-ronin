@@ -6,12 +6,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hollowronin.com'
 const STATIC_ROUTES = [
   '',
   '/shop',
-  '/shop/all',
-  '/shop/tees',
   '/shop/shirts',
-  '/shop/hoodies',
-  '/shop/joggers',
-  '/shop/outerwear',
   '/lookbook',
   '/about',
   '/drops',

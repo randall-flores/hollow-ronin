@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import ProductPage, { type RelatedItem } from '@/components/three/ProductPage'
 import { getAllFamilies, getAllHandles, getFamilyByHandle, type EnrichedFamily, type EnrichedVariant } from '@/lib/product-merge'
@@ -97,12 +98,17 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       }
     })
 
+  // Suspense boundary is required because ProductPage uses useSearchParams()
+  // (for color-swap shallow routing). Without it, Next.js 16 strict-prerender
+  // refuses to statically generate /products/[slug] routes.
   return (
-    <ProductPage
-      family={family}
-      active={active}
-      galleryByHandle={galleryByHandle}
-      related={related}
-    />
+    <Suspense fallback={null}>
+      <ProductPage
+        family={family}
+        active={active}
+        galleryByHandle={galleryByHandle}
+        related={related}
+      />
+    </Suspense>
   )
 }

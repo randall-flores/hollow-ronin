@@ -11,9 +11,11 @@ export const metadata = {
 export const revalidate = 3600;
 
 const CATEGORIES = [
+  { slug: "tees",           label: "TEES",           kanji: "Tシャツ" },
   { slug: "shirts",         label: "SHIRTS",         kanji: "上着" },
   { slug: "hoodies",        label: "HOODIES",        kanji: "頭巾" },
   { slug: "joggers",        label: "JOGGERS",        kanji: "袴"   },
+  { slug: "outerwear",      label: "OUTERWEAR",      kanji: "外套" },
   { slug: "masked-hoodies", label: "MASKED HOODIES", kanji: "面頭巾" },
   { slug: "hats",           label: "HATS",           kanji: "帽子" },
   { slug: "beanies",        label: "BEANIES",        kanji: "毛帽" },

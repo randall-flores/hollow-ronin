@@ -258,24 +258,32 @@ function ColorPicker({
       </div>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         {family.variants.map((v) => {
-          const selected = v.handle === activeHandle
-          const colorName = colorLabel(v.color)
+          const selected   = v.handle === activeHandle
+          const inStockSz  = v.sizes.filter((s) => s.available).length
+          const fullyOOS   = inStockSz === 0
+          const colorName  = colorLabel(v.color)
           return (
             <Link
               key={v.handle}
               href={`/products/${v.handle}`}
-              aria-label={`Color: ${colorName}`}
+              aria-label={fullyOOS ? `${colorName} — sold out` : `Color: ${colorName}`}
               aria-current={selected ? 'page' : undefined}
-              title={colorName}
+              aria-disabled={fullyOOS || undefined}
+              title={fullyOOS ? `${colorName} — sold out` : colorName}
               prefetch={false}
+              className={`hr-pdp-color-sw${fullyOOS ? ' is-oos' : ''}`}
               style={{
                 width: 36, height: 36, padding: 0,
                 background: SWATCH_HEX[v.color],
                 border: `1px solid ${selected ? '#c9a961' : 'rgba(255,255,255,0.15)'}`,
                 boxShadow: selected ? '0 0 0 2px rgba(201,169,97,0.30)' : 'none',
                 display: 'inline-block',
+                position: 'relative',
                 textDecoration: 'none',
-                transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                transition: 'border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease',
+                opacity: fullyOOS ? 0.55 : 1,
+                cursor: fullyOOS ? 'not-allowed' : 'pointer',
+                pointerEvents: fullyOOS ? 'none' : 'auto',
               }}
             />
           )
@@ -570,6 +578,17 @@ export default function ProductPage({
         }
         @media (min-width: 1024px) {
           .hr-mobile-cta { display: none; }
+        }
+        /* PDP color swatch — fully OOS strikethrough overlay */
+        .hr-pdp-color-sw.is-oos::after {
+          content: '';
+          position: absolute;
+          left: -2px; right: -2px; top: 50%;
+          height: 1px;
+          background: rgba(244, 237, 226, 0.85);
+          transform: rotate(-20deg);
+          transform-origin: center;
+          pointer-events: none;
         }
       `}</style>
 

@@ -278,6 +278,24 @@ export default async function ProductShellPage({ title, subtitle, category }) {
         .hr-swatch.is-selected .hr-swatch-dot {
           box-shadow: 0 0 0 2px #c9a961, 0 0 12px rgba(201, 169, 97, 0.45);
         }
+
+        /* OOS swatch — strikethrough + muted, no pointer interaction */
+        .hr-swatch-dot { position: relative; }
+        .hr-swatch.is-oos { cursor: not-allowed; opacity: 0.45; }
+        .hr-swatch.is-oos:hover .hr-swatch-dot {
+          transform: none;
+          box-shadow: 0 0 0 1px rgba(244, 237, 226, 0.12);
+        }
+        .hr-swatch.is-oos .hr-swatch-dot::after {
+          content: '';
+          position: absolute;
+          left: -4px; right: -4px; top: 50%;
+          height: 1px;
+          background: rgba(244, 237, 226, 0.85);
+          transform: rotate(-20deg);
+          transform-origin: center;
+          pointer-events: none;
+        }
       `}</style>
 
       {/* Hero */}

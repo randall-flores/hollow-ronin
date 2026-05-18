@@ -2,6 +2,7 @@ import { getAllFamilies } from '@/lib/product-merge';
 import { cardHoverImage } from '@/lib/card-images';
 import { colorToFolder } from '@/lib/colors';
 import ProductGridCard from '@/components/ProductGridCard';
+import ProductCardStyles from '@/components/ProductCardStyles';
 
 export const metadata = {
   title: "The Full Armory · Hollow Ronin",
@@ -30,6 +31,7 @@ export default async function ShopAllPage() {
 
   return (
     <main style={{ minHeight: '100vh', background: '#080808', color: '#fff' }}>
+      <ProductCardStyles />
       <style>{`
         .hr-grid-all {
           display: grid;

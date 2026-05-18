@@ -1,12 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 import type { ProductImage } from '@/lib/products'
-import type { ColorSlug } from '@/lib/shopify-products'
+import type { ColorSlug } from '@/lib/colors'
+import { SWATCH_HEX, colorLabel } from '@/lib/colors'
 import type { EnrichedFamily, EnrichedVariant } from '@/lib/product-merge'
 import { getCanonicalSizes } from '@/lib/sizes'
 import { useCart } from '@/components/cart/CartProvider'
@@ -31,13 +33,6 @@ const DETAILS: [string, string][] = [
   ['Origin',   'Forged on demand. Limited by design.'],
 ]
 
-const COLOR_SWATCH: Record<ColorSlug, string> = {
-  BLACK:    '#1a1a1a',
-  WHITE:    '#e8e2d6',
-  PEPPER:   '#4a4a4a',
-  ESPRESSO: '#3d2817',
-  IVORY:    '#f4ede2',
-}
 
 function Rule() {
   return (
@@ -246,12 +241,22 @@ function SizeGuide({ open, onClose }: { open: boolean; onClose: () => void }) {
 function ColorPicker({
   family,
   activeHandle,
+  carrySize,
+  carryQty,
 }: {
   family:       EnrichedFamily
   activeHandle: string
+  carrySize:    string | null
+  carryQty:     number
 }) {
   if (family.variants.length <= 1) return null
   const active = family.variants.find((v) => v.handle === activeHandle) ?? family.variants[0]
+  const buildHref = (handle: string) => {
+    const carry: string[] = []
+    if (carrySize) carry.push(`size=${encodeURIComponent(carrySize)}`)
+    if (carryQty > 1) carry.push(`qty=${carryQty}`)
+    return `/products/${handle}${carry.length ? `?${carry.join('&')}` : ''}`
+  }
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -259,29 +264,37 @@ function ColorPicker({
           Color
         </p>
         <p style={{ margin: 0, fontSize: 9, letterSpacing: 3, color: 'rgba(255,255,255,0.55)', fontFamily: 'monospace', textTransform: 'uppercase' }}>
-          {active.color === 'WHITE' ? 'White' : 'Black'}
+          {colorLabel(active.color)}
         </p>
       </div>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         {family.variants.map((v) => {
-          const selected = v.handle === activeHandle
-          const colorName = v.color === 'WHITE' ? 'White' : 'Black'
+          const selected   = v.handle === activeHandle
+          const inStockSz  = v.sizes.filter((s) => s.available).length
+          const fullyOOS   = inStockSz === 0
+          const colorName  = colorLabel(v.color)
           return (
             <Link
               key={v.handle}
-              href={`/products/${v.handle}`}
-              aria-label={`Color: ${colorName}`}
+              href={buildHref(v.handle)}
+              aria-label={fullyOOS ? `${colorName} — sold out` : `Color: ${colorName}`}
               aria-current={selected ? 'page' : undefined}
-              title={colorName}
+              aria-disabled={fullyOOS || undefined}
+              title={fullyOOS ? `${colorName} — sold out` : colorName}
               prefetch={false}
+              className={`hr-pdp-color-sw${fullyOOS ? ' is-oos' : ''}`}
               style={{
                 width: 36, height: 36, padding: 0,
-                background: COLOR_SWATCH[v.color],
+                background: SWATCH_HEX[v.color],
                 border: `1px solid ${selected ? '#c9a961' : 'rgba(255,255,255,0.15)'}`,
                 boxShadow: selected ? '0 0 0 2px rgba(201,169,97,0.30)' : 'none',
                 display: 'inline-block',
+                position: 'relative',
                 textDecoration: 'none',
-                transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                transition: 'border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease',
+                opacity: fullyOOS ? 0.55 : 1,
+                cursor: fullyOOS ? 'not-allowed' : 'pointer',
+                pointerEvents: fullyOOS ? 'none' : 'auto',
               }}
             />
           )
@@ -387,6 +400,9 @@ export default function ProductPage({
   galleryByHandle: Record<string, ProductImage[]>
   related?:        RelatedItem[]
 }) {
+  const router       = useRouter()
+  const searchParams = useSearchParams()
+
   const canonicalSizes = getCanonicalSizes(family.category)
   const sizeSlots = canonicalSizes.map((label) => {
     const variant = active.sizes.find((s) => s.size === label)
@@ -394,12 +410,38 @@ export default function ProductPage({
     return { label, variant, available }
   })
 
-  const [size,        setSize]        = useState<string | null>(null)
-  const [qty,         setQty]         = useState(1)
+  const inStockCount = active.sizes.filter((s) => s.available).length
+  const fullyOOS     = inStockCount === 0
+  const limited      = inStockCount > 0 && inStockCount <= 2
+
+  // Hydrate size + qty from URL on first render so a deep link
+  // (e.g. /products/<handle>?size=M&qty=2) is honored, and so the
+  // selection survives a color-swap navigation. Falls back gracefully
+  // when the requested size isn't carried by the active variant.
+  const urlSize = searchParams?.get('size')?.toUpperCase() ?? null
+  const initialSize =
+    urlSize && active.sizes.some((s) => s.size === urlSize && s.available) ? urlSize : null
+  const urlQty   = Number(searchParams?.get('qty') ?? 1) || 1
+  const initialQty = Math.max(1, Math.min(99, urlQty))
+
+  const [size,        setSize]        = useState<string | null>(initialSize)
+  const [qty,         setQty]         = useState<number>(initialQty)
   const [cartState,   setCartState]   = useState<'idle' | 'added'>('idle')
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
   const [guideOpen,   setGuideOpen]   = useState(false)
   const { add } = useCart()
+
+  // Mirror local state to the URL so the size + qty selection survives
+  // color swaps. `router.replace` with `scroll: false` keeps the page
+  // position and avoids a navigation entry per keystroke on quantity.
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams?.toString() ?? '')
+    if (size) params.set('size', size); else params.delete('size')
+    if (qty > 1) params.set('qty', String(qty)); else params.delete('qty')
+    const qs = params.toString()
+    router.replace(`/products/${active.handle}${qs ? `?${qs}` : ''}`, { scroll: false })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [size, qty, active.handle])
 
   const images = galleryByHandle[active.handle] ??
     (active.featuredImage ? [{ url: active.featuredImage.url, alt: active.featuredImage.alt }] : [])
@@ -577,6 +619,17 @@ export default function ProductPage({
         @media (min-width: 1024px) {
           .hr-mobile-cta { display: none; }
         }
+        /* PDP color swatch — fully OOS strikethrough overlay */
+        .hr-pdp-color-sw.is-oos::after {
+          content: '';
+          position: absolute;
+          left: -2px; right: -2px; top: 50%;
+          height: 1px;
+          background: rgba(244, 237, 226, 0.85);
+          transform: rotate(-20deg);
+          transform-origin: center;
+          pointer-events: none;
+        }
       `}</style>
 
       <main className="hr-pdp">
@@ -622,11 +675,39 @@ export default function ProductPage({
 
             <Rule />
 
-            <ColorPicker family={family} activeHandle={active.handle} />
+            <ColorPicker family={family} activeHandle={active.handle} carrySize={size} carryQty={qty} />
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <p style={{ margin: 0, fontSize: 9, letterSpacing: 4, color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace', textTransform: 'uppercase' }}>Size</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <p style={{ margin: 0, fontSize: 9, letterSpacing: 4, color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace', textTransform: 'uppercase' }}>Size</p>
+                  {limited && (
+                    <span style={{
+                      fontFamily: 'monospace',
+                      fontSize: 9, letterSpacing: 2,
+                      padding: '3px 7px',
+                      color: '#c9a961',
+                      border: '1px solid rgba(201,169,97,0.55)',
+                      textTransform: 'uppercase',
+                      lineHeight: 1.2,
+                    }}>
+                      Limited sizing
+                    </span>
+                  )}
+                  {fullyOOS && (
+                    <span style={{
+                      fontFamily: 'monospace',
+                      fontSize: 9, letterSpacing: 2,
+                      padding: '3px 7px',
+                      color: 'rgba(244,237,226,0.65)',
+                      border: '1px solid rgba(244,237,226,0.30)',
+                      textTransform: 'uppercase',
+                      lineHeight: 1.2,
+                    }}>
+                      Sold out — try another color
+                    </span>
+                  )}
+                </div>
                 <button
                   onClick={() => setGuideOpen(true)}
                   style={{
@@ -751,34 +832,36 @@ export default function ProductPage({
 
         <Related items={related} />
 
-        {/* Sticky mobile CTA */}
-        <div className="hr-mobile-cta" role="region" aria-label="Add to cart">
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ margin: 0, fontFamily: 'Georgia, serif', fontSize: 13, color: '#f0ede6', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {family.name}
-              {size && <span className="hr-size-pill">{size}</span>}
-            </p>
-            <p style={{ margin: '2px 0 0', fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>
-              ${(active.price * qty).toFixed(2)} {!size && '· pick size'}
-              {size && qty > 1 ? ` · ×${qty}` : ''}
-            </p>
+        {/* Sticky mobile CTA — hidden when the active color has no in-stock sizes */}
+        {!fullyOOS && (
+          <div className="hr-mobile-cta" role="region" aria-label="Add to cart">
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ margin: 0, fontFamily: 'Georgia, serif', fontSize: 13, color: '#f0ede6', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {family.name}
+                {size && <span className="hr-size-pill">{size}</span>}
+              </p>
+              <p style={{ margin: '2px 0 0', fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>
+                ${(active.price * qty).toFixed(2)} {!size && '· pick size'}
+                {size && qty > 1 ? ` · ×${qty}` : ''}
+              </p>
+            </div>
+            <button
+              onClick={handleAdd}
+              disabled={!size}
+              style={{
+                height: 48, padding: '0 18px',
+                fontFamily: 'monospace', fontSize: 10, letterSpacing: 4, textTransform: 'uppercase',
+                border: `1px solid ${!size ? 'rgba(255,255,255,0.12)' : '#c9a961'}`,
+                background: !size ? 'transparent' : '#c9a961',
+                color: !size ? 'rgba(255,255,255,0.3)' : '#0a0a0a',
+                cursor: size ? 'pointer' : 'not-allowed',
+                fontWeight: 600,
+              }}
+            >
+              {cartState === 'added' ? 'Added ✓' : 'Acquire'}
+            </button>
           </div>
-          <button
-            onClick={handleAdd}
-            disabled={!size}
-            style={{
-              height: 48, padding: '0 18px',
-              fontFamily: 'monospace', fontSize: 10, letterSpacing: 4, textTransform: 'uppercase',
-              border: `1px solid ${!size ? 'rgba(255,255,255,0.12)' : '#c9a961'}`,
-              background: !size ? 'transparent' : '#c9a961',
-              color: !size ? 'rgba(255,255,255,0.3)' : '#0a0a0a',
-              cursor: size ? 'pointer' : 'not-allowed',
-              fontWeight: 600,
-            }}
-          >
-            {cartState === 'added' ? 'Added ✓' : 'Acquire'}
-          </button>
-        </div>
+        )}
       </main>
 
       <SizeGuide open={guideOpen} onClose={() => setGuideOpen(false)} />

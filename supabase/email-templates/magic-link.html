@@ -1,0 +1,67 @@
+<!-- Supabase → Authentication → Email Templates → Magic Link -->
+<!-- Subject: Your Hollow Ronin sign-in link -->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="supported-color-schemes" content="dark light">
+  <title>Your sign-in link</title>
+</head>
+<body style="margin:0; padding:0; background-color:#0a0a0a;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0a0a0a;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+        <table role="presentation" width="520" cellpadding="0" cellspacing="0" border="0" style="width:520px; max-width:520px; background-color:#0a0a0a; border:1px solid #2a2620;">
+          <tr><td style="height:2px; line-height:2px; font-size:0; background-color:#c9a961;">&nbsp;</td></tr>
+
+          <tr>
+            <td style="padding:48px 40px 8px 40px; text-align:center;">
+              <p style="margin:0 0 30px 0; font-family:'Courier New', Courier, monospace; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:#c9a961;">&#8212;&nbsp; Hollow Ronin &middot; Sign In &nbsp;&#8212;</p>
+
+              <h1 style="margin:0; font-family:'Arial Narrow', Arial, Helvetica, sans-serif; font-size:42px; line-height:1.02; letter-spacing:2px; text-transform:uppercase; font-weight:700; color:#f4ede2;">Sign In</h1>
+
+              <p style="margin:20px 0 0 0; font-family:Georgia, 'Times New Roman', serif; font-style:italic; font-size:16px; line-height:1.6; color:#b8b1a6;">Your sign-in link is ready.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:28px 40px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="width:72px; height:1px; line-height:1px; font-size:0; background-color:#c9a961;">&nbsp;</td></tr></table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:0 40px; text-align:center;">
+              <p style="margin:0 0 34px 0; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:1.7; color:#9d978c;">Click below to sign in. This link can be used once and expires in one hour. If you didn&rsquo;t request it, ignore this email.</p>
+
+              <table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td bgcolor="#c9a961" style="background-color:#c9a961;">
+                    <a href="{{ .ConfirmationURL }}" target="_blank" style="display:inline-block; padding:16px 46px; font-family:'Arial Narrow', Arial, Helvetica, sans-serif; font-size:15px; letter-spacing:3px; text-transform:uppercase; font-weight:700; color:#0a0a0a; text-decoration:none;">Sign In</a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:34px 0 0 0; font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:1.6; color:#6f6a62;">Or paste this link into your browser:</p>
+              <p style="margin:6px 0 0 0; font-family:'Courier New', Courier, monospace; font-size:12px; line-height:1.5; word-break:break-all;"><a href="{{ .ConfirmationURL }}" target="_blank" style="color:#c9a961; text-decoration:underline;">{{ .ConfirmationURL }}</a></p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:36px 40px 0 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height:1px; line-height:1px; font-size:0; background-color:#2a2620;">&nbsp;</td></tr></table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:22px 40px 36px 40px; text-align:center;">
+              <p style="margin:0; font-family:'Courier New', Courier, monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#6f6a62;">Hollow Ronin &middot; Sent automatically &middot; Do not reply</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

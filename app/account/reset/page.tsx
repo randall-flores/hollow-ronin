@@ -132,7 +132,7 @@ export default async function ResetPage({
               name="confirm"
               type="password"
               placeholder="confirm password"
-              autoComplete="new-password"
+              autoComplete="off"
               required
               minLength={6}
               className="w-full min-h-[56px] bg-bone/[0.03] border-[1.5px] border-bone/[0.15] px-5 py-5 font-mono text-base text-bone caret-blood placeholder:text-bone/30 placeholder:lowercase placeholder:tracking-[0.15em] transition-colors duration-200 focus:outline-none focus:border-blood focus:bg-[rgba(161,24,42,0.05)] focus-visible:ring-1 focus-visible:ring-blood/40"

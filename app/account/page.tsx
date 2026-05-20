@@ -15,19 +15,6 @@ export default async function AccountPage({
 
   return (
     <main className="relative min-h-[calc(100vh-68px)] flex items-center justify-center overflow-hidden px-6 py-24 sm:py-32 bg-obsidian text-bone">
-      {/* Mon — wax-seal impression behind form */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 flex items-center justify-center z-[1]"
-      >
-        <img
-          src="/sigils/mon-hollow-ronin-transparent.png"
-          alt=""
-          className="w-[85vw] h-auto max-w-[720px] max-h-[720px] sm:w-auto sm:h-[70vh] select-none"
-          style={{ opacity: 0.06, filter: 'grayscale(1) brightness(1.2)' }}
-        />
-      </div>
-
       {/* Soft vignette — gold above, blood-ember below */}
       <div
         aria-hidden
@@ -123,15 +110,12 @@ export default async function AccountPage({
 
         {user ? <SignedInPanel email={user.email ?? ''} /> : <SignInForm />}
 
-        {/* Footer link row */}
-        <div
-          className="animate-fade-up delay-5 mt-10 flex items-center gap-3 font-mono uppercase text-[9px]"
-          style={{ letterSpacing: '0.4em', color: 'rgba(244,237,226,0.32)' }}
-        >
+        {/* Footer link row — film-credits register */}
+        <div className="animate-fade-up delay-5 mt-8 flex items-center gap-4 font-mono uppercase text-[11px] tracking-[0.3em] text-bone/40">
           {user ? (
             <Link
               href="/shop"
-              className="transition-colors hover:text-[#c9a961] focus:outline-none focus-visible:text-[#c9a961]"
+              className="underline underline-offset-4 decoration-bone/0 transition-all duration-200 hover:text-gold hover:decoration-bone/40 focus:outline-none focus-visible:text-gold focus-visible:decoration-bone/40"
             >
               → Return to the drop
             </Link>
@@ -139,14 +123,14 @@ export default async function AccountPage({
             <>
               <Link
                 href="/account/recover"
-                className="transition-colors hover:text-[#c9a961] focus:outline-none focus-visible:text-[#c9a961]"
+                className="underline underline-offset-4 decoration-bone/0 transition-all duration-200 hover:text-gold hover:decoration-bone/40 focus:outline-none focus-visible:text-gold focus-visible:decoration-bone/40"
               >
                 Forgot password?
               </Link>
-              <span aria-hidden className="opacity-50">·</span>
+              <span aria-hidden className="h-3 w-px bg-bone/20" />
               <Link
                 href="/shop"
-                className="transition-colors hover:text-[#c9a961] focus:outline-none focus-visible:text-[#c9a961]"
+                className="underline underline-offset-4 decoration-bone/0 transition-all duration-200 hover:text-gold hover:decoration-bone/40 focus:outline-none focus-visible:text-gold focus-visible:decoration-bone/40"
               >
                 Return to drop
               </Link>
@@ -204,10 +188,7 @@ function SignInForm() {
 function SignedInPanel({ email }: { email: string }) {
   return (
     <div className="animate-fade-up delay-4 w-full flex flex-col gap-5">
-      <div
-        className="border border-bone/15 px-5 py-4 flex flex-col items-center gap-2"
-        style={{ background: 'rgba(244,237,226,0.02)' }}
-      >
+      <div className="bg-bone/[0.03] border-[1.5px] border-bone/[0.15] px-5 py-4 flex flex-col items-center gap-2">
         <span
           className="font-mono uppercase text-[9px]"
           style={{ letterSpacing: '0.4em', color: 'rgba(201,169,97,0.7)' }}
@@ -273,7 +254,7 @@ function Field({
         autoComplete={autoComplete}
         required={required}
         minLength={minLength}
-        className="w-full min-h-[56px] bg-[rgba(244,237,226,0.02)] border-[1.5px] border-bone/20 pl-12 pr-5 py-5 font-mono text-base text-bone caret-blood placeholder:text-bone/30 placeholder:lowercase placeholder:tracking-[0.15em] transition-colors duration-200 focus:outline-none focus:border-blood focus:bg-[rgba(161,24,42,0.05)] focus-visible:ring-1 focus-visible:ring-blood/40"
+        className="w-full min-h-[56px] bg-bone/[0.03] border-[1.5px] border-bone/[0.15] pl-12 pr-5 py-5 font-mono text-base text-bone caret-blood placeholder:text-bone/30 placeholder:lowercase placeholder:tracking-[0.15em] transition-colors duration-200 focus:outline-none focus:border-blood focus:bg-[rgba(161,24,42,0.05)] focus-visible:ring-1 focus-visible:ring-blood/40"
         style={{ letterSpacing: '0.08em' }}
       />
     </div>

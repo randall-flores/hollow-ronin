@@ -15,16 +15,16 @@ export default async function AccountPage({
 
   return (
     <main className="relative min-h-[calc(100vh-68px)] flex items-center justify-center overflow-hidden px-6 py-24 sm:py-32 bg-obsidian text-bone">
-      {/* Sigil watermark */}
+      {/* Mon — wax-seal impression behind form */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 flex items-center justify-center"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center z-[1]"
       >
         <img
           src="/sigils/mon-hollow-ronin-transparent.png"
           alt=""
-          className="w-[min(82vw,640px)] h-auto select-none"
-          style={{ opacity: 0.035, filter: 'grayscale(1) brightness(1.4)' }}
+          className="w-[85vw] h-auto max-w-[720px] max-h-[720px] sm:w-auto sm:h-[70vh] select-none"
+          style={{ opacity: 0.06, filter: 'grayscale(1) brightness(1.2)' }}
         />
       </div>
 
@@ -49,14 +49,14 @@ export default async function AccountPage({
         }}
       />
 
-      <article className="relative z-10 w-full max-w-[440px] flex flex-col items-center text-center">
+      <article className="relative z-10 w-full max-w-[480px] flex flex-col items-center text-center">
         {/* Section badge */}
         <p
           className="animate-fade-up delay-1 flex items-center gap-3 text-[10px] font-mono uppercase"
           style={{ letterSpacing: '0.4em', color: 'rgba(201,169,97,0.78)' }}
         >
           <span aria-hidden className="inline-block w-8 h-px bg-[rgba(201,169,97,0.45)]" />
-          {user ? 'The Order · Member' : 'Hollow Ronin · Gate'}
+          Hollow Ronin · Gate
           <span aria-hidden className="inline-block w-8 h-px bg-[rgba(201,169,97,0.45)]" />
         </p>
 
@@ -64,14 +64,14 @@ export default async function AccountPage({
         <h1
           className="animate-fade-up delay-2 mt-7 font-bebas text-bone"
           style={{
-            fontSize: 'clamp(72px, 13vw, 132px)',
+            fontSize: 'clamp(56px, 9vw, 104px)',
             lineHeight: 0.92,
             letterSpacing: '0.14em',
             textShadow:
               '0 0 38px rgba(201,169,97,0.22), 0 0 90px rgba(201,169,97,0.06)',
           }}
         >
-          {user ? 'WELCOME' : 'ENTER'}
+          {user ? 'RŌNIN' : 'THE GATE'}
         </h1>
 
         {/* Tagline */}
@@ -181,17 +181,17 @@ function SignInForm() {
         minLength={6}
       />
 
-      <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-px bg-[rgba(201,169,97,0.18)]">
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-px bg-[rgba(201,169,97,0.18)]">
         <button
           formAction={login}
-          className="bg-[#c9a961] text-obsidian font-bebas uppercase py-4 text-sm transition-all duration-300 hover:bg-[#a88b45] focus:outline-none focus-visible:bg-[#a88b45] focus-visible:ring-2 focus-visible:ring-blood focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.99]"
+          className="min-h-[56px] bg-[#c9a961] text-obsidian font-bebas uppercase py-4 text-base transition-all duration-300 hover:bg-[#a88b45] focus:outline-none focus-visible:bg-[#a88b45] focus-visible:ring-2 focus-visible:ring-blood focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.99]"
           style={{ letterSpacing: '0.28em' }}
         >
           Sign In
         </button>
         <button
           formAction={signup}
-          className="bg-obsidian border border-bone/30 text-bone font-bebas uppercase py-4 text-sm transition-all duration-300 hover:border-[#c9a961] hover:text-[#c9a961] focus:outline-none focus-visible:border-blood focus-visible:text-blood focus-visible:ring-2 focus-visible:ring-blood focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.99]"
+          className="min-h-[56px] bg-obsidian border border-bone/30 text-bone font-bebas uppercase py-4 text-base transition-all duration-300 hover:border-[#c9a961] hover:text-[#c9a961] focus:outline-none focus-visible:border-blood focus-visible:text-blood focus-visible:ring-2 focus-visible:ring-blood focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.99]"
           style={{ letterSpacing: '0.28em' }}
         >
           Create
@@ -224,7 +224,7 @@ function SignedInPanel({ email }: { email: string }) {
 
       <form action={logout}>
         <button
-          className="w-full bg-obsidian border border-bone/30 text-bone font-bebas uppercase py-4 text-sm transition-all duration-300 hover:border-blood hover:text-blood focus:outline-none focus-visible:border-blood focus-visible:text-blood focus-visible:ring-2 focus-visible:ring-blood focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.99]"
+          className="w-full min-h-[56px] bg-obsidian border border-bone/30 text-bone font-bebas uppercase py-4 text-base transition-all duration-300 hover:border-blood hover:text-blood focus:outline-none focus-visible:border-blood focus-visible:text-blood focus-visible:ring-2 focus-visible:ring-blood focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.99]"
           style={{ letterSpacing: '0.28em' }}
         >
           Sever Session
@@ -273,7 +273,7 @@ function Field({
         autoComplete={autoComplete}
         required={required}
         minLength={minLength}
-        className="w-full bg-[rgba(244,237,226,0.02)] border border-bone/20 pl-10 pr-4 py-4 font-mono text-[13px] text-bone caret-blood placeholder:text-bone/30 placeholder:lowercase placeholder:tracking-[0.2em] transition-colors duration-200 focus:outline-none focus:border-blood focus:bg-[rgba(161,24,42,0.05)] focus-visible:ring-1 focus-visible:ring-blood/40"
+        className="w-full min-h-[56px] bg-[rgba(244,237,226,0.02)] border-[1.5px] border-bone/20 pl-12 pr-5 py-5 font-mono text-base text-bone caret-blood placeholder:text-bone/30 placeholder:lowercase placeholder:tracking-[0.15em] transition-colors duration-200 focus:outline-none focus:border-blood focus:bg-[rgba(161,24,42,0.05)] focus-visible:ring-1 focus-visible:ring-blood/40"
         style={{ letterSpacing: '0.08em' }}
       />
     </div>

@@ -17,7 +17,7 @@ export async function login(formData: FormData) {
 
 export async function signup(formData: FormData) {
   const supabase = await createClient()
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email:    formData.get('email')    as string,
     password: formData.get('password') as string,
     options: {
@@ -25,7 +25,15 @@ export async function signup(formData: FormData) {
     },
   })
   if (error) redirect(`/account?error=${encodeURIComponent(error.message)}`)
-  redirect('/account?message=Check your email to confirm')
+
+  // Confirmation required: user exists but no session yet.
+  if (data.user && !data.session) {
+    redirect('/account?message=Check your email to confirm')
+  }
+
+  // Confirmation disabled: session granted — log straight in.
+  revalidatePath('/', 'layout')
+  redirect('/account')
 }
 
 export async function logout() {

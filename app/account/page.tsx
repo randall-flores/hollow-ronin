@@ -1,19 +1,31 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { login, signup, logout } from './actions'
+import { login, signup } from './actions'
 import { GoogleButton } from './google-button'
 import { AuthAlert } from './auth-alert'
+import { AccountDashboard } from './account-dashboard'
+import type { Profile } from './account-types'
 
 export default async function AccountPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; message?: string }>
+  searchParams: Promise<{ error?: string; message?: string; section?: string }>
 }) {
-  const { error, message } = await searchParams
+  const { error, message, section } = await searchParams
   const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
+  let profile: Profile | null = null
+  if (user) {
+    const { data } = await supabase
+      .from('profiles')
+      .select('display_name, clan, phone, birthday')
+      .eq('id', user.id)
+      .maybeSingle()
+    profile = data as Profile | null
+  }
 
   return (
     <main className="relative min-h-[calc(100vh-68px)] flex items-center justify-center overflow-hidden px-6 py-24 sm:py-32 bg-obsidian text-bone">
@@ -38,13 +50,13 @@ export default async function AccountPage({
         }}
       />
 
-      <article className="relative z-10 w-full max-w-[480px] flex flex-col items-center text-center">
-        {user ? (
-          <SignedInView email={user.email ?? ''} />
-        ) : (
+      {user ? (
+        <AccountDashboard user={user} profile={profile} section={section} />
+      ) : (
+        <article className="relative z-10 w-full max-w-[480px] flex flex-col items-center text-center">
           <SignedOutView error={error} message={message} />
-        )}
-      </article>
+        </article>
+      )}
     </main>
   )
 }
@@ -156,40 +168,6 @@ function SignedOutView({
       <div className="animate-fade-up delay-5 mt-8 flex items-center gap-4 font-mono uppercase text-[11px] tracking-[0.3em] text-bone/40">
         <FooterLink href="/account/recover">Forgot password?</FooterLink>
         <span aria-hidden className="h-3 w-px bg-bone/20" />
-        <FooterLink href="/shop">Back to Shop</FooterLink>
-      </div>
-    </>
-  )
-}
-
-function SignedInView({ email }: { email: string }) {
-  return (
-    <>
-      <Badge label="Account" />
-
-      <h1
-        className="animate-fade-up delay-2 mt-7 font-bebas text-bone break-all px-2"
-        style={{
-          fontSize: 'clamp(28px, 4vw, 44px)',
-          lineHeight: 1.05,
-          letterSpacing: '0.06em',
-        }}
-      >
-        {email}
-      </h1>
-
-      <Divider />
-
-      <form action={logout} className="animate-fade-up delay-4 w-full flex justify-center">
-        <button
-          className="w-full max-w-[200px] min-h-[48px] bg-obsidian border border-bone/30 text-bone font-bebas uppercase py-3 text-base transition-all duration-300 hover:border-blood hover:text-blood focus:outline-none focus-visible:border-blood focus-visible:text-blood focus-visible:ring-2 focus-visible:ring-blood focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.99]"
-          style={{ letterSpacing: '0.22em' }}
-        >
-          Sign Out
-        </button>
-      </form>
-
-      <div className="animate-fade-up delay-5 mt-8 font-mono uppercase text-[11px] tracking-[0.3em] text-bone/40">
         <FooterLink href="/shop">Back to Shop</FooterLink>
       </div>
     </>

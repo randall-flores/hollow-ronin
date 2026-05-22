@@ -122,11 +122,17 @@ export function ProfileSection({
               setClan(e.target.value as ClanValue | '')
               noteEdit()
             }}
-            className="w-full min-h-[56px] bg-bone/[0.03] border-[1.5px] border-bone/[0.15] px-5 font-mono text-base text-bone [color-scheme:dark] focus:outline-none focus:border-blood focus:bg-[rgba(161,24,42,0.05)] focus-visible:ring-1 focus-visible:ring-blood/40"
+            className="w-full min-h-[56px] bg-obsidian text-bone border-[1.5px] border-bone/[0.15] px-5 font-mono text-base [color-scheme:dark] focus:outline-none focus:border-blood focus:bg-[rgba(161,24,42,0.05)] focus-visible:ring-1 focus-visible:ring-blood/40"
             style={{ letterSpacing: '0.08em' }}
           >
             {CLAN_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
+              <option
+                key={opt.value}
+                value={opt.value}
+                // Explicit colors so the OS-rendered option list stays legible
+                // (default is near-white select text on a white list background).
+                style={{ backgroundColor: '#f4ede2', color: '#0a0a0a' }}
+              >
                 {opt.label}
               </option>
             ))}

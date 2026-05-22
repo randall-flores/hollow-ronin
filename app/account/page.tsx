@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { login, signup, logout } from './actions'
+import { GoogleButton } from './google-button'
+import { AuthAlert } from './auth-alert'
 
 export default async function AccountPage({
   searchParams,
@@ -73,6 +75,21 @@ function Divider() {
   )
 }
 
+function OrDivider() {
+  return (
+    <div
+      aria-hidden
+      className="animate-fade-up delay-4 my-6 flex w-full items-center gap-4"
+    >
+      <span className="h-px flex-1 bg-bone/15" />
+      <span className="font-mono uppercase text-[10px] tracking-[0.3em] text-bone/35">
+        or
+      </span>
+      <span className="h-px flex-1 bg-bone/15" />
+    </div>
+  )
+}
+
 function FooterLink({
   href,
   children,
@@ -128,26 +145,11 @@ function SignedOutView({
 
       <Divider />
 
-      {(error || message) && (
-        <div
-          role={error ? 'alert' : 'status'}
-          className="animate-fade-up delay-3 w-full mb-6 px-4 py-3 border"
-          style={{
-            borderColor: error ? 'rgba(161,24,42,0.55)' : 'rgba(201,169,97,0.35)',
-            background: error ? 'rgba(161,24,42,0.08)' : 'rgba(201,169,97,0.04)',
-          }}
-        >
-          <p
-            className="font-mono uppercase text-[10px]"
-            style={{
-              letterSpacing: '0.22em',
-              color: error ? '#e26579' : 'rgba(244,237,226,0.85)',
-            }}
-          >
-            {error ?? message}
-          </p>
-        </div>
-      )}
+      <AuthAlert error={error} message={message} />
+
+      <GoogleButton />
+
+      <OrDivider />
 
       <SignInForm />
 
